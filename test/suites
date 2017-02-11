@@ -1,0 +1,29 @@
+[
+   {
+      "Suite" : "ubuntu:trusty",
+      "Tags" : [ "archive" ],
+      "SourcesList" : "deb http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse",
+      "DebSrc" : true,
+      "Architectures" : [ "i386", "amd64" ]
+   },
+   {
+      "Suite" : "ubuntu:trusty-security",
+      "SourcesList" : "deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse",
+      "DebSrc" : true,
+      "Architectures" : [ "i386", "amd64" ]
+   },
+   {
+      "Suite" : "ubuntu:xenial",
+      "Tags" : [ "default", "archive" ],
+      "SourcesList" : "deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse",
+      "DebSrc" : true,
+      "Architectures" : [ "i386", "amd64" ]
+   },
+   {
+      "Suite" : "ubuntu:xenial-security",
+      "Tags" : [ "default" ],
+      "SourcesList" : "deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse",
+      "DebSrc" : true,
+      "Architectures" : [ "i386", "amd64" ]
+   }
+]
