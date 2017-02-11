@@ -1,0 +1,14 @@
+[
+   {
+      "Suite" : "ubuntu:xenial",
+      "SourcesList" : "deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse"
+      "DebSrc" : true,
+      "Architectures" : [ "i386", "amd64" ]
+   },
+   {
+      "Suite" : "ubuntu:xenial-security",
+      "SourcesList" : "deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse"
+      "DebSrc" : true,
+      "Architectures" : [ "i386", "amd64" ]
+   }
+]
