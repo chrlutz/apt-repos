@@ -79,6 +79,21 @@ Each time a particular repository/suite combination is scanned, apt-repo checks 
 
 A new python module LibAptRepo.py allows us to access the information in the local cache. Also the command line interface *apt-repo* uses this library. This way we can easily access package information not only in *apt-repo* but also in other custom python modules.
 
+State
+=====
+
+This project is in the beginning phase of development. Nothing of the above noted use cases is currently working. Currently there is:
+
+- This README.md that describes what I plan to implement here (my concept)
+- A framework for very simple unit tests (using make and diff)
+- basic support for suite-selectors
+
+Contributions from interrested people via patches or pull requests are very welcome.
+
+Next steps of development:
+- dynamically build subfolders in the cache dir for each repository/suite combination
+- make apt_pkg read the repsitory/suites data into these folders
+
 License
 =======
 
