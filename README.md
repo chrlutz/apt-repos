@@ -78,3 +78,8 @@ TODO: more about suite-selectors
 Each time a particular repository/suite combination is scanned, apt-repo checks if there are new Packages-Files available in the repository and downloads the Packages-Files if necessary into a local cache.
 
 A new python module LibAptRepo.py allows us to access the information in the local cache. Also the command line interface *apt-repo* uses this library. This way we can easily access package information not only in *apt-repo* but also in other custom python modules.
+
+License
+=======
+
+Everything there is licensed under LGPLv2.1
