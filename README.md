@@ -97,4 +97,4 @@ Next steps of development:
 License
 =======
 
-Everything there is licensed under LGPLv2.1
+Everything there is licensed under LGPL version 2.1 or any later version.
