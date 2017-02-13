@@ -46,9 +46,9 @@ import functools
 from os.path import expanduser
 
 
-__baseDir = expanduser('~') + '/.apt-repo'
-__cacheDir = __baseDir + '/.apt-repo_cache'
-__suiteFiles = [ __baseDir + "/suites", '/etc/apt-repo/suites'  ]
+__baseDir = expanduser('~') + '/.apt-repos'
+__cacheDir = __baseDir + '/.apt-repos_cache'
+__suiteFiles = [ __baseDir + "/suites", '/etc/apt-repos/suites'  ]
 
 
 def setAptRepoBaseDir(dir):
@@ -59,7 +59,7 @@ def setAptRepoBaseDir(dir):
     if(os.path.isdir(dir)):
         logger.info("Setting new BaseDir: " + dir)
         __baseDir = os.path.realpath(dir)
-        __cacheDir = __baseDir + '/.apt-repo_cache'
+        __cacheDir = __baseDir + '/.apt-repos_cache'
         __suiteFiles = [ __baseDir + "/suites" ]
     else:
         raise Exception("base-directory doesn't exist: " + dir)

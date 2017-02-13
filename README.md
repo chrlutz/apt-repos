@@ -61,23 +61,23 @@ A json file describes the mappings from suite-selectors to SourcesList-entries.
     ]
 
 The *suites*-file can live in the following places:
-* /etc/apt-repo/suites - default location if not overridden by next one
-* $HOME/.apt-repo/suites - allows to override the system wide default
+* /etc/apt-repos/suites - default location if not overridden by next one
+* $HOME/.apt-repos/suites - allows to override the system wide default
 
-A new command line tool 'apt-repo' prints information about the packages in these repositories. Analogue to the nomenclature of 'apt-cache', 'apt-repo' provides various sub commands:
+A new command line tool 'apt-repos' prints information about the packages in these repositories. Analogue to the nomenclature of 'apt-cache', 'apt-repos' provides various sub commands:
 
-*   *apt-repo ls*: query for packages that meets particular criteria and show the results as a list
-*   *apt-repo show*: show detailed information about selected debian packages analogue to 'apt-cache show'
-*   *apt-repo dget*: download particular packages
-*   *apt-repo sourcesList*: print the SourcesList entries that would be generated for a particular suite-selectors.
+*   *apt-repos ls*: query for packages that meets particular criteria and show the results as a list
+*   *apt-repos show*: show detailed information about selected debian packages analogue to 'apt-cache show'
+*   *apt-repos dget*: download particular packages
+*   *apt-repos sourcesList*: print the SourcesList entries that would be generated for a particular suite-selectors.
 
 We use the suite-selectors to describe in which repository/suite combinations we want to search for a particular query.
 
 TODO: more about suite-selectors
 
-Each time a particular repository/suite combination is scanned, apt-repo checks if there are new Packages-Files available in the repository and downloads the Packages-Files if necessary into a local cache.
+Each time a particular repository/suite combination is scanned, apt-repos checks if there are new Packages-Files available in the repository and downloads the Packages-Files if necessary into a local cache.
 
-A new python module LibAptRepo.py allows us to access the information in the local cache. Also the command line interface *apt-repo* uses this library. This way we can easily access package information not only in *apt-repo* but also in other custom python modules.
+A new python module LibAptRepo.py allows us to access the information in the local cache. Also the command line interface *apt-repos* uses this library. This way we can easily access package information not only in *apt-repos* but also in other custom python modules.
 
 State
 =====

@@ -1,7 +1,7 @@
 #!/usr/bin/python3 -Es
 # -*- coding: utf-8 -*-
 ##################################################################################
-"""Launcher for Test-Methods to test lib_apt_repo"""
+"""Launcher for Test-Methods to test lib_apt_repos"""
 #
 # Copyright (C) 2017  Christoph Lutz
 #
@@ -26,7 +26,7 @@ import argparse
 import logging
 
 sys.path.append("../src/")
-from lib_apt_repo import getSuites, setAptRepoBaseDir
+from lib_apt_repos import getSuites, setAptRepoBaseDir
 
 
 def printHelloWorld():

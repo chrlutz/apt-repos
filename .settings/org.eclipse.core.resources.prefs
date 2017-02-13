@@ -1,2 +1,3 @@
 eclipse.preferences.version=1
-encoding//src/lib_apt_repo.py=utf-8
+encoding//src/lib_apt_repos.py=utf-8
+encoding//test/test_lib_apt_repos.py=utf-8
