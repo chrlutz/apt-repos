@@ -108,12 +108,47 @@ class RepoSuite:
 
     def __init__(self, cacheDir, suiteDesc, ordervalue):
         logger = logging.getLogger('RepoSuite.__init__')
+
         self.suite = suiteDesc['Suite']
+        self.ordervalue = ordervalue        
         self.rootdir = os.path.realpath(cacheDir + '/' + self.suite.replace("/", "^"))
-        if not os.path.isdir(self.rootdir):
-            logger.info("Creating suite cache directory " + self.rootdir)
-            os.makedirs(self.rootdir)
-        self.ordervalue = ordervalue
+        self.sourcesListEntry = suiteDesc['SourcesList']
+        self.printDebSrc = suiteDesc.get('DebSrc')
+        self.architectures = suiteDesc['Architectures'] 
+
+        # create caching structure
+        dirs = [ "/etc/apt", "/var/lib/dpkg", "/var/cache/apt/archives/partial", "/var/lib/apt/lists/partial" ]
+        for dir in dirs:
+            fullDir = self.rootdir + dir
+            if not os.path.isdir(fullDir):
+                logger.debug("Creating directory " + fullDir)
+                os.makedirs(fullDir)
+
+        # create required files
+        with open(self.rootdir + "/etc/apt/sources.list", "w") as fh:
+            fh.write(self.getSourcesList())
+        with open(self.rootdir + "/etc/apt/apt.conf", "w") as fh:
+            fh.write(self.getAptConf())
+        with open(self.rootdir + "/var/lib/dpkg/status", "w") as fh:
+            fh.write("")
+
+        # configure apt_pkg to use the new self.rootdir directory structure        
+        apt_pkg.read_config_file(apt_pkg.config, self.rootdir + "/etc/apt/apt.conf")                
+        apt_pkg.config.set("Dir", self.rootdir)
+        apt_pkg.config.set("Dir::State::status", self.rootdir + "/var/lib/dpkg/status")
+        apt_pkg.init_system()
+
+    
+    def getSourcesList(self):
+        debSrc = ""
+        if self.printDebSrc:
+            debSrc = "\n" + re.sub("^deb ", "deb-src ", self.sourcesListEntry)
+        return self.sourcesListEntry + debSrc
+
+    
+    def getAptConf(self):
+        return 'APT { Architectures { "' + '"; "'.join(sorted(self.architectures)) + '"; }; };'
+
 
     def getSuiteName(self):
         return self.suite

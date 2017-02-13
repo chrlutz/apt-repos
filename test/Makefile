@@ -13,4 +13,3 @@ test:
 
 clean:
 	rm -Rf *.res .apt-repos_cache
-	git checkout .apt-repos_cache

@@ -58,7 +58,7 @@ def dump(obj):
 def main():
     logging.basicConfig(**{
         'format': '%(levelname)-8s %(message)s',
-        'level': logging.DEBUG,
+        'level': logging.INFO,
         'stream': sys.stdout
     })
     

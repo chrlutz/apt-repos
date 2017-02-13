@@ -1,2 +1,3 @@
 *.res
 *.pyc
+.apt-repos_cache
