@@ -1,4 +1,8 @@
-TESTCASES = testPrintHelloWorld testSuiteSelectors testGetPackageFields testQueryResult
+TESTCASES = testPrintHelloWorld \
+            testSuiteSelectors \
+            testGetPackageFields \
+            testQueryResult \
+            testQueryPackages
 
 test:
 	for i in $(TESTCASES); do \
@@ -6,7 +10,10 @@ test:
                 echo "----------------------------------------------------------"; \
 		echo "Testing $$i"; \
                 echo "----------------------------------------------------------"; \
-		./test_lib_apt_repos.py $${i} > $${i}.res || exit 1; \
+		./test_lib_apt_repos.py $${i} \
+                        | grep -v "Reading package lists..." \
+                        | grep -v "Building dependency tree..." \
+                        > $${i}.res || exit 1; \
 		diff -u $${i}.ref $${i}.res || exit 1; \
 		echo "OK"; \
 	done

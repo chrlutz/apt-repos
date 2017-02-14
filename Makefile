@@ -1,4 +1,4 @@
-test:
+run_test:
 	make -C test
 
 README.html: README.md

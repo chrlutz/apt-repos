@@ -111,7 +111,13 @@ def compareAndPrintQueryResults(x, y):
 
 
 def testQueryPackages():
-    repoSuite = getSuites(["ubuntu:trusty"])[0]
+    setAptRepoBaseDir(".")
+    fields = PackageField.getByFieldsString('pvSasC')
+    repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
+    repoSuite.updateCache()
+    res = repoSuite.queryPackages(['git'], False, None, None, fields)
+    for qr in sorted(res):
+        print(qr)
 
 
 def dump(obj):

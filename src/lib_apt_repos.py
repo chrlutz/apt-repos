@@ -157,13 +157,13 @@ class RepoSuite:
     
     def updateCache(self):
         '''Updates the apt-cache for the suite in the cache directory'''
-        __setRootContext()
+        self.__setRootContext()
         # Sadly the underlying apt-lib prints something on stdout we cannot suppress here:
         #    Reading package lists...Done
         #    Building dependency tree...Done
-        self.cache.update(Progress(), sources())
+        self.cache.update(self.__Progress(), self.__sources())
         self.cache = apt_pkg.Cache()
-        self.records = apt_pkg.PackageRecords(cache)
+        self.records = apt_pkg.PackageRecords(self.cache)
 
     
     def getSourcesList(self):
@@ -185,6 +185,8 @@ class RepoSuite:
            was not named in this form in the selector''' 
         return self.suite
 
+    def __str__(self):
+        return "RepoSuite(" + self.suite + ")"
 
     def __hash__(self):
         return hash((self.suite))
@@ -206,7 +208,8 @@ class RepoSuite:
         return self.suite < other.suite
 
 
-    def queryPackages(self, requestPackages, isRE, requestArgs, requestComponents, requestedFields):
+    def queryPackages(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields):
+        logger = logging.getLogger('RepoSuite.queryPackages')
         self.__setRootContext()
         res = list()
         for pkg in self.cache.packages:
@@ -220,7 +223,7 @@ class RepoSuite:
                     source = self.records.source_pkg
                     if source == "":
                         # last directory part of the deb-filename is the source name
-                        s = os.path.basename(os.path.dirname(records.filename))
+                        s = os.path.basename(os.path.dirname(self.records.filename))
                         if pkg.name == s:
                             source = pkg.name
         
@@ -249,6 +252,37 @@ class RepoSuite:
     
                     res.append(QueryResult(requestedFields, pkg, v, self.records, self))
         return res
+
+
+    class __Progress(apt.progress.base.AcquireProgress):
+        '''Logging of network activity for RepoSuite.updateCache()'''
+    
+        logger = logging.getLogger('Progress')
+    
+        def start(self):
+            self.logger.info("[start]")
+    
+        def stop(self):
+            self.logger.info("[stop]")
+    
+        def fetch(self, i):
+            self.logger.info("[fetch {}]".format(i.description))
+    
+        def fail(self, i):
+            self.logger.info("[fail {}]".format(i.description))
+    
+        def done(self, i):
+            self.logger.info("[done {}]".format(i.description))
+    
+        def ims_hit(self, i):
+            self.logger.info("[hit {}]".format(i.description))
+    
+    @staticmethod
+    def __sources():
+        '''Settings to use standard directory layout'''
+        src = apt_pkg.SourceList()
+        src.read_main_list()
+        return src
 
         
 class PackageField(Enum):
@@ -351,5 +385,5 @@ class QueryResult:
     
     
     def __str__(self):
-        return "QueryResult(" + ", ".join(["{}:'{}'".format(f.name, self.__dict__[f.name]) for f in self.fields]) + ")"
+        return "QueryResult(" + ", ".join(["{}:'{}'".format(f.name, str(self.__dict__[f.name])) for f in self.fields]) + ")"
     
