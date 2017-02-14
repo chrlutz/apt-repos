@@ -1,0 +1,390 @@
+
+==========================
+FieldsStr 'pv'
+==========================
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~55deb2')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+==========================
+FieldsStr 'SasC'
+==========================
+
+x = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(SUITE:'otherSuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+y = QueryResult(SUITE:'mySuite', ARCHITECTURE:'amd64', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+x<y = False
+y<x = True
+x==y = False
+sameHash = False
+
+x = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+y = QueryResult(SUITE:'mySuite', ARCHITECTURE:'amd64', SECTION:'universe', SOURCE_PACKAGE_NAME:'b')
+x<y = False
+y<x = True
+x==y = False
+sameHash = False
+
+==========================
+FieldsStr 'pvSasC'
+==========================
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2', SUITE:'otherSuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~55deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2', SUITE:'mySuite', ARCHITECTURE:'amd64', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+x<y = False
+y<x = True
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'b')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', VERSION:'1.2~55deb2', SUITE:'mySuite', ARCHITECTURE:'amd64', SECTION:'universe', SOURCE_PACKAGE_NAME:'b')
+x<y = False
+y<x = True
+x==y = False
+sameHash = False
+
+==========================
+FieldsStr 'CsaSvp'
+==========================
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'a', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~6deb2', BINARY_PACKAGE_NAME:'a-pkg')
+y = QueryResult(SOURCE_PACKAGE_NAME:'a', SECTION:'main', ARCHITECTURE:'i386', SUITE:'otherSuite', VERSION:'1.2~6deb2', BINARY_PACKAGE_NAME:'a-pkg')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'a', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~6deb2', BINARY_PACKAGE_NAME:'a-pkg')
+y = QueryResult(SOURCE_PACKAGE_NAME:'a', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~55deb2', BINARY_PACKAGE_NAME:'a-pkg')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'a', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~6deb2', BINARY_PACKAGE_NAME:'a-pkg')
+y = QueryResult(SOURCE_PACKAGE_NAME:'b', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~55deb2', BINARY_PACKAGE_NAME:'b-pkg')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'b', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~55deb2', BINARY_PACKAGE_NAME:'b-pkg')
+y = QueryResult(SOURCE_PACKAGE_NAME:'b', SECTION:'main', ARCHITECTURE:'amd64', SUITE:'mySuite', VERSION:'1.2~55deb2', BINARY_PACKAGE_NAME:'b-pkg')
+x<y = False
+y<x = True
+x==y = False
+sameHash = False
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'b', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~55deb2', BINARY_PACKAGE_NAME:'b-pkg')
+y = QueryResult(SOURCE_PACKAGE_NAME:'b', SECTION:'universe', ARCHITECTURE:'amd64', SUITE:'mySuite', VERSION:'1.2~55deb2', BINARY_PACKAGE_NAME:'b-pkg')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+==========================
+FieldsStr 'p'
+==========================
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+==========================
+FieldsStr 'v'
+==========================
+
+x = QueryResult(VERSION:'1.2~6deb2')
+y = QueryResult(VERSION:'1.2~6deb2')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(VERSION:'1.2~6deb2')
+y = QueryResult(VERSION:'1.2~55deb2')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(VERSION:'1.2~6deb2')
+y = QueryResult(VERSION:'1.2~55deb2')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(VERSION:'1.2~55deb2')
+y = QueryResult(VERSION:'1.2~55deb2')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(VERSION:'1.2~55deb2')
+y = QueryResult(VERSION:'1.2~55deb2')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+==========================
+FieldsStr 'S'
+==========================
+
+x = QueryResult(SUITE:'mySuite')
+y = QueryResult(SUITE:'otherSuite')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(SUITE:'mySuite')
+y = QueryResult(SUITE:'mySuite')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SUITE:'mySuite')
+y = QueryResult(SUITE:'mySuite')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SUITE:'mySuite')
+y = QueryResult(SUITE:'mySuite')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SUITE:'mySuite')
+y = QueryResult(SUITE:'mySuite')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+==========================
+FieldsStr 'a'
+==========================
+
+x = QueryResult(ARCHITECTURE:'i386')
+y = QueryResult(ARCHITECTURE:'i386')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(ARCHITECTURE:'i386')
+y = QueryResult(ARCHITECTURE:'i386')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(ARCHITECTURE:'i386')
+y = QueryResult(ARCHITECTURE:'i386')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(ARCHITECTURE:'i386')
+y = QueryResult(ARCHITECTURE:'amd64')
+x<y = False
+y<x = True
+x==y = False
+sameHash = False
+
+x = QueryResult(ARCHITECTURE:'i386')
+y = QueryResult(ARCHITECTURE:'amd64')
+x<y = False
+y<x = True
+x==y = False
+sameHash = False
+
+==========================
+FieldsStr 's'
+==========================
+
+x = QueryResult(SECTION:'main')
+y = QueryResult(SECTION:'main')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SECTION:'main')
+y = QueryResult(SECTION:'main')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SECTION:'main')
+y = QueryResult(SECTION:'main')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SECTION:'main')
+y = QueryResult(SECTION:'main')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SECTION:'main')
+y = QueryResult(SECTION:'universe')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+==========================
+FieldsStr 'C'
+==========================
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(SOURCE_PACKAGE_NAME:'a')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(SOURCE_PACKAGE_NAME:'a')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'a')
+y = QueryResult(SOURCE_PACKAGE_NAME:'b')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'b')
+y = QueryResult(SOURCE_PACKAGE_NAME:'b')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(SOURCE_PACKAGE_NAME:'b')
+y = QueryResult(SOURCE_PACKAGE_NAME:'b')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True

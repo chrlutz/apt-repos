@@ -1,0 +1,22 @@
+FieldsStr ''
+[]
+FieldsStr 'pvSasC'
+[<PackageField.BINARY_PACKAGE_NAME: 'p'>, <PackageField.VERSION: 'v'>, <PackageField.SUITE: 'S'>, <PackageField.ARCHITECTURE: 'a'>, <PackageField.SECTION: 's'>, <PackageField.SOURCE_PACKAGE_NAME: 'C'>]
+FieldsStr 'CsaSvp'
+[<PackageField.SOURCE_PACKAGE_NAME: 'C'>, <PackageField.SECTION: 's'>, <PackageField.ARCHITECTURE: 'a'>, <PackageField.SUITE: 'S'>, <PackageField.VERSION: 'v'>, <PackageField.BINARY_PACKAGE_NAME: 'p'>]
+FieldsStr 'p'
+[<PackageField.BINARY_PACKAGE_NAME: 'p'>]
+FieldsStr 'v'
+[<PackageField.VERSION: 'v'>]
+FieldsStr 'S'
+[<PackageField.SUITE: 'S'>]
+FieldsStr 'a'
+[<PackageField.ARCHITECTURE: 'a'>]
+FieldsStr 's'
+[<PackageField.SECTION: 's'>]
+FieldsStr 'C'
+[<PackageField.SOURCE_PACKAGE_NAME: 'C'>]
+FieldsStr 'X'
+Unknown format-character 'X'
+FieldsStr 'XYZ'
+Unknown format-character 'X'
