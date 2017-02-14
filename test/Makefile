@@ -1,4 +1,4 @@
-TESTCASES = testPrintHelloWorld testSuiteSelectors testGetPackageFields
+TESTCASES = testPrintHelloWorld testSuiteSelectors testGetPackageFields testQueryResult
 
 test:
 	for i in $(TESTCASES); do \

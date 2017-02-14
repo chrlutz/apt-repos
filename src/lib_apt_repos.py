@@ -261,18 +261,15 @@ class PackageField(Enum):
     ARCHITECTURE = 'a'
     SECTION = 's'
     SOURCE_PACKAGE_NAME = 'C'
-
-    def __str__(self):
-        return self.value
     
     @staticmethod    
     def getByFieldsString(fieldsString):
         res = list()
         for c in fieldsString:
             found = None
-            for name, char in PackageField.__members__.items():
-                if str(c) == str(char):
-                    found = name
+            for f in PackageField:
+                if str(c) == str(f.value):
+                    found = f
             if found:
                 res.append(found)
             else:
@@ -293,15 +290,15 @@ class QueryResult:
         self.SUITE = None
         self.fields = requestedFields
         
-        for field in requestedFields:
+        for field in self.fields:
             if field == PackageField.BINARY_PACKAGE_NAME:
                 self.BINARY_PACKAGE_NAME = pkg.name
             elif field == PackageField.VERSION:
-                self.VERSION = v.ver_str
+                self.VERSION = version.ver_str
             elif field == PackageField.ARCHITECTURE:
-                self.ARCHITECTURE = v.arch
+                self.ARCHITECTURE = version.arch
             elif field == PackageField.SECTION:
-                self.SECTION = v.section
+                self.SECTION = version.section
             elif field == PackageField.SOURCE_PACKAGE_NAME:
                 self.SOURCE_PACKAGE_NAME = curRecord.source_pkg
             elif field == PackageField.SUITE:
@@ -315,7 +312,7 @@ class QueryResult:
                      self.SECTION,
                      self.SOURCE_PACKAGE_NAME,
                      self.SUITE,
-                     self.fields))
+                     tuple(self.fields)))
 
 
     def __eq__(self, other):
@@ -337,11 +334,11 @@ class QueryResult:
     def __lt__(self, other):
         if self.fields != other.fields:
             raise Exception('We can only compare QueryResults with the same fields-order.')
-        for field in requestedFields:
+        for field in self.fields:
             if field == PackageField.BINARY_PACKAGE_NAME and self.BINARY_PACKAGE_NAME != other.BINARY_PACKAGE_NAME:
                 return self.BINARY_PACKAGE_NAME < other.BINARY_PACKAGE_NAME
             elif field == PackageField.VERSION and self.VERSION != other.VERSION:
-                return apt_pkg.version_compare(self.VERSION, other.VERSION)
+                return True if apt_pkg.version_compare(self.VERSION, other.VERSION) < 0 else False
             elif field == PackageField.ARCHITECTURE and self.ARCHITECTURE != other.ARCHITECTURE:
                 return self.ARCHITECTURE < other.ARCHITECTURE
             elif field == PackageField.SECTION and self.SECTION != other.SECTION:
@@ -351,3 +348,8 @@ class QueryResult:
             elif field == PackageField.SUITE and self.SUITE != other.SUITE:
                 return self.SUITE < other.SUITE
         return False
+    
+    
+    def __str__(self):
+        return "QueryResult(" + ", ".join(["{}:'{}'".format(f.name, self.__dict__[f.name]) for f in self.fields]) + ")"
+    
