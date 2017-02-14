@@ -1,4 +1,4 @@
-TESTCASES = printHelloWorld testSuiteSelectors
+TESTCASES = testPrintHelloWorld testSuiteSelectors testGetPackageFields
 
 test:
 	for i in $(TESTCASES); do \

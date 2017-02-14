@@ -1,0 +1,22 @@
+FieldsStr ''
+[]
+FieldsStr 'pvSasC'
+['BINARY_PACKAGE_NAME', 'VERSION', 'SUITE', 'ARCHITECTURE', 'SECTION', 'SOURCE_PACKAGE_NAME']
+FieldsStr 'CsaSvp'
+['SOURCE_PACKAGE_NAME', 'SECTION', 'ARCHITECTURE', 'SUITE', 'VERSION', 'BINARY_PACKAGE_NAME']
+FieldsStr 'p'
+['BINARY_PACKAGE_NAME']
+FieldsStr 'v'
+['VERSION']
+FieldsStr 'S'
+['SUITE']
+FieldsStr 'a'
+['ARCHITECTURE']
+FieldsStr 's'
+['SECTION']
+FieldsStr 'C'
+['SOURCE_PACKAGE_NAME']
+FieldsStr 'X'
+Unknown format-character 'X'
+FieldsStr 'XYZ'
+Unknown format-character 'X'

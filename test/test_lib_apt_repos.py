@@ -26,10 +26,10 @@ import argparse
 import logging
 
 sys.path.append("../src/")
-from lib_apt_repos import getSuites, setAptRepoBaseDir
+from lib_apt_repos import getSuites, setAptRepoBaseDir, QueryResult, PackageField 
 
 
-def printHelloWorld():
+def testPrintHelloWorld():
     print("HelloWorld")
 
 
@@ -50,6 +50,15 @@ def dumpSelectedSuites(suites, selectors):
         print(s.getSuiteName())
 
 
+def testGetPackageFields():
+    for fieldsStr in [ '', 'pvSasC', 'CsaSvp', 'p', 'v', 'S', 'a', 's', 'C', 'X', 'XYZ' ]:
+        print("FieldsStr '" + fieldsStr + "'")
+        try:
+            print(PackageField.getByFieldsString(fieldsStr))
+        except Exception as x:
+            print(x)
+
+
 def dump(obj):
     for attr in sorted(dir(obj)):
         print("obj.%s = %s" % (attr, getattr(obj, attr)))
@@ -67,7 +76,10 @@ def main():
     args = args.parse_args()
     
     for method in args.method:
-        globals()[method]()
+        if str(method).startswith('test'):
+            globals()[method]()
+        else:
+            print("Not a test method: " + test)
 
 
 if __name__ == "__main__":
