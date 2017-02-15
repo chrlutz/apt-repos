@@ -74,6 +74,7 @@ def getSuites(selectors=None):
         if os.path.isfile(suitesFile):
             with open(suitesFile, 'r') as f:
                 suitesData = json.load(f)
+                break
         else:
             logger.warning("No suites-file found at " + suitesFile)
         
@@ -168,6 +169,8 @@ class RepoSuite:
     
     def getSourcesList(self):
         '''Returns the sourcesList-Entry used for this repo/suite constellation'''
+        logger = logging.getLogger('RepoSuite.getSourcesList')
+        logger.debug("got self.sourcesListEntry=" + str(self.sourcesListEntry))
         debSrc = ""
         if self.printDebSrc:
             debSrc = "\n" + re.sub("^deb ", "deb-src ", self.sourcesListEntry)
