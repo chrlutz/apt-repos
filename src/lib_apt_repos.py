@@ -260,22 +260,22 @@ class RepoSuite:
         logger = logging.getLogger('Progress')
     
         def start(self):
-            self.logger.info("[start]")
+            self.logger.debug("[start]")
     
         def stop(self):
-            self.logger.info("[stop]")
+            self.logger.debug("[stop]")
     
         def fetch(self, i):
-            self.logger.info("[fetch {}]".format(i.description))
+            self.logger.debug("[fetch {}]".format(i.description))
     
         def fail(self, i):
-            self.logger.info("[fail {}]".format(i.description))
+            self.logger.debug("[fail {}]".format(i.description))
     
         def done(self, i):
-            self.logger.info("[done {}]".format(i.description))
+            self.logger.debug("[done {}]".format(i.description))
     
         def ims_hit(self, i):
-            self.logger.info("[hit {}]".format(i.description))
+            self.logger.debug("[hit {}]".format(i.description))
     
     @staticmethod
     def __sources():

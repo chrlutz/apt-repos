@@ -4,7 +4,7 @@ TESTCASES = testPrintHelloWorld \
             testQueryResult \
             testQueryPackages
 
-test:
+test: clean
 	for i in $(TESTCASES); do \
                 echo ""; \
                 echo "----------------------------------------------------------"; \
