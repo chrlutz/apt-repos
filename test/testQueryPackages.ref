@@ -1,9 +1,3 @@
 INFO     Setting new BaseDir: .
-INFO     [start]
-INFO     [fail http://de.archive.ubuntu.com/ubuntu trusty InRelease]
-INFO     [hit http://de.archive.ubuntu.com/ubuntu trusty Release]
-INFO     [fetch http://de.archive.ubuntu.com/ubuntu trusty Release.gpg]
-INFO     [done http://de.archive.ubuntu.com/ubuntu trusty Release.gpg]
-INFO     [stop]
 QueryResult(BINARY_PACKAGE_NAME:'git', VERSION:'1:1.9.1-1', SUITE:'RepoSuite(ubuntu:trusty)', ARCHITECTURE:'amd64', SECTION:'vcs', SOURCE_PACKAGE_NAME:'')
 QueryResult(BINARY_PACKAGE_NAME:'git', VERSION:'1:1.9.1-1', SUITE:'RepoSuite(ubuntu:trusty)', ARCHITECTURE:'i386', SECTION:'vcs', SOURCE_PACKAGE_NAME:'')
