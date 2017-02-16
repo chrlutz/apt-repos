@@ -18,59 +18,63 @@ import apt_pkg
 import apt.progress
 import functools
 
-#sys.path.append("./tqdm-4.11.2-py2.7.egg")
-#from tqdm import tqdm
+# sys.path.append("./tqdm-4.11.2-py2.7.egg")
+# from tqdm import tqdm
 
 from lib_apt_repos import getSuites, RepoSuite, PackageField, QueryResult
 
+
 def main():
-    args = argparse.ArgumentParser(description=__doc__)
-    args.add_argument("-d", "--debug", action="store_true", help="""
-                                            Switch on debugging message printed to stderr.""")
-    args.add_argument("-a", "--architecture", help="""
-                                            Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
-    args.add_argument("-c", "--component", help="""
-                                            Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
-                                            Note: component and section fields are not exactly the same. A component is only the first part
-                                            of a section (everything before the '/'). There is also a special treatment for sections
-                                            in the component 'main', in which case 'main/' is typically not named in a section-field.
-                                            For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
-    args.add_argument("-r", "--regex", action="store_true", help="""
-                                            Treat PACKAGE as a regex. Searches for binary package-names or
-                                            binary packages that were built from a source prefixed with 'src:'.
-                                            Examples:
-                                            Use regex '.' to show all packages.
-                                            Use regex '^pkg' to show all packages starting with 'pkg'.
-                                            Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
-    args.add_argument("-s", "--suite", default=None, help="""
-                                            Only show info for this SUITE(s). The list of SUITEs is specified comma-separated.
-                                            The default value differs for the called sub-command: 
-                                            default value for 'ls' is 'default:';
-                                            default value for 'list' is ':'""")
-    args.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
-    args.add_argument("-nh", "--no-header", action="store_true", default=False, help="Don't print the column header.")
-    args.add_argument("-col", "--columns", type=str, required=False, default='pvSasC', help="""
-                                            Specify the columns that should be printed. Default is 'pvSasC'. Possible characters are:
-                                            (p)=Package, (v)=Version, (S)=Suite, (a)=Architecture, (s)=Section, (C)=SourCe.""")
-    args.add_argument("-f", "--format", type=str, choices=['table', 'list'], required=False, default='table', help="""
-                                            Specifies the output-format of the package list. Default is 'table'.
-                                            Possible values: 'table' to pretty print a nice table; 'list' to print a
-                                            space separated list of columns that can easily be processed with bash tools.""")
+    parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos")
+    parser.add_argument("-d", "--debug", action="store_true", help="""
+                        Switch on debugging message printed to stderr.""")
+    subparsers = parser.add_subparsers(dest='func', help='choose one of these subcommands')
+    parser.add_argument("-s", "--suite", default=None, help="""
+                          Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                          The default value depends on the subcommand.""")
+    
+    # args for subcommand ls
+    parse_ls = subparsers.add_parser('ls', help='search and list binary and source packages')
+    parse_ls.add_argument("-a", "--architecture", help="""
+                          Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
+    parse_ls.add_argument("-c", "--component", help="""
+                          Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
+                          Note: component and section fields are not exactly the same. A component is only the first part
+                          of a section (everything before the '/'). There is also a special treatment for sections
+                          in the component 'main', in which case 'main/' is typically not named in a section-field.
+                          For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
+    parse_ls.add_argument("-r", "--regex", action="store_true", help="""
+                          Treat PACKAGE as a regex. Searches for binary package-names or
+                          binary packages that were built from a source prefixed with 'src:'.
+                          Examples:
+                          Use regex '.' to show all packages.
+                          Use regex '^pkg' to show all packages starting with 'pkg'.
+                          Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
+    parse_ls.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
+    parse_ls.add_argument("-nh", "--no-header", action="store_true", default=False, help="Don't print the column header.")
+    parse_ls.add_argument("-col", "--columns", type=str, required=False, default='pvSasC', help="""
+                          Specify the columns that should be printed. Default is 'pvSasC'. Possible characters are:
+                          (p)=Package, (v)=Version, (S)=Suite, (a)=Architecture, (s)=Section, (C)=SourCe.""")
+    parse_ls.add_argument("-f", "--format", type=str, choices=['table', 'list'], required=False, default='table', help="""
+                          Specifies the output-format of the package list. Default is 'table'.
+                          Possible values: 'table' to pretty print a nice table; 'list' to print a
+                          space separated list of columns that can easily be processed with bash tools.""")
+    parse_ls.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
+    parse_ls.set_defaults(func=ls, suite='default:')
 
-    args.add_argument('subcommand', nargs=1, choices=['ls', 'show', 'sourcesList', 'list'], help='The following sub-commands are available: ls. Planned for later: show, sourcesList, ...')
-    args.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
+    # args for subcommand list
+    parse_list = subparsers.add_parser('list', help='list configured suites')
+    parse_list.set_defaults(func=list, suite=':')
 
-    args = args.parse_args()
+    args = parser.parse_args()
 
     setupLogging(logging.DEBUG if args.debug else logging.WARN)
     logger = logging.getLogger('main')
-
-    if args.subcommand[0] == 'ls':
-        listPkgs(args)
-    elif args.subcommand[0] == 'list':
-        listRepos(args)
+    
+    if args.func:
+        args.func(args)
     else:
-        print("Provided subcommand '{}' is not yet implemented!".format(args.subcommand[0]))
+        parser.print_usage()
         sys.exit(1)
 
 
@@ -85,16 +89,21 @@ def setupLogging(loglevel):
     logging.basicConfig(**kwargs)
 
 
-def listRepos(args):
-    '''Implementation of subcommand list'''
+def list(args):
+    '''Implementation of subcommand list to print a list of available suites'''
     suitesStr = args.suite if args.suite else ':'
     suites = getSuites(suitesStr.split(','))
     for s in sorted(suites):
         print(s.getSuiteName())
 
 
-def listPkgs(args):
-    '''Implementation of subcommand ls'''
+def ls(args):
+    '''Implementation of subcommand ls to print a list of packages'''
+    args = argparse.ArgumentParser(description=__doc__)
+    args.add_argument("-d", "--debug", action="store_true", help="""
+                                            Switch on debugging message printed to stderr.""")
+
+    args = args.parse_args()
     logger = logging.getLogger('listPkgs')
 
     suitesStr = args.suite if args.suite else 'default:'
