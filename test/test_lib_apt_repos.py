@@ -26,7 +26,7 @@ import argparse
 import logging
 
 sys.path.append("../src/")
-from lib_apt_repos import getSuites, setAptRepoBaseDir, QueryResult, PackageField 
+from lib_apt_repos import getSuites, setAptReposBaseDir, QueryResult, PackageField 
 
 
 def testPrintHelloWorld():
@@ -34,7 +34,7 @@ def testPrintHelloWorld():
 
 
 def testSuiteSelectors():
-    setAptRepoBaseDir(".")
+    setAptReposBaseDir(".")
     selectors = [
         None, [":"], ["default:"], ["ubuntu:xenial"], ["xenial"],
         ["ub:trusty"], ["ubuntu:"], ["u:"], ["u:trusty"],
@@ -111,7 +111,7 @@ def compareAndPrintQueryResults(x, y):
 
 
 def testQueryPackages():
-    setAptRepoBaseDir(".")
+    setAptReposBaseDir(".")
     fields = PackageField.getByFieldsString('pvSasC')
     repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
     repoSuite.updateCache()

@@ -52,7 +52,7 @@ __cacheDir = __baseDir + '/.apt-repos_cache'
 __suiteFiles = [ __baseDir + "/suites", '/etc/apt-repos/suites'  ]
 
 
-def setAptRepoBaseDir(dir):
+def setAptReposBaseDir(dir):
     logger = logging.getLogger('getSuites')
     global __baseDir
     global __cacheDir
