@@ -1,6 +1,6 @@
 EXP_OK := || exit 1
 EXP_FAIL := && exit 1 || true
-CLI := ../src/apt-repos
+CLI := ../src/apt-repos -b $(realpath .)
 
 UNIT_TESTCASES = testPrintHelloWorld \
             testSuiteSelectors \
@@ -10,7 +10,7 @@ UNIT_TESTCASES = testPrintHelloWorld \
 
 test: unittests clitests
 
-clitests: _cliTestHelp
+clitests: _cliTestHelpSystem _cliTestSuites
 
 unittests: clean 
 	for i in $(UNIT_TESTCASES); do \
@@ -30,7 +30,7 @@ clean:
 	rm -Rf *.res .apt-repos_cache
 
 
-_cliTestHelp:
+_cliTestHelpSystem:
 	echo "----------------------------------------------------------"
 	$(CLI) >cliHelpTest1.res 2>&1 $(EXP_OK)
 	diff -u cliHelpTest1.ref cliHelpTest1.res $(EXP_OK)
@@ -43,4 +43,10 @@ _cliTestHelp:
 	
 	$(CLI) -h suites >cliHelpTest4.res 2>&1 $(EXP_OK)
 	diff -u cliHelpTest4.ref cliHelpTest4.res $(EXP_OK)
+	echo "OK"
+
+_cliTestSuites:
+	echo "----------------------------------------------------------"
+	$(CLI) suites >cliTestSuites1.res 2>&1 $(EXP_OK)
+	diff -u cliTestSuites1.ref cliTestSuites1.res $(EXP_OK)
 	echo "OK"

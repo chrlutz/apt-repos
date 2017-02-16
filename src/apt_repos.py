@@ -21,13 +21,18 @@ import functools
 # sys.path.append("./tqdm-4.11.2-py2.7.egg")
 # from tqdm import tqdm
 
-from lib_apt_repos import getSuites, RepoSuite, PackageField, QueryResult
+from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField, QueryResult
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos", add_help=False)
     parser.add_argument("-h", "--help", action="store_true", help="""
                         Show a (subcommand specific) help message""")
+    parser.add_argument("-b", "--basedir", help="""Set a new/custom basedir for config-data and caching.
+                        Please provide the basedir as an absolute path.
+                        The default is $HOME/.apt-repos. 
+                        The basedir must at least contain a file named 'suites'.
+                        The cache will be created into a subfolder called '<basedir>/.apt-repos_cache'.""")
     subparsers = parser.add_subparsers(dest='func', help='choose one of these subcommands')
     parser.set_defaults(debug=False)
     
@@ -78,6 +83,9 @@ def main():
 
     setupLogging(logging.DEBUG if args.debug else logging.WARN)
     logger = logging.getLogger('main')
+    
+    if args.basedir:
+        setAptReposBaseDir(args.basedir)
     
     if args.func:
         if args.help:

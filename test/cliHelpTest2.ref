@@ -1,4 +1,4 @@
-usage: apt-repos [-h] {ls,suites} ...
+usage: apt-repos [-h] [-b BASEDIR] {ls,suites} ...
 
 Display information about binary PACKAGE(s) in diverse apt-repositories and
 suites. This tool uses apt-mechanisms to scan for repositories/suites that are
@@ -7,9 +7,16 @@ caching folder is created in which downloaded Packages files are stored,
 similar to the cache known from apt-cache which lives in /var/lib/apt/lists.
 
 positional arguments:
-  {ls,suites}  choose one of these subcommands
-    ls         search and list binary and source packages
-    suites     list configured suites
+  {ls,suites}           choose one of these subcommands
+    ls                  search and list binary and source packages
+    suites              list configured suites
 
 optional arguments:
-  -h, --help   Show a (subcommand specific) help message
+  -h, --help            Show a (subcommand specific) help message
+  -b BASEDIR, --basedir BASEDIR
+                        Set a new/custom basedir for config-data and caching.
+                        Please provide the basedir as an absolute path. The
+                        default is $HOME/.apt-repos. The basedir must at least
+                        contain a file named 'suites'. The cache will be
+                        created into a subfolder called '<basedir>/.apt-
+                        repos_cache'.
