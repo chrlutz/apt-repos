@@ -129,29 +129,40 @@ def ls(args):
     requestPackages = { p for p in args.package }
     requestArchs = { a for a in args.architecture.split(',') } if args.architecture else {}
     requestComponents = { c for c in args.component.split(',') } if args.component else {}
-    requestFields = PackageField.getByFieldsString(args.col)
+    requestFields = PackageField.getByFieldsString(args.columns)
 
-    result = set()
+    result = list()
+    if not args.no_update:
+        print("updating packages lists for {} suites (use -nu to skip)".format(len(suites)), end='', flush=True, file=sys.stderr)
+    else:
+        print("reading packages lists for {} suites".format(len(suites)), end='', flush=True, file=sys.stderr)            
     for suite in suites:
         if not args.no_update: 
             suite.updateCache()
-        result.extend(suite.queryPackages(self, requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+        result.extend(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+        print('.', end='', flush=True, file=sys.stderr)
+    print('', flush=True, file=sys.stderr)
 
-    # calculate max col_widths
-    col_width = [max(len(x) for x in col) for col in zip(*result)]
-
+    header = [f.getHeader() for f in requestFields]    
+    resultList = sorted(result)
+    
     if args.format == 'table':
+        # calculate max col_widths (witch must be at least 1)
+        col_width = [max(len(x) for x in col) for col in zip(*result)]
+        col_width = [max(1, w) for w in col_width]
         if not args.no_header:
-            col_width = [max(len(h), col_width[i]) for i, h in enumerate(header)]
-            result = (header, ["="*w for w in col_width], result)
-        for r in result:
-            print (" | ".join("{:{}}".format(x, col_width[i]) for i, x in enumerate(r)))
+            # recalculate col_width for header, too
+            col_width = [max(len(h), w) for h, w in zip(header, col_width)]
+            print (" | ".join("{!s:{}}".format(h, w) for h, w in zip(header, col_width)))
+            print (" | ".join("{!s:{}}".format("="*w, w) for w in col_width))
+        for r in resultList:
+            print (" | ".join("{!s:{}}".format(d, w) for d, w in zip(r.getData(), col_width)))
 
     elif args.format == 'list':
         if not args.no_header:
-            result = (header, result)
-        for r in result:
-            print (" ".join(r))
+            print (" ".join(header))
+        for r in resultList:
+            print (" ".join([str(d) for d in r.getData()]))
 
 
 if __name__ == "__main__":

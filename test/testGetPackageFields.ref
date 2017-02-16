@@ -1,21 +1,21 @@
 FieldsStr ''
 []
 FieldsStr 'pvSasC'
-[<PackageField.BINARY_PACKAGE_NAME: 'p'>, <PackageField.VERSION: 'v'>, <PackageField.SUITE: 'S'>, <PackageField.ARCHITECTURE: 'a'>, <PackageField.SECTION: 's'>, <PackageField.SOURCE_PACKAGE_NAME: 'C'>]
+[<PackageField.BINARY_PACKAGE_NAME>, <PackageField.VERSION>, <PackageField.SUITE>, <PackageField.ARCHITECTURE>, <PackageField.SECTION>, <PackageField.SOURCE_PACKAGE_NAME>]
 FieldsStr 'CsaSvp'
-[<PackageField.SOURCE_PACKAGE_NAME: 'C'>, <PackageField.SECTION: 's'>, <PackageField.ARCHITECTURE: 'a'>, <PackageField.SUITE: 'S'>, <PackageField.VERSION: 'v'>, <PackageField.BINARY_PACKAGE_NAME: 'p'>]
+[<PackageField.SOURCE_PACKAGE_NAME>, <PackageField.SECTION>, <PackageField.ARCHITECTURE>, <PackageField.SUITE>, <PackageField.VERSION>, <PackageField.BINARY_PACKAGE_NAME>]
 FieldsStr 'p'
-[<PackageField.BINARY_PACKAGE_NAME: 'p'>]
+[<PackageField.BINARY_PACKAGE_NAME>]
 FieldsStr 'v'
-[<PackageField.VERSION: 'v'>]
+[<PackageField.VERSION>]
 FieldsStr 'S'
-[<PackageField.SUITE: 'S'>]
+[<PackageField.SUITE>]
 FieldsStr 'a'
-[<PackageField.ARCHITECTURE: 'a'>]
+[<PackageField.ARCHITECTURE>]
 FieldsStr 's'
-[<PackageField.SECTION: 's'>]
+[<PackageField.SECTION>]
 FieldsStr 'C'
-[<PackageField.SOURCE_PACKAGE_NAME: 'C'>]
+[<PackageField.SOURCE_PACKAGE_NAME>]
 FieldsStr 'X'
 Unknown format-character 'X'
 FieldsStr 'XYZ'

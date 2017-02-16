@@ -1,0 +1,5 @@
+updating packages lists for 2 suites (use -nu to skip)..
+Package  | Version  | Suite         | Arch  | Section        | Source  
+======== | ======== | ============= | ===== | ============== | ========
+reprepro | 4.17.0-1 | ubuntu:xenial | amd64 | universe/utils | reprepro
+reprepro | 4.17.0-1 | ubuntu:xenial | i386  | universe/utils | reprepro

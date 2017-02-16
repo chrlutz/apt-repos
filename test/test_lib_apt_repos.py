@@ -54,7 +54,7 @@ def testGetPackageFields():
     for fieldsStr in [ '', 'pvSasC', 'CsaSvp', 'p', 'v', 'S', 'a', 's', 'C', 'X', 'XYZ' ]:
         print("FieldsStr '" + fieldsStr + "'")
         try:
-            print(PackageField.getByFieldsString(fieldsStr))
+            print("[" + (", ".join([str(f) for f in PackageField.getByFieldsString(fieldsStr)])) + "]")
         except Exception as x:
             print(x)
 
@@ -79,24 +79,24 @@ def testQueryResult():
         print("==========================")
         fields = PackageField.getByFieldsString(fieldsStr)
 
-        x = QueryResult(fields, a1, a1, a1, "mySuite")
-        y = QueryResult(fields, a1, a1, a1, "otherSuite")
+        x = QueryResult(fields, a1, a1, a1, "mySuite", "a")
+        y = QueryResult(fields, a1, a1, a1, "otherSuite", "a")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, a1, a1, a1, "mySuite")
-        y = QueryResult(fields, a2, a2, a2, "mySuite")
+        x = QueryResult(fields, a1, a1, a1, "mySuite", "a")
+        y = QueryResult(fields, a2, a2, a2, "mySuite", "a")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, a1, a1, a1, "mySuite")
-        y = QueryResult(fields, b1, b1, b1, "mySuite")
+        x = QueryResult(fields, a1, a1, a1, "mySuite", "a")
+        y = QueryResult(fields, b1, b1, b1, "mySuite", "b")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, b1, b1, b1, "mySuite")
-        y = QueryResult(fields, b2, b2, b2, "mySuite")
+        x = QueryResult(fields, b1, b1, b1, "mySuite", "b")
+        y = QueryResult(fields, b2, b2, b2, "mySuite", "b")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, b1, b1, b1, "mySuite")
-        y = QueryResult(fields, b3, b3, b3, "mySuite")
+        x = QueryResult(fields, b1, b1, b1, "mySuite", "b")
+        y = QueryResult(fields, b3, b3, b3, "mySuite", "b")
         compareAndPrintQueryResults(x, y)
 
 

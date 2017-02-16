@@ -148,6 +148,8 @@ class RepoSuite:
     def __setRootContext(self):
         '''All methods that work on the objects self.cache or self.records
            should call this method before using these objects'''  
+        logger = logging.getLogger('RepoSuite.__setRootContext')
+        logger.debug("setting root context")
         apt_pkg.read_config_file(apt_pkg.config, self.rootdir + "/etc/apt/apt.conf")                
         apt_pkg.config.set("Dir", self.rootdir)
         apt_pkg.config.set("Dir::State::status", self.rootdir + "/var/lib/dpkg/status")
@@ -188,8 +190,11 @@ class RepoSuite:
            was not named in this form in the selector''' 
         return self.suite
 
+    def __len__(self):
+        return len(self.suite)
+
     def __str__(self):
-        return "RepoSuite(" + self.suite + ")"
+        return self.suite
 
     def __hash__(self):
         return hash((self.suite))
@@ -214,7 +219,7 @@ class RepoSuite:
     def queryPackages(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields):
         logger = logging.getLogger('RepoSuite.queryPackages')
         self.__setRootContext()
-        res = list()
+        res = set()
         for pkg in self.cache.packages:
             for v in pkg.version_list:
                 for req in requestPackages:
@@ -253,7 +258,7 @@ class RepoSuite:
                     if (requestComponents) and (not component in requestComponents):
                         continue
     
-                    res.append(QueryResult(requestedFields, pkg, v, self.records, self))
+                    res.add(QueryResult(requestedFields, pkg, v, self.records, self, source))
         return res
 
 
@@ -292,12 +297,21 @@ class PackageField(Enum):
     '''This Enum describes the Fields that can be returned as values in a QueryResult.
        Each PackageField is assigned a unique character that can be used to easily define
        a list of Fields we want to query for in form of a fieldsString.'''
-    BINARY_PACKAGE_NAME = 'p'
-    VERSION = 'v'
-    SUITE = 'S'
-    ARCHITECTURE = 'a'
-    SECTION = 's'
-    SOURCE_PACKAGE_NAME = 'C'
+    BINARY_PACKAGE_NAME = ('p', 'Package')
+    VERSION = ('v', 'Version')
+    SUITE = ('S', 'Suite')
+    ARCHITECTURE = ('a', 'Arch')
+    SECTION = ('s', 'Section')
+    SOURCE_PACKAGE_NAME = ('C', 'Source')
+
+    def __str__(self):
+        return "<PackageField.{}>".format(self.name)
+    
+    
+    def getHeader(self):
+        char, header = self.value
+        return header
+    
     
     @staticmethod    
     def getByFieldsString(fieldsString):
@@ -305,7 +319,8 @@ class PackageField(Enum):
         for c in fieldsString:
             found = None
             for f in PackageField:
-                if str(c) == str(f.value):
+                char, header = f.value
+                if str(c) == str(char):
                     found = f
             if found:
                 res.append(found)
@@ -318,50 +333,41 @@ class QueryResult:
     '''A QueryResult is able carry the requestedFields (and only the requestedFields)
        in the order they were requested. This order is also relevant for sorting.'''
     
-    def __init__(self, requestedFields, pkg, version, curRecord, suite):
-        self.BINARY_PACKAGE_NAME = None
-        self.VERSION = None
-        self.ARCHITECTURE = None
-        self.SECTION = None
-        self.SOURCE_PACKAGE_NAME = None
-        self.SUITE = None
+    def __init__(self, requestedFields, pkg, version, curRecord, suite, source):
         self.fields = requestedFields
-        
+        data = list()        
         for field in self.fields:
             if field == PackageField.BINARY_PACKAGE_NAME:
-                self.BINARY_PACKAGE_NAME = pkg.name
+                data.append(pkg.name)
             elif field == PackageField.VERSION:
-                self.VERSION = version.ver_str
+                data.append(version.ver_str)
             elif field == PackageField.ARCHITECTURE:
-                self.ARCHITECTURE = version.arch
+                data.append(version.arch)
             elif field == PackageField.SECTION:
-                self.SECTION = version.section
+                data.append(version.section)
             elif field == PackageField.SOURCE_PACKAGE_NAME:
-                self.SOURCE_PACKAGE_NAME = curRecord.source_pkg
+                data.append(source)
             elif field == PackageField.SUITE:
-                self.SUITE = suite
+                data.append(suite)        
+        self.data = tuple(data)
+
+
+    def getData(self):
+        return self.data
+
+
+    def __iter__(self):
+        return iter(self.data)
 
 
     def __hash__(self):
-        return hash((self.BINARY_PACKAGE_NAME,
-                     self.VERSION,
-                     self.ARCHITECTURE,
-                     self.SECTION,
-                     self.SOURCE_PACKAGE_NAME,
-                     self.SUITE,
-                     tuple(self.fields)))
+        return hash((tuple(self.data), tuple(self.fields)))
 
 
     def __eq__(self, other):
         if other == None:
             return False
-        return (self.BINARY_PACKAGE_NAME == other.BINARY_PACKAGE_NAME and
-                 self.VERSION == other.VERSION and
-                 self.ARCHITECTURE == other.ARCHITECTURE and
-                 self.SECTION == other.SECTION and
-                 self.SOURCE_PACKAGE_NAME == other.SOURCE_PACKAGE_NAME and
-                 self.SUITE == other.SUITE and
-                 self.fields == other.fields)
+        return (self.data == other.data and self.fields == other.fields)
 
 
     def __ne__(self, other):
@@ -371,22 +377,14 @@ class QueryResult:
     def __lt__(self, other):
         if self.fields != other.fields:
             raise Exception('We can only compare QueryResults with the same fields-order.')
-        for field in self.fields:
-            if field == PackageField.BINARY_PACKAGE_NAME and self.BINARY_PACKAGE_NAME != other.BINARY_PACKAGE_NAME:
-                return self.BINARY_PACKAGE_NAME < other.BINARY_PACKAGE_NAME
-            elif field == PackageField.VERSION and self.VERSION != other.VERSION:
-                return True if apt_pkg.version_compare(self.VERSION, other.VERSION) < 0 else False
-            elif field == PackageField.ARCHITECTURE and self.ARCHITECTURE != other.ARCHITECTURE:
-                return self.ARCHITECTURE < other.ARCHITECTURE
-            elif field == PackageField.SECTION and self.SECTION != other.SECTION:
-                return self.SECTION < other.SECTION
-            elif field == PackageField.SOURCE_PACKAGE_NAME and self.SOURCE_PACKAGE_NAME != other.SOURCE_PACKAGE_NAME:
-                return self.SOURCE_PACKAGE_NAME < other.SOURCE_PACKAGE_NAME
-            elif field == PackageField.SUITE and self.SUITE != other.SUITE:
-                return self.SUITE < other.SUITE
+        for field, a, b in zip(self.fields, self.data, other.data):
+            if field == PackageField.VERSION and a != b:
+                return True if apt_pkg.version_compare(a, b) < 0 else False
+            elif a != b:
+                return a < b
         return False
     
     
     def __str__(self):
-        return "QueryResult(" + ", ".join(["{}:'{}'".format(f.name, str(self.__dict__[f.name])) for f in self.fields]) + ")"
+        return "QueryResult(" + ", ".join(["{}:'{}'".format(field.name, data) for field, data in zip(self.fields, self.data)]) + ")"
     
