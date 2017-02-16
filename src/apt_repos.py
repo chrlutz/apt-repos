@@ -149,7 +149,7 @@ def ls(args):
     if args.format == 'table':
         # calculate max col_widths (witch must be at least 1)
         col_width = [max(len(x) for x in col) for col in zip(*result)]
-        col_width = [max(1, w) for w in col_width]
+        col_width = [max(1, w) for w in (col_width + [1]*(len(header)-len(col_width)))]
         if not args.no_header:
             # recalculate col_width for header, too
             col_width = [max(len(h), w) for h, w in zip(header, col_width)]
