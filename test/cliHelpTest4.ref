@@ -1,0 +1,9 @@
+usage: apt-repos suites [-h] [-d] [-s SUITE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Switch on debugging message printed to stderr.
+  -s SUITE, --suite SUITE
+                        Only show info for these SUITE(s). The list of SUITEs
+                        is specified comma-separated. The default value is ':'
+                        (all suites).

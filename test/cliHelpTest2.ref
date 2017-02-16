@@ -1,0 +1,15 @@
+usage: apt-repos [-h] {ls,suites} ...
+
+Display information about binary PACKAGE(s) in diverse apt-repositories and
+suites. This tool uses apt-mechanisms to scan for repositories/suites that are
+registered in a suites-file. For each repository/suite combination a local
+caching folder is created in which downloaded Packages files are stored,
+similar to the cache known from apt-cache which lives in /var/lib/apt/lists.
+
+positional arguments:
+  {ls,suites}  choose one of these subcommands
+    ls         search and list binary and source packages
+    suites     list configured suites
+
+optional arguments:
+  -h, --help   Show a (subcommand specific) help message

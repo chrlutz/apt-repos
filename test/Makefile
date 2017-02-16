@@ -1,11 +1,19 @@
-TESTCASES = testPrintHelloWorld \
+EXP_OK := || exit 1
+EXP_FAIL := && exit 1 || true
+CLI := ../src/apt-repos
+
+UNIT_TESTCASES = testPrintHelloWorld \
             testSuiteSelectors \
             testGetPackageFields \
             testQueryResult \
             testQueryPackages
 
-test: clean
-	for i in $(TESTCASES); do \
+test: unittests clitests
+
+clitests: _cliTestHelp
+
+unittests: clean 
+	for i in $(UNIT_TESTCASES); do \
                 echo ""; \
                 echo "----------------------------------------------------------"; \
 		echo "Testing $$i"; \
@@ -14,9 +22,25 @@ test: clean
                         | grep -v "Reading package lists..." \
                         | grep -v "Building dependency tree..." \
                         > $${i}.res || exit 1; \
-		diff -u $${i}.ref $${i}.res || exit 1; \
+		diff -u $${i}.ref $${i}.res $(EXP_OK); \
 		echo "OK"; \
 	done
 
 clean:
 	rm -Rf *.res .apt-repos_cache
+
+
+_cliTestHelp:
+	echo "----------------------------------------------------------"
+	$(CLI) >cliHelpTest1.res 2>&1 $(EXP_OK)
+	diff -u cliHelpTest1.ref cliHelpTest1.res $(EXP_OK)
+	
+	$(CLI) -h >cliHelpTest2.res 2>&1 $(EXP_OK)
+	diff -u cliHelpTest2.ref cliHelpTest2.res $(EXP_OK)
+	
+	$(CLI) -h unknown_command >cliHelpTest3.res 2>&1 $(EXP_FAIL)
+	diff -u cliHelpTest3.ref cliHelpTest3.res $(EXP_OK)
+	
+	$(CLI) -h suites >cliHelpTest4.res 2>&1 $(EXP_OK)
+	diff -u cliHelpTest4.ref cliHelpTest4.res $(EXP_OK)
+	echo "OK"

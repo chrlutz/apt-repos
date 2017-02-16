@@ -25,16 +25,19 @@ from lib_apt_repos import getSuites, RepoSuite, PackageField, QueryResult
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos")
-    parser.add_argument("-d", "--debug", action="store_true", help="""
-                        Switch on debugging message printed to stderr.""")
+    parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos", add_help=False)
+    parser.add_argument("-h", "--help", action="store_true", help="""
+                        Show a (subcommand specific) help message""")
     subparsers = parser.add_subparsers(dest='func', help='choose one of these subcommands')
-    parser.add_argument("-s", "--suite", default=None, help="""
-                          Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                          The default value depends on the subcommand.""")
+    parser.set_defaults(debug=False)
     
     # args for subcommand ls
     parse_ls = subparsers.add_parser('ls', help='search and list binary and source packages')
+    parse_ls.add_argument("-s", "--suite", default='default:', help="""
+                          Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                          The default value is 'default:'.""")
+    parse_ls.add_argument("-d", "--debug", action="store_true", help="""
+                          Switch on debugging message printed to stderr.""")
     parse_ls.add_argument("-a", "--architecture", help="""
                           Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
     parse_ls.add_argument("-c", "--component", help="""
@@ -60,11 +63,16 @@ def main():
                           Possible values: 'table' to pretty print a nice table; 'list' to print a
                           space separated list of columns that can easily be processed with bash tools.""")
     parse_ls.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
-    parse_ls.set_defaults(func=ls, suite='default:')
+    parse_ls.set_defaults(func=ls, sub_parser=parse_ls)
 
-    # args for subcommand list
-    parse_list = subparsers.add_parser('list', help='list configured suites')
-    parse_list.set_defaults(func=list, suite=':')
+    # args for subcommand suites
+    parse_suites = subparsers.add_parser('suites', help='list configured suites')
+    parse_suites.add_argument("-d", "--debug", action="store_true", help="""
+                              Switch on debugging message printed to stderr.""")
+    parse_suites.add_argument("-s", "--suite", default=':', help="""
+                              Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                              The default value is ':' (all suites).""")
+    parse_suites.set_defaults(func=suites, sub_parser=parse_suites)
 
     args = parser.parse_args()
 
@@ -72,10 +80,18 @@ def main():
     logger = logging.getLogger('main')
     
     if args.func:
-        args.func(args)
+        if args.help:
+            args.sub_parser.print_help()
+            sys.exit(0)
+        else:
+            args.func(args)
     else:
-        parser.print_usage()
-        sys.exit(1)
+        if args.help:
+            parser.print_help()
+            sys.exit(0)
+        else:
+            parser.print_usage()
+            sys.exit(1)
 
 
 def setupLogging(loglevel):
@@ -89,32 +105,22 @@ def setupLogging(loglevel):
     logging.basicConfig(**kwargs)
 
 
-def list(args):
-    '''Implementation of subcommand list to print a list of available suites'''
-    suitesStr = args.suite if args.suite else ':'
-    suites = getSuites(suitesStr.split(','))
+def suites(args):
+    '''subcommand suites: print a list of registered suites'''
+    logger = logging.getLogger('suites')
+    suites = getSuites(args.suite.split(','))
     for s in sorted(suites):
         print(s.getSuiteName())
 
 
 def ls(args):
-    '''Implementation of subcommand ls to print a list of packages'''
-    args = argparse.ArgumentParser(description=__doc__)
-    args.add_argument("-d", "--debug", action="store_true", help="""
-                                            Switch on debugging message printed to stderr.""")
+    '''subcommand ls: search and print a list of packages'''
+    logger = logging.getLogger('ls')
 
-    args = args.parse_args()
-    logger = logging.getLogger('listPkgs')
-
-    suitesStr = args.suite if args.suite else 'default:'
-    suites = getSuites(suitesStr.split(','))
-    
+    suites = getSuites(args.suite.split(','))
     requestPackages = { p for p in args.package }
-
     requestArchs = { a for a in args.architecture.split(',') } if args.architecture else {}
-
     requestComponents = { c for c in args.component.split(',') } if args.component else {}
-
     requestFields = PackageField.getByFieldsString(args.col)
 
     result = set()
