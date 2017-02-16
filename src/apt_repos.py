@@ -32,7 +32,7 @@ def main():
     parser.set_defaults(debug=False)
     
     # args for subcommand ls
-    parse_ls = subparsers.add_parser('ls', help='search and list binary and source packages')
+    parse_ls = subparsers.add_parser('ls', help='search and list binary and source packages', description=ls.__doc__)
     parse_ls.add_argument("-s", "--suite", default='default:', help="""
                           Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
                           The default value is 'default:'.""")
@@ -66,7 +66,7 @@ def main():
     parse_ls.set_defaults(func=ls, sub_parser=parse_ls)
 
     # args for subcommand suites
-    parse_suites = subparsers.add_parser('suites', help='list configured suites')
+    parse_suites = subparsers.add_parser('suites', help='list configured suites', description=suites.__doc__)
     parse_suites.add_argument("-d", "--debug", action="store_true", help="""
                               Switch on debugging message printed to stderr.""")
     parse_suites.add_argument("-s", "--suite", default=':', help="""

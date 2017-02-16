@@ -1,5 +1,7 @@
 usage: apt-repos suites [-h] [-d] [-s SUITE]
 
+subcommand suites: print a list of registered suites
+
 optional arguments:
   -h, --help            show this help message and exit
   -d, --debug           Switch on debugging message printed to stderr.
