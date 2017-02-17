@@ -139,13 +139,29 @@ class RepoSuite:
                 logger.debug("Creating directory " + fullDir)
                 os.makedirs(fullDir)
 
-        # create required files
-        with open(self.rootdir + "/etc/apt/sources.list", "w") as fh:
-            fh.write(self.getSourcesList())
-        with open(self.rootdir + "/etc/apt/apt.conf", "w") as fh:
-            fh.write(self.getAptConf())
-        with open(self.rootdir + "/var/lib/dpkg/status", "w") as fh:
-            fh.write("")            
+        # ensure our config files are properly configured
+        self._ensureFileContent(self.rootdir + "/etc/apt/sources.list", self.getSourcesList())
+        self._ensureFileContent(self.rootdir + "/etc/apt/apt.conf", self.getAptConf())
+        self._ensureFileContent(self.rootdir + "/var/lib/dpkg/status", "")
+        
+
+    def _ensureFileContent(self, file, content):
+        logger = logging.getLogger('RepoSuite.ensureFileContent')
+        '''
+            This method ensures that the file <file> contains <content> but
+            modifies the file only if the file not yet exists or it exists
+            with a different content. This is to fasten the apt-cache that seems
+            to need longer (in method scan(...)) if the modify-timestamp has changed.
+        '''
+        if os.path.exists(file):
+            with open(file, "r") as fh:
+                curContent = fh.read()
+                if(content == curContent):
+                    logger.debug("file {} needs no update".format(file))
+                    return
+        logger.debug("creating file " + file)
+        with open(file, "w") as fh:
+            fh.write(content)
         
 
     def scan(self, update):
