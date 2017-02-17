@@ -131,7 +131,7 @@ def ls(args):
     requestComponents = { c for c in args.component.split(',') } if args.component else {}
     requestFields = PackageField.getByFieldsString(args.columns)
 
-    result = list()
+    result = set()
     showProgress = True
     pp(showProgress, "{}querying packages lists for {} suites".format(
         "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
@@ -139,7 +139,7 @@ def ls(args):
         pp(showProgress, '.')
         suite.scan(not args.no_update)
         pp(showProgress, x+1)
-        result.extend(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+        result = result.union(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
     pp(showProgress, '\n')
 
     header = [f.getHeader() for f in requestFields]    
