@@ -100,7 +100,7 @@ def getSuites(selectors=None):
                 
             if (repo.startswith(srepo) or srepo in tags) and \
                (suiteName == ssuiteName or ssuiteName == ""):
-                selected.add(RepoSuite(__cacheDir, suiteDesc, i))
+                selected.add(RepoSuite(__baseDir, __cacheDir, suiteDesc, i))
                 
     return selected
     
@@ -116,7 +116,7 @@ class RepoSuite:
               be configured to have one root-context at a time. This root-context is set by scan(...)
     '''
 
-    def __init__(self, cacheDir, suiteDesc, ordervalue):
+    def __init__(self, baseDir, cacheDir, suiteDesc, ordervalue):
         '''
             Initializes the suite and creates the caching structure. 
             Note: The apt-cache is not scanned and not updated there! 
@@ -126,10 +126,12 @@ class RepoSuite:
 
         self.suite = suiteDesc['Suite']
         self.ordervalue = ordervalue        
+        self.basedir = baseDir
         self.rootdir = os.path.realpath(cacheDir + '/' + self.suite.replace("/", "^"))
         self.sourcesListEntry = suiteDesc['SourcesList']
         self.printDebSrc = suiteDesc.get('DebSrc')
         self.architectures = suiteDesc['Architectures'] 
+        self.trustedGPGFile = suiteDesc.get('TrustedGPG') 
 
         # create caching structure
         dirs = [ "/etc/apt", "/var/lib/dpkg", "/var/cache/apt/archives/partial", "/var/lib/apt/lists/partial" ]
@@ -142,6 +144,7 @@ class RepoSuite:
         # ensure our config files are properly configured
         self._ensureFileContent(self.rootdir + "/etc/apt/sources.list", self.getSourcesList())
         self._ensureFileContent(self.rootdir + "/etc/apt/apt.conf", self.getAptConf())
+        self._ensureFileContent(self.rootdir + "/etc/apt/trusted.gpg", self.getTrustedGPG())
         self._ensureFileContent(self.rootdir + "/var/lib/dpkg/status", "")
         
 
@@ -152,15 +155,19 @@ class RepoSuite:
             modifies the file only if the file not yet exists or it exists
             with a different content. This is to fasten the apt-cache that seems
             to need longer (in method scan(...)) if the modify-timestamp has changed.
+            If content == None, we do nothing here.
         '''
+        if content == None:
+            return
+        binaryMode = "b" if isinstance(content, bytes) else ""
         if os.path.exists(file):
-            with open(file, "r") as fh:
+            with open(file, "r" + binaryMode) as fh:
                 curContent = fh.read()
                 if(content == curContent):
                     logger.debug("file {} needs no update".format(file))
                     return
         logger.debug("creating file " + file)
-        with open(file, "w") as fh:
+        with open(file, "w" + binaryMode) as fh:
             fh.write(content)
         
 
@@ -203,6 +210,13 @@ class RepoSuite:
         '''
         return 'APT { Architectures { "' + '"; "'.join(sorted(self.architectures)) + '"; }; };'
 
+
+    def getTrustedGPG(self):
+        if self.trustedGPGFile:
+            with open(self.basedir + "/" + self.trustedGPGFile, "rb") as fh:
+                return fh.read()
+        return None
+        
 
     def getSuiteName(self):
         '''
