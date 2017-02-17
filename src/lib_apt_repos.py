@@ -146,33 +146,28 @@ class RepoSuite:
             fh.write(self.getAptConf())
         with open(self.rootdir + "/var/lib/dpkg/status", "w") as fh:
             fh.write("")            
-
-        self.__setRootContext()
         
 
-    def __setRootContext(self):
-        '''All methods that work on the objects self.cache or self.records
-           should call this method before using these objects'''  
+    def scan(self, update):
+        '''
+            This method sets the (global) apt-context to this suite and updates the repository
+            metadata in the local cache from the remote apt-repository if update==True.
+            Call this method before accessing packages data, e.g. like in queryPackages(...).
+            If update==False, the already cached local metadata are used.
+        '''  
         logger = logging.getLogger('RepoSuite.__setRootContext')
-        logger.debug("setting root context")
+        logger.debug("scanning repository/suite {} {} update".format(self.suite, 'with' if update else 'without'))
         apt_pkg.read_config_file(apt_pkg.config, self.rootdir + "/etc/apt/apt.conf")                
         apt_pkg.config.set("Dir", self.rootdir)
         apt_pkg.config.set("Dir::State::status", self.rootdir + "/var/lib/dpkg/status")
         apt_pkg.init_system()
         self.cache = apt_pkg.Cache()
+        if update:
+            self.cache.update(self.__Progress(), self.__sources())
+            self.cache = apt_pkg.Cache()
         self.records = apt_pkg.PackageRecords(self.cache)
-
-    
-    def updateCache(self):
-        '''Updates the apt-cache for the suite in the cache directory'''
-        self.__setRootContext()
-        # Sadly the underlying apt-lib prints something on stdout we cannot suppress here:
-        #    Reading package lists...Done
-        #    Building dependency tree...Done
-        self.cache.update(self.__Progress(), self.__sources())
-        self.cache = apt_pkg.Cache()
-        self.records = apt_pkg.PackageRecords(self.cache)
-
+        logger.debug("finished scan")
+        
     
     def getSourcesList(self):
         '''

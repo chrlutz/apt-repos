@@ -132,16 +132,15 @@ def ls(args):
     requestFields = PackageField.getByFieldsString(args.columns)
 
     result = list()
-    if not args.no_update:
-        print("updating packages lists for {} suites (use -nu to skip)".format(len(suites)), end='', flush=True, file=sys.stderr)
-    else:
-        print("reading packages lists for {} suites".format(len(suites)), end='', flush=True, file=sys.stderr)            
-    for suite in suites:
-        if not args.no_update: 
-            suite.updateCache()
+    showProgress = True
+    pp(showProgress, "{}querying packages lists for {} suites".format(
+        "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
+    for x, suite in enumerate(suites):
+        pp(showProgress, '.')
+        suite.scan(not args.no_update)
+        pp(showProgress, x+1)
         result.extend(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
-        print('.', end='', flush=True, file=sys.stderr)
-    print('', flush=True, file=sys.stderr)
+    pp(showProgress, '\n')
 
     header = [f.getHeader() for f in requestFields]    
     resultList = sorted(result)
@@ -164,6 +163,12 @@ def ls(args):
         for r in resultList:
             print (" ".join([str(d) for d in r.getData()]))
 
+def pp(show, message):
+    '''prints and flushes a progress message <message> without newline to stderr if <show> is True.'''
+    if show:
+        print(message, end='', flush=True, file=sys.stderr)
+        
+    
 
 if __name__ == "__main__":
     main()

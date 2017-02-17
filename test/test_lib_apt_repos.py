@@ -114,7 +114,7 @@ def testQueryPackages():
     setAptReposBaseDir(".")
     fields = PackageField.getByFieldsString('pvSasC')
     repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
-    repoSuite.updateCache()
+    repoSuite.scan(True)
     res = repoSuite.queryPackages(['git'], False, None, None, fields)
     for qr in sorted(res):
         print(qr)
