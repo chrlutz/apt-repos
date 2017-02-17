@@ -1,7 +1,7 @@
 #!/usr/bin/python3 -Es
 # -*- coding: utf-8 -*-
 ##################################################################################
-# Show information about binary and source packages in multiple
+# Access information about binary and source packages in multiple
 # (independent) apt-repositories utilizing libapt / python-apt/
 # apt_pkg without the need to change the local system and it's apt-setup.
 #
@@ -21,15 +21,14 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
-
 """
-This python module provides methods and classes to retrieve information
-about debian binary- and source-packages from independent apt-repositories
-using python apt_pkg module. Analog to well the well known tool apt-cache
-it downloads Packages files from the inspected repsitories to a local cache
-and reads the information from there. One main advantage of this module
-is, that the local apt-setup (/etc/apt/sources.list, ...) doesn't need to
-be modified in order to retrieve package information via apt.
+    This python module provides methods and classes to retrieve information
+    about debian binary- and source-packages from independent apt-repositories
+    using python apt_pkg module. Analog to well the well known tool apt-cache
+    it downloads Packages files from the inspected repsitories to a local cache
+    and reads the information from there. One main advantage of this module
+    is, that the local apt-setup (/etc/apt/sources.list, ...) doesn't need to
+    be modified in order to retrieve package information via apt.
 """
 
 import os
@@ -107,16 +106,22 @@ def getSuites(selectors=None):
     
 
 class RepoSuite:
-    '''This class represents a Repository/Suite combination as defined in the current suites-file.
-       The most important features of RepoSuites are: They are comparable/__lt__able and respect
-       the order defined in the suites-file. They can be updated (updateCache) against the configured
-       apt-repositories/suites and it's possible to query for packages, returning QueryResults       
+    '''
+        This class represents a Repository/Suite combination as defined in the current suites-file.
+        The most important features of RepoSuites are: They are comparable/__lt__able and respect
+        the order defined in the suites-file. They can be updated calling scan(True) against the configured
+        apt-repositories/suites and it's possible to query for packages, returning QueryResults       
     
-       Note: RepoSuite can be used single threaded only! This is because apt_pkg can only
-             be configured to have one root-context at a time'''
+        Note: RepoSuite can be used single threaded only! This is because apt_pkg can only
+              be configured to have one root-context at a time. This root-context is set by scan(...)
+    '''
 
     def __init__(self, cacheDir, suiteDesc, ordervalue):
-        '''initializes the suite and creates the caching structure. The apt-cache is not updated there'''
+        '''
+            Initializes the suite and creates the caching structure. 
+            Note: The apt-cache is not scanned and not updated there! 
+                  Always call scan(...) before accessing package metadata!
+        '''
         logger = logging.getLogger('RepoSuite.__init__')
 
         self.suite = suiteDesc['Suite']
@@ -170,7 +175,9 @@ class RepoSuite:
 
     
     def getSourcesList(self):
-        '''Returns the sourcesList-Entry used for this repo/suite constellation'''
+        '''
+            Returns the sourcesList-Entry used for this repo/suite constellation
+        '''
         logger = logging.getLogger('RepoSuite.getSourcesList')
         logger.debug("got self.sourcesListEntry=" + str(self.sourcesListEntry))
         debSrc = ""
@@ -180,14 +187,18 @@ class RepoSuite:
 
     
     def getAptConf(self):
-        '''Returns the apt.conf used for this repo/suite constellation'''
+        '''
+            Returns the apt.conf used for this repo/suite constellation
+        '''
         return 'APT { Architectures { "' + '"; "'.join(sorted(self.architectures)) + '"; }; };'
 
 
     def getSuiteName(self):
-        '''Returns the full suite name (consisting of <repository>:<suitename>) of this
-           repo/suite constellation as named in the suites file - even if this repo/suite
-           was not named in this form in the selector''' 
+        '''
+            Returns the full suite name (consisting of <repository>:<suitename>) of this
+            repo/suite constellation as named in the suites file - even if this repo/suite
+            was not named in this form in the selector
+        ''' 
         return self.suite
 
     def __len__(self):
@@ -217,8 +228,31 @@ class RepoSuite:
 
 
     def queryPackages(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields):
+        '''
+            This method queries packages in this repository/suite by several criteria and returns a result set
+            with elements of type QueryResult:
+
+            requestPackages (list of string; mandatory): is a list of package names.
+                            By default a package name is the name of a binary package.
+                            Package names may be prefixed with "src:". In this case, a package
+                            will match if the source-packages name matches.
+           
+            isRE (boolean) specifies if package names in requestPackages should be treated
+                 as regular expressions. It is possible to search for parts of the package
+                 name this way and much more...
+                
+            requestArch (list of string, optional): is a list of accepted architectures.
+                        If requestArch is None, all architectures are accepted.
+           
+            requestComponent (list of string, optional): is a list of accepted components.
+                             If requestComponent is None, all components are accepted.
+
+            requestFields (list of string, mandatory): is a list of fields that should be copied
+                          into the query result. QueryResults will automatically order fields in
+                          this list order and will accumulate the (hashable) QueryResult-Objects
+                          by these fields.
+        '''
         logger = logging.getLogger('RepoSuite.queryPackages')
-        self.__setRootContext()
         res = set()
         for pkg in self.cache.packages:
             for v in pkg.version_list:
@@ -263,7 +297,9 @@ class RepoSuite:
 
 
     class __Progress(apt.progress.base.AcquireProgress):
-        '''Logging of network activity for RepoSuite.updateCache()'''
+        '''
+            Logging of network activity for RepoSuite.updateCache()
+        '''
     
         logger = logging.getLogger('Progress')
     
@@ -287,16 +323,20 @@ class RepoSuite:
     
     @staticmethod
     def __sources():
-        '''Settings to use standard directory layout'''
+        '''
+            Settings to use standard directory layout
+        '''
         src = apt_pkg.SourceList()
         src.read_main_list()
         return src
 
         
 class PackageField(Enum):
-    '''This Enum describes the Fields that can be returned as values in a QueryResult.
-       Each PackageField is assigned a unique character that can be used to easily define
-       a list of Fields we want to query for in form of a fieldsString.'''
+    '''
+        This Enum describes the Fields that can be returned as values in a QueryResult.
+        Each PackageField is assigned a unique character that can be used to easily define
+        a list of Fields we want to query for in form of a fieldsString.
+    '''
     BINARY_PACKAGE_NAME = ('p', 'Package')
     VERSION = ('v', 'Version')
     SUITE = ('S', 'Suite')
@@ -330,10 +370,33 @@ class PackageField(Enum):
 
 
 class QueryResult:
-    '''A QueryResult is able carry the requestedFields (and only the requestedFields)
-       in the order they were requested. This order is also relevant for sorting.'''
+    '''
+        A QueryResult is able to carry the requestedFields (and only the requestedFields)
+        in the order they were requested. This order is also relevant for sorting.
+        A QueryResult is hashable which makes it possible to accumulate QueryResults by
+        the requestedFields.
+    '''
     
     def __init__(self, requestedFields, pkg, version, curRecord, suite, source):
+        '''
+            This constructor creates a QueryResult for the requestedFields. The
+            corresponding data are collected from the provided objects:
+            
+            pkg: Object of type apt_pkg.Package (see apt_pkg docs)
+            
+            version: Object of type apt_pkg.Version (see apt_pkg docs)
+            
+            curRecord: Object of type apt_pkg.PackageRecords (see apt_pkg docs)
+            
+            suite: The RepoSuite object
+            
+            source: source name (It seems that this information is already provided
+                    in curRecord.source_pkg, but this is not quite true. If package
+                    name and source name are equal, curRecord.source_pkg will be empty.
+                    Since I'am not quite clear, if this is the only reason for
+                    curRecord.source_pkg to be empty, we force the caller to provide
+                    the exact source name directly).
+        '''
         self.fields = requestedFields
         data = list()        
         for field in self.fields:
@@ -353,6 +416,9 @@ class QueryResult:
 
 
     def getData(self):
+        '''
+            This method returns the field values as a tuple
+        '''
         return self.data
 
 
