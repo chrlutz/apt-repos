@@ -1,4 +1,4 @@
-updating packages lists for 2 suites (use -nu to skip)..
+updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
 Package  | Version  | Suite         | Arch  | Section        | Source  
 ======== | ======== | ============= | ===== | ============== | ========
 reprepro | 4.17.0-1 | ubuntu:xenial | amd64 | universe/utils | reprepro
