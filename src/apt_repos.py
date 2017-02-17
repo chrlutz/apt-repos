@@ -33,7 +33,7 @@ def main():
                         The default is $HOME/.apt-repos. 
                         The basedir must at least contain a file named 'suites'.
                         The cache will be created into a subfolder called '<basedir>/.apt-repos_cache'.""")
-    subparsers = parser.add_subparsers(dest='func', help='choose one of these subcommands')
+    subparsers = parser.add_subparsers(help='choose one of these subcommands')
     parser.set_defaults(debug=False)
     
     # args for subcommand ls
@@ -68,7 +68,7 @@ def main():
                           Possible values: 'table' to pretty print a nice table; 'list' to print a
                           space separated list of columns that can easily be processed with bash tools.""")
     parse_ls.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
-    parse_ls.set_defaults(func=ls, sub_parser=parse_ls)
+    parse_ls.set_defaults(sub_function=ls, sub_parser=parse_ls)
 
     # args for subcommand suites
     parse_suites = subparsers.add_parser('suites', help='list configured suites', description=suites.__doc__)
@@ -77,7 +77,7 @@ def main():
     parse_suites.add_argument("-s", "--suite", default=':', help="""
                               Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
                               The default value is ':' (all suites).""")
-    parse_suites.set_defaults(func=suites, sub_parser=parse_suites)
+    parse_suites.set_defaults(sub_function=suites, sub_parser=parse_suites)
 
     args = parser.parse_args()
 
@@ -87,12 +87,12 @@ def main():
     if args.basedir:
         setAptReposBaseDir(args.basedir)
     
-    if args.func:
+    if "sub_function" in args.__dict__:
         if args.help:
             args.sub_parser.print_help()
             sys.exit(0)
         else:
-            args.func(args)
+            args.sub_function(args)
     else:
         if args.help:
             parser.print_help()
