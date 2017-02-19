@@ -10,7 +10,7 @@ UNIT_TESTCASES = testPrintHelloWorld \
 
 test: unittests clitests
 
-clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs
+clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow
 
 unittests: clean 
 	for i in $(UNIT_TESTCASES); do \
@@ -55,5 +55,11 @@ _cliTestLs:
 	echo "----------------------------------------------------------"
 	$(CLI) ls reprepro >cliTestLs1.res 2>&1 $(EXP_OK)
 	diff -u cliTestLs1.ref cliTestLs1.res $(EXP_OK)
+	echo "OK"
+
+_cliTestShow:
+	echo "----------------------------------------------------------"
+	$(CLI) show reprepro >cliTestShow1.res 2>&1 $(EXP_OK)
+	diff -u cliTestShow1.ref cliTestShow1.res $(EXP_OK)
 	echo "OK"
 

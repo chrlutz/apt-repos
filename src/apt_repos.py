@@ -100,6 +100,20 @@ def main():
                               The default value is ':' (all suites).""")
     parse_suites.set_defaults(sub_function=suites, sub_parser=parse_suites)
 
+    # args for subcommand show
+    parse_show = subparsers.add_parser('show', help='show details about packages similar to apt-cache show', description=show.__doc__)
+    parse_show.add_argument("-d", "--debug", action="store_true", help="""
+                              Switch on debugging message printed to stderr.""")
+    parse_show.add_argument("-s", "--suite", default='default:', help="""
+                              Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                              The default value is 'default:' (all suites).""")
+    parse_show.add_argument("-col", "--columns", type=str, required=False, default='R', help="""
+                              Specify the columns that should be printed. Default is 'L'. Possible characters are:
+                              (p)=Package, (v)=Version, (S)=Suite, (a)=Architecture, (s)=Section, (C)=SourCe, (L)=Long-Descripton.""")
+    parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
+    parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
+    parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
+
     args = parser.parse_args()
 
     setupLogging(logging.DEBUG if args.debug else logging.WARN)
@@ -140,6 +154,38 @@ def suites(args):
     suites = getSuites(args.suite.split(','))
     for s in sorted(suites):
         print(s.getSuiteName())
+
+
+def show(args):
+    '''subcommand show: print details about packages similar to what apt-cache show does'''
+    logger = logging.getLogger('show')
+
+    suites = getSuites(args.suite.split(','))
+    requestPackages = { p for p in args.package }
+    requestFields = PackageField.getByFieldsString(args.columns)
+
+    result = set()
+    showProgress = True
+    pp(showProgress, "{}querying packages lists for {} suites".format(
+        "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
+    for x, suite in enumerate(suites):
+        pp(showProgress, '.')
+        suite.scan(not args.no_update)
+        pp(showProgress, x+1)
+        result = result.union(suite.queryPackages(requestPackages, False, None, None, requestFields))
+    pp(showProgress, '\n')
+
+    header = [f.getHeader() for f in requestFields]    
+    resultList = sorted(result)
+
+    print()    
+    for r in resultList:
+        data = r.getData()
+        for h, d in zip(header, data):
+            if h == "Full-Record":
+                print (d)
+            else:
+                print ("{}: {}".format(h, nl + d))
 
 
 def ls(args):

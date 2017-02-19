@@ -368,6 +368,8 @@ class PackageField(Enum):
     ARCHITECTURE = ('a', 'Arch')
     SECTION = ('s', 'Section')
     SOURCE_PACKAGE_NAME = ('C', 'Source')
+    LONG_DESC = ('L', 'Long-Desc')
+    RECORD = ('R', 'Full-Record')
 
     def __str__(self):
         return "<PackageField.{}>".format(self.name)
@@ -437,6 +439,10 @@ class QueryResult:
                 data.append(source)
             elif field == PackageField.SUITE:
                 data.append(suite)        
+            elif field == PackageField.LONG_DESC:
+                data.append(curRecord.long_desc)        
+            elif field == PackageField.RECORD:
+                data.append(curRecord.record)        
         self.data = tuple(data)
 
 
