@@ -82,17 +82,28 @@ A new python module LibAptRepo.py allows us to access the information in the loc
 State
 =====
 
-This project is in the beginning phase of development. Nothing of the above noted use cases is currently working. Currently there is:
+Current State:
+- There is a lib_apt_repos.py that contains most of the apt-repos logic in a
+  way that it can be reused by other components / use-cases than the CLI apt-repos, too.
+  The library / API can not yet be considered stable!
+- There's an example suites file in test/suites that gives an impression about how
+  apt-repos will be configured. This file and the contained fields is not yet stable!
+- There is a first version of the CLI apt-repos that supports the subcommands
+  suites, ls and show. More subcommands will follow later.
+- I think the current version of the CLI could be already very helpfull in some of the
+  above described use-cases.
+- There's a very simple test mechanism that already contains some testcases with
+  a quite good (but of course still improvable) test coverage. We have unittests
+  and integration tests (here called 'clitests') to test the command line interface.
 
-- This README.md that describes what I plan to implement here (my concept)
-- A framework for very simple unit tests (using make and diff)
-- basic support for suite-selectors
+Next steps:
+- Support multiple suite-Files in the basedir (e.g. automatically read all *.suites files)
+- Extract manpages from the already contained inline documentation and
+  help documentation
+- Add debian packaging files and create deb-packages.
 
 Contributions from interrested people via patches or pull requests are very welcome.
 
-Next steps of development:
-- dynamically build subfolders in the cache dir for each repository/suite combination
-- make apt_pkg read the repsitory/suites data into these folders
 
 License
 =======
