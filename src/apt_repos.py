@@ -115,7 +115,7 @@ def main():
     parse_show.add_argument("-s", "--suite", default='default:', help="""
                               Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
                               The default value is 'default:' (all suites).""")
-    parse_show.add_argument("-col", "--columns", type=str, required=False, default='R', help="""
+    parse_show.add_argument("-col", "--columns", type=str, required=False, default='SR', help="""
                               Specify the columns that should be printed. Default is 'R'.
                               Possible characters are: """ + fieldChars)
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
@@ -193,7 +193,7 @@ def show(args):
             if h == "Full-Record":
                 print (d)
             else:
-                print ("{}: {}".format(h, nl + d))
+                print ("{}: {}".format(h, d))
 
 
 def ls(args):

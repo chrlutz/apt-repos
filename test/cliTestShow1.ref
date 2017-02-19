@@ -1,5 +1,6 @@
 updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
 
+Suite: ubuntu:xenial
 Package: reprepro
 Priority: extra
 Section: universe/utils
@@ -23,6 +24,7 @@ Bugs: https://bugs.launchpad.net/ubuntu/+filebug
 Origin: Ubuntu
 
 
+Suite: ubuntu:xenial
 Package: reprepro
 Priority: extra
 Section: universe/utils
