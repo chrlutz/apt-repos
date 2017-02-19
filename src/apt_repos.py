@@ -48,6 +48,12 @@ from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField
 def main():
     fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
     
+    # fixup to get help-messages for subcommands that require positional argmuments
+    # so that "apt-repos -h <subcommand>" prints a help-message and not an error
+    if ("-h" in sys.argv or "--help" in sys.argv) and \
+       ("ls" in sys.argv or "show" in sys.argv):
+        sys.argv.append(".")
+    
     parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos", add_help=False)
     parser.add_argument("-h", "--help", action="store_true", help="""
                         Show a (subcommand specific) help message""")

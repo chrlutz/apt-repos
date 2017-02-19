@@ -1,0 +1,23 @@
+usage: apt-repos show [-h] [-d] [-s SUITE] [-col COLUMNS] [-nu]
+                      package [package ...]
+
+subcommand show: print details about packages similar to what apt-cache show
+does
+
+positional arguments:
+  package               Name of a binary PACKAGE or source-package name
+                        prefixed as src:SOURCENAME
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Switch on debugging message printed to stderr.
+  -s SUITE, --suite SUITE
+                        Only show info for these SUITE(s). The list of SUITEs
+                        is specified comma-separated. The default value is
+                        'default:' (all suites).
+  -col COLUMNS, --columns COLUMNS
+                        Specify the columns that should be printed. Default is
+                        'R'. Possible characters are: (p)=Package,
+                        (v)=Version, (S)=Suite, (a)=Arch, (s)=Section,
+                        (C)=Source, (L)=Long-Desc, (R)=Full-Record
+  -nu, --no-update      Skip downloading of packages list.

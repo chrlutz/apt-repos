@@ -43,6 +43,12 @@ _cliTestHelpSystem:
 	
 	$(CLI) -h suites >cliHelpTest4.res 2>&1 $(EXP_OK)
 	diff -u cliHelpTest4.ref cliHelpTest4.res $(EXP_OK)
+	
+	$(CLI) -h ls >cliHelpTest5.res 2>&1 $(EXP_OK)
+	diff -u cliHelpTest5.ref cliHelpTest5.res $(EXP_OK)
+	
+	$(CLI) -h show >cliHelpTest6.res 2>&1 $(EXP_OK)
+	diff -u cliHelpTest6.ref cliHelpTest6.res $(EXP_OK)
 	echo "OK"
 
 _cliTestSuites:
