@@ -46,6 +46,8 @@ from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField
 
 
 def main():
+    fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
+    
     parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos", add_help=False)
     parser.add_argument("-h", "--help", action="store_true", help="""
                         Show a (subcommand specific) help message""")
@@ -82,8 +84,8 @@ def main():
     parse_ls.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_ls.add_argument("-nh", "--no-header", action="store_true", default=False, help="Don't print the column header.")
     parse_ls.add_argument("-col", "--columns", type=str, required=False, default='pvSasC', help="""
-                          Specify the columns that should be printed. Default is 'pvSasC'. Possible characters are:
-                          (p)=Package, (v)=Version, (S)=Suite, (a)=Architecture, (s)=Section, (C)=SourCe.""")
+                          Specify the columns that should be printed. Default is 'pvSasC'.
+                          Possible characters are: """ + fieldChars)
     parse_ls.add_argument("-f", "--format", type=str, choices=['table', 'list'], required=False, default='table', help="""
                           Specifies the output-format of the package list. Default is 'table'.
                           Possible values: 'table' to pretty print a nice table; 'list' to print a
@@ -108,8 +110,8 @@ def main():
                               Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
                               The default value is 'default:' (all suites).""")
     parse_show.add_argument("-col", "--columns", type=str, required=False, default='R', help="""
-                              Specify the columns that should be printed. Default is 'L'. Possible characters are:
-                              (p)=Package, (v)=Version, (S)=Suite, (a)=Architecture, (s)=Section, (C)=SourCe, (L)=Long-Descripton.""")
+                              Specify the columns that should be printed. Default is 'R'.
+                              Possible characters are: """ + fieldChars)
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_show.set_defaults(sub_function=show, sub_parser=parse_show)

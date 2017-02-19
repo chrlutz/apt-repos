@@ -380,6 +380,11 @@ class PackageField(Enum):
         return header
     
     
+    def getChar(self):
+        char, header = self.value
+        return char
+    
+    
     @staticmethod    
     def getByFieldsString(fieldsString):
         res = list()
