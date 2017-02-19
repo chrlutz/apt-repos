@@ -34,13 +34,12 @@ import sys
 import argparse
 import logging
 import re
+import tempfile
+import subprocess
 
-import apt_pkg
-import apt.progress
+#import apt_pkg
+#import apt.progress
 import functools
-
-# sys.path.append("./tqdm-4.11.2-py2.7.egg")
-# from tqdm import tqdm
 
 from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField, QueryResult
 
@@ -118,6 +117,12 @@ def main():
     parse_show.add_argument("-col", "--columns", type=str, required=False, default='SR', help="""
                               Specify the columns that should be printed. Default is 'R'.
                               Possible characters are: """ + fieldChars)
+    parse_show.add_argument("-di", "--diff", type=str, required=False, help="""
+                              Similar to -s switch, but expects in DIFF exactly two comma separated parts
+                              ("suiteA,suiteB"), calculates the output for suiteA and suiteB separately 
+                              and diff's this output with the diff tool specified in --diff-tool.""")
+    parse_show.add_argument("-dt", "--diff-tool", type=str, default="diff", required=False, help="""
+                              Diff-Tool used to compare the separated results from --diff. Default is 'diff'""")
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
@@ -168,17 +173,38 @@ def show(args):
     '''subcommand show: print details about packages similar to what apt-cache show does'''
     logger = logging.getLogger('show')
 
-    suites = getSuites(args.suite.split(','))
+    suites = getSuites(args.suite.split(','))    
     requestPackages = { p for p in args.package }
     requestFields = PackageField.getByFieldsString(args.columns)
 
+    if args.diff:
+        parts = args.diff.split(',')
+        if len(parts) != 2:
+            raise Exception("Diff expects exact 2 comma separated suites")
+        tmpFiles = list()
+        tmp = None
+        for part in parts:            
+            suites = getSuites([part])
+            with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+                logger.debug("Part {}, TmpFileName {}".format(part, tmp.name))
+                tmpFiles.append(tmp.name)
+                show_part(suites, requestPackages, requestFields, not args.no_update, tmp)
+        subprocess.call([args.diff_tool, tmpFiles[0], tmpFiles[1]])
+        for tmp in tmpFiles:
+            os.remove(tmp)
+            
+    else:
+        show_part(suites, requestPackages, requestFields, not args.no_update, sys.stdout)
+
+
+def show_part(suites, requestPackages, requestFields, update, outfile):
     result = set()
     showProgress = True
     pp(showProgress, "{}querying packages lists for {} suites".format(
-        "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
+        "updating (use --no-update to skip) and " if update else "", len(suites)))
     for x, suite in enumerate(suites):
         pp(showProgress, '.')
-        suite.scan(not args.no_update)
+        suite.scan(update)
         pp(showProgress, x+1)
         result = result.union(suite.queryPackages(requestPackages, False, None, None, requestFields))
     pp(showProgress, '\n')
@@ -186,14 +212,14 @@ def show(args):
     header = [f.getHeader() for f in requestFields]    
     resultList = sorted(result)
 
-    print()    
+    print(file=outfile)    
     for r in resultList:
         data = r.getData()
         for h, d in zip(header, data):
             if h == "Full-Record":
-                print (d)
+                print (d, file=outfile)
             else:
-                print ("{}: {}".format(h, d))
+                print ("{}: {}".format(h, d), file=outfile)
 
 
 def ls(args):

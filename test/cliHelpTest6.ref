@@ -1,4 +1,5 @@
-usage: apt-repos show [-h] [-d] [-s SUITE] [-col COLUMNS] [-nu]
+usage: apt-repos show [-h] [-d] [-s SUITE] [-col COLUMNS] [-di DIFF]
+                      [-dt DIFF_TOOL] [-nu]
                       package [package ...]
 
 subcommand show: print details about packages similar to what apt-cache show
@@ -20,4 +21,13 @@ optional arguments:
                         'R'. Possible characters are: (p)=Package,
                         (v)=Version, (S)=Suite, (a)=Arch, (s)=Section,
                         (C)=Source, (L)=Long-Desc, (R)=Full-Record
+  -di DIFF, --diff DIFF
+                        Similar to -s switch, but expects in DIFF exactly two
+                        comma separated parts ("suiteA,suiteB"), calculates
+                        the output for suiteA and suiteB separately and diff's
+                        this output with the diff tool specified in --diff-
+                        tool.
+  -dt DIFF_TOOL, --diff-tool DIFF_TOOL
+                        Diff-Tool used to compare the separated results from
+                        --diff. Default is 'diff'
   -nu, --no-update      Skip downloading of packages list.
