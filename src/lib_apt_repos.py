@@ -46,21 +46,18 @@ from os.path import expanduser
 from enum import Enum
 
 
-__baseDir = expanduser('~') + '/.apt-repos'
-__cacheDir = __baseDir + '/.apt-repos_cache'
-__suiteFiles = [ __baseDir + "/suites", '/etc/apt-repos/suites'  ]
+__baseDirs = [ expanduser('~') + '/.apt-repos', '/etc/apt-repos' ]
+__cacheDir = __baseDirs[0] + '/.apt-repos_cache'
 
 
 def setAptReposBaseDir(dir):
     logger = logging.getLogger('getSuites')
-    global __baseDir
+    global __baseDirs
     global __cacheDir
-    global __suiteFiles
     if(os.path.isdir(dir)):
         logger.info("Setting new BaseDir: " + dir)
-        __baseDir = os.path.realpath(dir)
-        __cacheDir = __baseDir + '/.apt-repos_cache'
-        __suiteFiles = [ __baseDir + "/suites" ]
+        __baseDirs = [ os.path.realpath(dir) ]
+        __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
     else:
         raise Exception("base-directory doesn't exist: " + dir)
 
@@ -69,13 +66,19 @@ def getSuites(selectors=None):
     logger = logging.getLogger('getSuites')
     
     suitesData = []
-    for suitesFile in __suiteFiles:
-        if os.path.isfile(suitesFile):
-            with open(suitesFile, 'r') as f:
-                suitesData = json.load(f)
-                break
-        else:
-            logger.warning("No suites-file found at " + suitesFile)
+    for basedir in __baseDirs:
+        if not os.path.isdir(basedir):
+            if len(suitesData) == 0:
+                logger.warning("BaseDir {} doesn't exist".format(basedir))
+            continue
+        for filename in sorted(os.listdir(basedir)):
+            filename = basedir + "/" + filename
+            if os.path.isfile(filename) and str(filename).endswith(".suites"):
+                logger.debug("reading suites file " + filename)
+                with open(filename, 'r') as file:
+                    suitesData.extend(json.load(file))
+    if len(suitesData) == 0:
+        logger.warning("No *.suites-files or no suites-data found in the directories '" + "', '".join(__baseDirs) + "'")
         
     if not selectors:
         selectors = ["default:"]
@@ -100,7 +103,7 @@ def getSuites(selectors=None):
                 
             if (repo.startswith(srepo) or srepo in tags) and \
                (suiteName == ssuiteName or ssuiteName == ""):
-                selected.add(RepoSuite(__baseDir, __cacheDir, suiteDesc, i))
+                selected.add(RepoSuite(__baseDirs[0], __cacheDir, suiteDesc, i))
                 
     return selected
     
