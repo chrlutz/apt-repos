@@ -36,9 +36,6 @@ import logging
 import re
 import tempfile
 import subprocess
-
-#import apt_pkg
-#import apt.progress
 import functools
 
 from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField, QueryResult
