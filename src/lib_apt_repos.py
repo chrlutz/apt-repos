@@ -132,7 +132,7 @@ class RepoSuite:
         self.basedir = baseDir
         self.rootdir = os.path.realpath(cacheDir + '/' + self.suite.replace("/", "^"))
         self.sourcesListEntry = suiteDesc['SourcesList']
-        self.printDebSrc = suiteDesc.get('DebSrc')
+        self.hasDebSrc = suiteDesc.get('DebSrc')
         self.architectures = suiteDesc['Architectures'] 
         self.trustedGPGFile = suiteDesc.get('TrustedGPG') 
 
@@ -202,7 +202,7 @@ class RepoSuite:
         logger = logging.getLogger('RepoSuite.getSourcesList')
         logger.debug("got self.sourcesListEntry=" + str(self.sourcesListEntry))
         debSrc = ""
-        if self.printDebSrc:
+        if self.hasDebSrc:
             debSrc = "\n" + re.sub("^deb ", "deb-src ", self.sourcesListEntry)
         return self.sourcesListEntry + debSrc
 
@@ -323,6 +323,24 @@ class RepoSuite:
                     res.add(QueryResult(requestedFields, pkg, v, self.records, self, source))
         return res
 
+
+    def getSourcesFiles(self):
+        '''
+            If this RepoSuite is configured to support Sources (Key "DebSrc" in suites-file is True)
+            this method will return a list of all *_Sources-Files that have been downloaded by apt.
+            We can use these Sources-Files to manually parse them (e.g. using apt_pkg.tagFile).
+            Unfortunately apt_pkg seems to provide no other way to iterate through the list of all
+            source packages in this suite. If this RepoSuite has no sources, this method returns None.
+        '''
+        if not self.hasDebSrc:
+            return None
+        res = list()
+        for sourcesFile in sorted(os.listdir(self.rootdir + "/var/lib/apt/lists/")):
+            if not sourcesFile.endswith("_Sources"):
+                continue
+            res.append(self.rootdir + "/" + sourcesFile)
+        return res
+            
 
     class __Progress(apt.progress.base.AcquireProgress):
         '''

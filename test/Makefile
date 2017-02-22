@@ -6,7 +6,8 @@ UNIT_TESTCASES = testPrintHelloWorld \
             testSuiteSelectors \
             testGetPackageFields \
             testQueryResult \
-            testQueryPackages
+            testQueryPackages \
+            testGetSourcesFiles
 
 test: unittests clitests
 
