@@ -338,7 +338,7 @@ class RepoSuite:
         for sourcesFile in sorted(os.listdir(self.rootdir + "/var/lib/apt/lists/")):
             if not sourcesFile.endswith("_Sources"):
                 continue
-            res.append(self.rootdir + "/" + sourcesFile)
+            res.append(self.rootdir + "/var/lib/apt/lists/" + sourcesFile)
         return res
             
 
