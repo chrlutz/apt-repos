@@ -201,9 +201,12 @@ def show_part(suites, requestPackages, requestFields, update, outfile):
         "updating (use --no-update to skip) and " if update else "", len(suites)))
     for x, suite in enumerate(suites):
         pp(showProgress, '.')
-        suite.scan(update)
-        pp(showProgress, x+1)
-        result = result.union(suite.queryPackages(requestPackages, False, None, None, requestFields))
+        try:
+            suite.scan(update)
+            pp(showProgress, x+1)
+            result = result.union(suite.queryPackages(requestPackages, False, None, None, requestFields))
+        except SystemError as e:
+            logger.warn("Could not retrieve packages for suite {}:\n{}".format(suite.getSuiteName(), e))
     pp(showProgress, '\n')
 
     header = [f.getHeader() for f in requestFields]    
@@ -235,9 +238,12 @@ def ls(args):
         "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
     for x, suite in enumerate(suites):
         pp(showProgress, '.')
-        suite.scan(not args.no_update)
-        pp(showProgress, x+1)
-        result = result.union(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+        try:
+            suite.scan(not args.no_update)
+            pp(showProgress, x+1)
+            result = result.union(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+        except SystemError as e:
+            logger.warn("Could not retrieve packages for suite {}:\n{}".format(suite.getSuiteName(), e))
     pp(showProgress, '\n')
 
     header = [f.getHeader() for f in requestFields]    
