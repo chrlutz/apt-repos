@@ -20,7 +20,8 @@ optional arguments:
                         Specify the columns that should be printed. Default is
                         'R'. Possible characters are: (p)=Package,
                         (v)=Version, (S)=Suite, (a)=Arch, (s)=Section,
-                        (C)=Source, (L)=Long-Desc, (R)=Full-Record
+                        (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
+                        Record
   -di DIFF, --diff DIFF
                         Similar to -s switch, but expects in DIFF exactly two
                         comma separated parts ("suiteA,suiteB"), calculates

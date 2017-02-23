@@ -388,6 +388,7 @@ class PackageField(Enum):
     SUITE = ('S', 'Suite')
     ARCHITECTURE = ('a', 'Arch')
     SECTION = ('s', 'Section')
+    PRIORITY = ('P', 'Priority')
     SOURCE_PACKAGE_NAME = ('C', 'Source')
     LONG_DESC = ('L', 'Long-Desc')
     RECORD = ('R', 'Full-Record')
@@ -461,6 +462,8 @@ class QueryResult:
                 data.append(version.arch)
             elif field == PackageField.SECTION:
                 data.append(version.section)
+            elif field == PackageField.PRIORITY:
+                data.append(version.priority)
             elif field == PackageField.SOURCE_PACKAGE_NAME:
                 data.append(source)
             elif field == PackageField.SUITE:
