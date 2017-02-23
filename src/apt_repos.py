@@ -43,6 +43,8 @@ from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField
 
 def main():
     fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
+    ttyWidth = os.popen('stty size', 'r').read().split()[1]
+    diffToolDefault = "diff_--side-by-side_--suppress-common-lines_--width={}"
     
     # fixup to get help-messages for subcommands that require positional argmuments
     # so that "apt-repos -h <subcommand>" prints a help-message and not an error
@@ -118,8 +120,10 @@ def main():
                               Similar to -s switch, but expects in DIFF exactly two comma separated parts
                               ("suiteA,suiteB"), calculates the output for suiteA and suiteB separately 
                               and diff's this output with the diff tool specified in --diff-tool.""")
-    parse_show.add_argument("-dt", "--diff-tool", type=str, default="diff", required=False, help="""
-                              Diff-Tool used to compare the separated results from --diff. Default is 'diff'""")
+    parse_show.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help="""
+                              Diff-Tool used to compare the separated results from --diff.
+                              Default is '{}'.
+                              Use _ instead of spaces if this command has arguments.""".format(diffToolDefault.format("<ttyWidth>")))
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
@@ -186,7 +190,9 @@ def show(args):
                 logger.debug("Part {}, TmpFileName {}".format(part, tmp.name))
                 tmpFiles.append(tmp.name)
                 show_part(suites, requestPackages, requestFields, not args.no_update, tmp)
-        subprocess.call([args.diff_tool, tmpFiles[0], tmpFiles[1]])
+        cmd = args.diff_tool.split("_")
+        cmd.extend(tmpFiles)
+        subprocess.call(cmd)
         for tmp in tmpFiles:
             os.remove(tmp)
             

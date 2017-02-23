@@ -30,5 +30,7 @@ optional arguments:
                         tool.
   -dt DIFF_TOOL, --diff-tool DIFF_TOOL
                         Diff-Tool used to compare the separated results from
-                        --diff. Default is 'diff'
+                        --diff. Default is 'diff_--side-by-side_--suppress-
+                        common-lines_--width=<ttyWidth>'. Use _ instead of
+                        spaces if this command has arguments.
   -nu, --no-update      Skip downloading of packages list.

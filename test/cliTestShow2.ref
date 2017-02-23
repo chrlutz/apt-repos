@@ -1,58 +1,22 @@
 updating (use --no-update to skip) and querying packages lists for 1 suites.1
 updating (use --no-update to skip) and querying packages lists for 1 suites.1
-2c2
-< Suite: ubuntu:trusty
----
-> Suite: ubuntu:xenial
-6c6
-< Installed-Size: 1086
----
-> Installed-Size: 1110
-10,11c10,11
-< Version: 4.13.1-1build1
-< Depends: libarchive13, libbz2-1.0, libc6 (>= 2.15), libdb5.3, libgpg-error0 (>= 1.10), libgpgme11 (>= 1.2.0), zlib1g (>= 1:1.2.0.2)
----
-> Version: 4.17.0-1
-> Depends: pinentry-curses, libarchive13, libbz2-1.0, libc6 (>= 2.15), libdb5.3, libgpg-error0 (>= 1.14), libgpgme11 (>= 1.2.0), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.0.2)
-13,18c13,18
-< Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2), xz-utils (>= 5.1.1alpha+20120614-1~) | xz-lzma | lzma, xz-utils
-< Filename: pool/universe/r/reprepro/reprepro_4.13.1-1build1_amd64.deb
-< Size: 480084
-< MD5sum: 467b7bf6440da5cec89b3edcd525caa2
-< SHA1: e35c0bdaf9ae779532c675f18638981f83c3f5ff
-< SHA256: 7b1fc895528dd45b4b7708242da19850be4e1723aa6d6e9ee86e35975e021371
----
-> Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2)
-> Filename: pool/universe/r/reprepro/reprepro_4.17.0-1_amd64.deb
-> Size: 407318
-> MD5sum: c82efe2675677a64f4d3e95a7c455b20
-> SHA1: 790018ec61281c44951f8d78db681db78994c3f8
-> SHA256: 7cc949365b41bc70e234249466539d0a8ae857681e112ff8e9a3212a745783ac
-26c26
-< Suite: ubuntu:trusty
----
-> Suite: ubuntu:xenial
-30c30
-< Installed-Size: 1094
----
-> Installed-Size: 1193
-34,35c34,35
-< Version: 4.13.1-1build1
-< Depends: libarchive13, libbz2-1.0, libc6 (>= 2.15), libdb5.3, libgpg-error0 (>= 1.10), libgpgme11 (>= 1.2.0), zlib1g (>= 1:1.2.3.3)
----
-> Version: 4.17.0-1
-> Depends: pinentry-curses, libarchive13, libbz2-1.0, libc6 (>= 2.15), libdb5.3, libgpg-error0 (>= 1.14), libgpgme11 (>= 1.2.0), liblzma5 (>= 5.1.1alpha+20120614), zlib1g (>= 1:1.2.0.2)
-37,42c37,42
-< Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2), xz-utils (>= 5.1.1alpha+20120614-1~) | xz-lzma | lzma, xz-utils
-< Filename: pool/universe/r/reprepro/reprepro_4.13.1-1build1_i386.deb
-< Size: 463736
-< MD5sum: 4a11e497bf6eb3c8772cd782fafa88c6
-< SHA1: 106a827114733e0b0cb42c6e36717ac67328dfa1
-< SHA256: b2f173f4c2e0a01255f5ee6767bb0586d5e79f94a712c11df777a7ce193612cb
----
-> Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2)
-> Filename: pool/universe/r/reprepro/reprepro_4.17.0-1_i386.deb
-> Size: 420082
-> MD5sum: 1baa282b291e80fcc56494d29208ee90
-> SHA1: 94f4d75737221ca9fa8b1173779717d3ae381afd
-> SHA256: 721371b5bff944ecf92c2052843f87981ec5853f5bfc2a244ad9dbfb7e13dc33
+Suite: ubuntu:trusty					      |	Suite: ubuntu:xenial
+Installed-Size: 1086					      |	Installed-Size: 1110
+Version: 4.13.1-1build1					      |	Version: 4.17.0-1
+Depends: libarchive13, libbz2-1.0, libc6 (>= 2.15), libdb5.3, |	Depends: pinentry-curses, libarchive13, libbz2-1.0, libc6 (>=
+Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2), xz-util |	Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2)
+Filename: pool/universe/r/reprepro/reprepro_4.13.1-1build1_am |	Filename: pool/universe/r/reprepro/reprepro_4.17.0-1_amd64.de
+Size: 480084						      |	Size: 407318
+MD5sum: 467b7bf6440da5cec89b3edcd525caa2		      |	MD5sum: c82efe2675677a64f4d3e95a7c455b20
+SHA1: e35c0bdaf9ae779532c675f18638981f83c3f5ff		      |	SHA1: 790018ec61281c44951f8d78db681db78994c3f8
+SHA256: 7b1fc895528dd45b4b7708242da19850be4e1723aa6d6e9ee86e3 |	SHA256: 7cc949365b41bc70e234249466539d0a8ae857681e112ff8e9a32
+Suite: ubuntu:trusty					      |	Suite: ubuntu:xenial
+Installed-Size: 1094					      |	Installed-Size: 1193
+Version: 4.13.1-1build1					      |	Version: 4.17.0-1
+Depends: libarchive13, libbz2-1.0, libc6 (>= 2.15), libdb5.3, |	Depends: pinentry-curses, libarchive13, libbz2-1.0, libc6 (>=
+Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2), xz-util |	Suggests: gnupg-agent, inoticoming, lzip (>= 1.11-2)
+Filename: pool/universe/r/reprepro/reprepro_4.13.1-1build1_i3 |	Filename: pool/universe/r/reprepro/reprepro_4.17.0-1_i386.deb
+Size: 463736						      |	Size: 420082
+MD5sum: 4a11e497bf6eb3c8772cd782fafa88c6		      |	MD5sum: 1baa282b291e80fcc56494d29208ee90
+SHA1: 106a827114733e0b0cb42c6e36717ac67328dfa1		      |	SHA1: 94f4d75737221ca9fa8b1173779717d3ae381afd
+SHA256: b2f173f4c2e0a01255f5ee6767bb0586d5e79f94a712c11df777a |	SHA256: 721371b5bff944ecf92c2052843f87981ec5853f5bfc2a244ad9d

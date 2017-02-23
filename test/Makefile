@@ -69,7 +69,7 @@ _cliTestShow:
 	$(CLI) show reprepro >cliTestShow1.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow1.ref cliTestShow1.res $(EXP_OK)
 	
-	$(CLI) show reprepro -di trusty,xenial >cliTestShow2.res 2>&1 $(EXP_OK)
+	$(CLI) show reprepro -di trusty,xenial -dt diff_-y_--suppress-common-lines >cliTestShow2.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow2.ref cliTestShow2.res $(EXP_OK)
 	echo "OK"
 
