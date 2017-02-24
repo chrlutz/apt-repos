@@ -65,11 +65,11 @@ def main():
     
     # args for subcommand ls
     parse_ls = subparsers.add_parser('ls', help='search and list binary and source packages', description=ls.__doc__)
+    parse_ls.add_argument("-d", "--debug", action="store_true", help="""
+                          Switch on debugging message printed to stderr.""")
     parse_ls.add_argument("-s", "--suite", default='default:', help="""
                           Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
                           The default value is 'default:'.""")
-    parse_ls.add_argument("-d", "--debug", action="store_true", help="""
-                          Switch on debugging message printed to stderr.""")
     parse_ls.add_argument("-a", "--architecture", help="""
                           Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
     parse_ls.add_argument("-c", "--component", help="""
@@ -94,6 +94,14 @@ def main():
                           Specifies the output-format of the package list. Default is 'table'.
                           Possible values: 'table' to pretty print a nice table; 'list' to print a
                           space separated list of columns that can easily be processed with bash tools.""")
+    parse_ls.add_argument("-di", "--diff", type=str, required=False, help="""
+                          Similar to -s switch, but expects in DIFF exactly two comma separated parts
+                          ("suiteA,suiteB"), calculates the output for suiteA and suiteB separately 
+                          and diff's this output with the diff tool specified in --diff-tool.""")
+    parse_ls.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help="""
+                          Diff-Tool used to compare the separated results from --diff.
+                          Default is '{}'.
+                          Use _ instead of spaces if this command has arguments.""".format(diffToolDefault.format("<ttyWidth>")))
     parse_ls.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_ls.set_defaults(sub_function=ls, sub_parser=parse_ls)
 
@@ -112,7 +120,22 @@ def main():
                               Switch on debugging message printed to stderr.""")
     parse_show.add_argument("-s", "--suite", default='default:', help="""
                               Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                              The default value is 'default:' (all suites).""")
+                              The default value is 'default:'.""")
+    parse_show.add_argument("-a", "--architecture", help="""
+                              Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
+    parse_show.add_argument("-c", "--component", help="""
+                              Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
+                              Note: component and section fields are not exactly the same. A component is only the first part
+                              of a section (everything before the '/'). There is also a special treatment for sections
+                              in the component 'main', in which case 'main/' is typically not named in a section-field.
+                              For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
+    parse_show.add_argument("-r", "--regex", action="store_true", help="""
+                              Treat PACKAGE as a regex. Searches for binary package-names or
+                              binary packages that were built from a source prefixed with 'src:'.
+                              Examples:
+                              Use regex '.' to show all packages.
+                              Use regex '^pkg' to show all packages starting with 'pkg'.
+                              Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
     parse_show.add_argument("-col", "--columns", type=str, required=False, default='SR', help="""
                               Specify the columns that should be printed. Default is 'R'.
                               Possible characters are: """ + fieldChars)
@@ -152,7 +175,9 @@ def main():
 
 
 def setupLogging(loglevel):
-    '''Initializing logging and set log-level'''
+    '''
+       Initializing logging and set log-level
+    '''
     kwargs = {
         'format': '%(asctime)s %(levelname)-8s %(message)s',
         'datefmt':'%Y-%m-%d,%H:%M:%S',
@@ -163,7 +188,9 @@ def setupLogging(loglevel):
 
 
 def suites(args):
-    '''subcommand suites: print a list of registered suites'''
+    '''
+       subcommand suites: print a list of registered suites
+    '''
     logger = logging.getLogger('suites')
     suites = getSuites(args.suite.split(','))
     for s in sorted(suites):
@@ -171,50 +198,67 @@ def suites(args):
 
 
 def show(args):
-    '''subcommand show: print details about packages similar to what apt-cache show does'''
+    '''
+       subcommand show: print details about packages similar to what apt-cache show does
+    '''
     logger = logging.getLogger('show')
 
-    suites = getSuites(args.suite.split(','))    
-    requestPackages = { p for p in args.package }
-    requestFields = PackageField.getByFieldsString(args.columns)
+    (result, requestFields) = queryPackages(args)
+
+    formatter = singleLines_formatter
 
     if args.diff:
-        parts = args.diff.split(',')
-        if len(parts) != 2:
-            raise Exception("Diff expects exact 2 comma separated suites")
-        tmpFiles = list()
-        tmp = None
-        for part in parts:            
-            suites = getSuites([part])
-            with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
-                logger.debug("Part {}, TmpFileName {}".format(part, tmp.name))
-                tmpFiles.append(tmp.name)
-                show_part(suites, requestPackages, requestFields, not args.no_update, tmp)
-        cmd = args.diff_tool.split("_")
-        cmd.extend(tmpFiles)
-        subprocess.call(cmd)
-        for tmp in tmpFiles:
-            os.remove(tmp)
-            
+        diff_formatter(result, requestFields, args.diff, args.diff_tool, False, formatter)            
     else:
-        show_part(suites, requestPackages, requestFields, not args.no_update, sys.stdout)
+        formatter(result, requestFields, False, sys.stdout)
 
 
-def show_part(suites, requestPackages, requestFields, update, outfile):
-    result = set()
-    showProgress = True
-    pp(showProgress, "{}querying packages lists for {} suites".format(
-        "updating (use --no-update to skip) and " if update else "", len(suites)))
-    for x, suite in enumerate(suites):
-        pp(showProgress, '.')
-        try:
-            suite.scan(update)
-            pp(showProgress, x+1)
-            result = result.union(suite.queryPackages(requestPackages, False, None, None, requestFields))
-        except SystemError as e:
-            logger.warn("Could not retrieve packages for suite {}:\n{}".format(suite.getSuiteName(), e))
-    pp(showProgress, '\n')
+def ls(args):
+    '''
+       subcommand ls: search and print a list of packages
+    '''
+    logger = logging.getLogger('ls')
 
+    (result, requestFields) = queryPackages(args)
+    
+    if args.format == 'table':
+        formatter = table_formatter
+    elif args.format == 'list':
+        formatter = list_formatter
+
+    if args.diff:
+        diff_formatter(result, requestFields, args.diff, args.diff_tool, args.no_header, formatter)            
+    else:
+        formatter(result, requestFields, args.no_header, sys.stdout)
+
+
+def table_formatter(result, requestFields, no_header, outfile):
+    header = [f.getHeader() for f in requestFields]    
+    resultList = sorted(result)
+
+    # calculate max col_widths (witch must be at least 1)
+    col_width = [max(len(x) for x in col) for col in zip(*result)]
+    col_width = [max(1, w) for w in (col_width + [1]*(len(header)-len(col_width)))]
+    if not no_header:
+        # recalculate col_width for header, too
+        col_width = [max(len(h), w) for h, w in zip(header, col_width)]
+        print (" | ".join("{!s:{}}".format(h, w) for h, w in zip(header, col_width)), file=outfile)
+        print (" | ".join("{!s:{}}".format("="*w, w) for w in col_width), file=outfile)
+    for r in resultList:
+        print (" | ".join("{!s:{}}".format(d, w) for d, w in zip(r.getData(), col_width)), file=outfile)
+
+
+def list_formatter(result, requestFields, no_header, outfile):
+    header = [f.getHeader() for f in requestFields]    
+    resultList = sorted(result)
+
+    if not no_header:
+        print (" ".join(header), file=outfile)
+    for r in resultList:
+        print (" ".join([str(d) for d in r.getData()]), file=outfile)
+
+
+def singleLines_formatter(result, requestFields, no_header, outfile):
     header = [f.getHeader() for f in requestFields]    
     resultList = sorted(result)
 
@@ -228,9 +272,32 @@ def show_part(suites, requestPackages, requestFields, update, outfile):
                 print ("{}: {}".format(h, d), file=outfile)
 
 
-def ls(args):
-    '''subcommand ls: search and print a list of packages'''
-    logger = logging.getLogger('ls')
+def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFormatter):
+    logger = logging.getLogger('diff_formatter')
+    parts = "a,b".split(',')
+    if len(parts) != 2:
+        raise Exception("Diff expects exact 2 comma separated suites")
+
+    tmpFiles = list()
+    for part in parts:            
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+            logger.debug("Part {}, TmpFileName {}".format(part, tmp.name))
+            tmpFiles.append(tmp.name)
+            subFormatter(result, requestFields, no_header, tmp)
+
+    cmd = diffTool.split("_")
+    cmd.extend(tmpFiles)
+    subprocess.call(cmd)
+    for tmp in tmpFiles:
+        os.remove(tmp)
+
+
+def queryPackages(args):
+    '''
+       queries Packages by the args provided on the command line and returns a
+       tuple of (queryResults, requestFields)
+    '''
+    logger = logging.getLogger('queryPackages')
 
     suites = getSuites(args.suite.split(','))
     requestPackages = { p for p in args.package }
@@ -251,30 +318,13 @@ def ls(args):
         except SystemError as e:
             logger.warn("Could not retrieve packages for suite {}:\n{}".format(suite.getSuiteName(), e))
     pp(showProgress, '\n')
+    return (result, requestFields)
 
-    header = [f.getHeader() for f in requestFields]    
-    resultList = sorted(result)
-    
-    if args.format == 'table':
-        # calculate max col_widths (witch must be at least 1)
-        col_width = [max(len(x) for x in col) for col in zip(*result)]
-        col_width = [max(1, w) for w in (col_width + [1]*(len(header)-len(col_width)))]
-        if not args.no_header:
-            # recalculate col_width for header, too
-            col_width = [max(len(h), w) for h, w in zip(header, col_width)]
-            print (" | ".join("{!s:{}}".format(h, w) for h, w in zip(header, col_width)))
-            print (" | ".join("{!s:{}}".format("="*w, w) for w in col_width))
-        for r in resultList:
-            print (" | ".join("{!s:{}}".format(d, w) for d, w in zip(r.getData(), col_width)))
-
-    elif args.format == 'list':
-        if not args.no_header:
-            print (" ".join(header))
-        for r in resultList:
-            print (" ".join([str(d) for d in r.getData()]))
 
 def pp(show, message):
-    '''prints and flushes a progress message <message> without newline to stderr if <show> is True.'''
+    '''
+       prints and flushes a progress message <message> without newline to stderr if <show> is True.
+    '''
     if show:
         print(message, end='', flush=True, file=sys.stderr)
         

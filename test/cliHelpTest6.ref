@@ -1,5 +1,5 @@
-usage: apt-repos show [-h] [-d] [-s SUITE] [-col COLUMNS] [-di DIFF]
-                      [-dt DIFF_TOOL] [-nu]
+usage: apt-repos show [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT]
+                      [-r] [-col COLUMNS] [-di DIFF] [-dt DIFF_TOOL] [-nu]
                       package [package ...]
 
 subcommand show: print details about packages similar to what apt-cache show
@@ -15,7 +15,27 @@ optional arguments:
   -s SUITE, --suite SUITE
                         Only show info for these SUITE(s). The list of SUITEs
                         is specified comma-separated. The default value is
-                        'default:' (all suites).
+                        'default:'.
+  -a ARCHITECTURE, --architecture ARCHITECTURE
+                        Only show info for ARCH(s). The list of ARCHs is
+                        specified comma-separated.
+  -c COMPONENT, --component COMPONENT
+                        Only show info for COMPONENT(s). The list of
+                        COMPONENTs is specified comma-separated. Note:
+                        component and section fields are not exactly the same.
+                        A component is only the first part of a section
+                        (everything before the '/'). There is also a special
+                        treatment for sections in the component 'main', in
+                        which case 'main/' is typically not named in a
+                        section-field. For this switch -c we have to specify
+                        'main' to see packages from the component 'main'.
+  -r, --regex           Treat PACKAGE as a regex. Searches for binary package-
+                        names or binary packages that were built from a source
+                        prefixed with 'src:'. Examples: Use regex '.' to show
+                        all packages. Use regex '^pkg' to show all packages
+                        starting with 'pkg'. Use regex '^src:source' to show
+                        packages that were built from a source starting with
+                        'source'.
   -col COLUMNS, --columns COLUMNS
                         Specify the columns that should be printed. Default is
                         'R'. Possible characters are: (p)=Package,

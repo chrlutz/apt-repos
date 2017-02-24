@@ -62,6 +62,9 @@ _cliTestLs:
 	echo "----------------------------------------------------------"
 	$(CLI) ls reprepro >cliTestLs1.res 2>&1 $(EXP_OK)
 	diff -u cliTestLs1.ref cliTestLs1.res $(EXP_OK)
+	
+	$(CLI) ls reprepro -di a -dt diff_-y >cliTestLs2.res 2>&1 $(EXP_OK)
+	diff -u cliTestLs2.ref cliTestLs2.res $(EXP_OK)
 	echo "OK"
 
 _cliTestShow:
@@ -69,7 +72,10 @@ _cliTestShow:
 	$(CLI) show reprepro >cliTestShow1.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow1.ref cliTestShow1.res $(EXP_OK)
 	
-	$(CLI) show reprepro -di trusty,xenial -dt diff_-y_--suppress-common-lines >cliTestShow2.res 2>&1 $(EXP_OK)
+	$(CLI) show reprepro -di s -s trusty,xenial -dt diff_-y >cliTestShow2.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow2.ref cliTestShow2.res $(EXP_OK)
+	
+	$(CLI) show reprepro -di s -s trusty,xenial -dt diff_-y_--suppress-common-lines >cliTestShow3.res 2>&1 $(EXP_OK)
+	diff -u cliTestShow3.ref cliTestShow3.res $(EXP_OK)
 	echo "OK"
 

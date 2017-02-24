@@ -1,5 +1,6 @@
-usage: apt-repos ls [-h] [-s SUITE] [-d] [-a ARCHITECTURE] [-c COMPONENT] [-r]
-                    [-nu] [-nh] [-col COLUMNS] [-f {table,list}]
+usage: apt-repos ls [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT] [-r]
+                    [-nu] [-nh] [-col COLUMNS] [-f {table,list}] [-di DIFF]
+                    [-dt DIFF_TOOL]
                     package [package ...]
 
 subcommand ls: search and print a list of packages
@@ -10,11 +11,11 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
+  -d, --debug           Switch on debugging message printed to stderr.
   -s SUITE, --suite SUITE
                         Only show info for these SUITE(s). The list of SUITEs
                         is specified comma-separated. The default value is
                         'default:'.
-  -d, --debug           Switch on debugging message printed to stderr.
   -a ARCHITECTURE, --architecture ARCHITECTURE
                         Only show info for ARCH(s). The list of ARCHs is
                         specified comma-separated.
@@ -49,3 +50,14 @@ optional arguments:
                         print a nice table; 'list' to print a space separated
                         list of columns that can easily be processed with bash
                         tools.
+  -di DIFF, --diff DIFF
+                        Similar to -s switch, but expects in DIFF exactly two
+                        comma separated parts ("suiteA,suiteB"), calculates
+                        the output for suiteA and suiteB separately and diff's
+                        this output with the diff tool specified in --diff-
+                        tool.
+  -dt DIFF_TOOL, --diff-tool DIFF_TOOL
+                        Diff-Tool used to compare the separated results from
+                        --diff. Default is 'diff_--side-by-side_--suppress-
+                        common-lines_--width=<ttyWidth>'. Use _ instead of
+                        spaces if this command has arguments.
