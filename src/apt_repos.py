@@ -87,8 +87,8 @@ def main():
                           Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
     parse_ls.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_ls.add_argument("-nh", "--no-header", action="store_true", default=False, help="Don't print the column header.")
-    parse_ls.add_argument("-col", "--columns", type=str, required=False, default='pvSasC', help="""
-                          Specify the columns that should be printed. Default is 'pvSasC'.
+    parse_ls.add_argument("-col", "--columns", type=str, required=False, default='pvsaSC', help="""
+                          Specify the columns that should be printed. Default is 'pvsaSC'.
                           Possible characters are: """ + fieldChars)
     parse_ls.add_argument("-f", "--format", type=str, choices=['table', 'list'], required=False, default='table', help="""
                           Specifies the output-format of the package list. Default is 'table'.
@@ -136,8 +136,8 @@ def main():
                               Use regex '.' to show all packages.
                               Use regex '^pkg' to show all packages starting with 'pkg'.
                               Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
-    parse_show.add_argument("-col", "--columns", type=str, required=False, default='SR', help="""
-                              Specify the columns that should be printed. Default is 'R'.
+    parse_show.add_argument("-col", "--columns", type=str, required=False, default='sR', help="""
+                              Specify the columns that should be printed. Default is 'sR'.
                               Possible characters are: """ + fieldChars)
     parse_show.add_argument("-di", "--diff", type=str, required=False, help="""
                               Similar to -s switch, but expects in DIFF exactly two comma separated parts
@@ -156,6 +156,16 @@ def main():
     setupLogging(logging.DEBUG if args.debug else logging.WARN)
     logger = logging.getLogger('main')
     
+    if "diff" in args.__dict__ and args.diff:
+        if len(args.diff) != 1:
+            args.sub_parser.print_usage()
+            print("-di needs exactly one character as argument. provided is: '{}'".format(args.diff), file=sys.stderr)
+            sys.exit(1)
+        elif not args.diff in args.columns:
+            args.sub_parser.print_usage()
+            print("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, args.diff), file=sys.stderr)
+            sys.exit(1)
+
     if args.basedir:
         setAptReposBaseDir(args.basedir)
     
@@ -227,7 +237,7 @@ def ls(args):
         formatter = list_formatter
 
     if args.diff:
-        diff_formatter(result, requestFields, args.diff, args.diff_tool, args.no_header, formatter)            
+        diff_formatter(result, requestFields, args.diff, args.diff_tool, args.no_header, list_formatter)            
     else:
         formatter(result, requestFields, args.no_header, sys.stdout)
 
@@ -274,16 +284,45 @@ def singleLines_formatter(result, requestFields, no_header, outfile):
 
 def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFormatter):
     logger = logging.getLogger('diff_formatter')
-    parts = "a,b".split(',')
-    if len(parts) != 2:
-        raise Exception("Diff expects exact 2 comma separated suites")
-
+    
+    # split result list at diffField into two different sets:
+    df = PackageField.getByFieldsString(diffField)[0]
+    dropColumns = set()
+    newFields = list()
+    for x, field in enumerate(requestFields):
+        if field == df:
+            dropColumns.add(x)
+        else:
+            newFields.append(field)
+    newResults = {} # example: a map of { 'i386' : resultSet1, 'amd64' : resultSet2 } if diffField='a'
+    for r in result:
+        newData = list()
+        newResultSet = set()
+        for x, d in enumerate(r.getData()):
+            if x in dropColumns:
+                aSet = newResults.get(d)
+                if not aSet:
+                    aSet = set()
+                    newResults[d] = aSet
+                newResultSet = aSet                
+            else:
+                newData.append(d)
+        newResultSet.add(QueryResult(newFields, tuple(newData)))        
+                
+    if len(newResults) != 2:
+        raise Exception("We got not exactly 2 differentiators for Diff-Field '{}'. We found: '{}'".format(
+                        df.getHeader(), 
+                        "', '".join(sorted(newResults.keys()))))
+        
     tmpFiles = list()
-    for part in parts:            
+    for part in sorted(newResults.keys()):            
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
             logger.debug("Part {}, TmpFileName {}".format(part, tmp.name))
             tmpFiles.append(tmp.name)
-            subFormatter(result, requestFields, no_header, tmp)
+            if not no_header:
+                print("Results for {} '{}'".format(df.getHeader(), part), file=tmp)
+                print("", file=tmp)
+            subFormatter(newResults[part], newFields, no_header, tmp)
 
     cmd = diffTool.split("_")
     cmd.extend(tmpFiles)

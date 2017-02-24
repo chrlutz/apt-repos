@@ -1,18 +1,18 @@
 FieldsStr ''
 []
-FieldsStr 'pvSasC'
+FieldsStr 'pvsaSC'
 [<PackageField.BINARY_PACKAGE_NAME>, <PackageField.VERSION>, <PackageField.SUITE>, <PackageField.ARCHITECTURE>, <PackageField.SECTION>, <PackageField.SOURCE_PACKAGE_NAME>]
-FieldsStr 'CsaSvp'
+FieldsStr 'CSasvp'
 [<PackageField.SOURCE_PACKAGE_NAME>, <PackageField.SECTION>, <PackageField.ARCHITECTURE>, <PackageField.SUITE>, <PackageField.VERSION>, <PackageField.BINARY_PACKAGE_NAME>]
 FieldsStr 'p'
 [<PackageField.BINARY_PACKAGE_NAME>]
 FieldsStr 'v'
 [<PackageField.VERSION>]
-FieldsStr 'S'
+FieldsStr 's'
 [<PackageField.SUITE>]
 FieldsStr 'a'
 [<PackageField.ARCHITECTURE>]
-FieldsStr 's'
+FieldsStr 'S'
 [<PackageField.SECTION>]
 FieldsStr 'C'
 [<PackageField.SOURCE_PACKAGE_NAME>]

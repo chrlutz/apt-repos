@@ -39,7 +39,7 @@ x==y = True
 sameHash = True
 
 ==========================
-FieldsStr 'SasC'
+FieldsStr 'saSC'
 ==========================
 
 x = QueryResult(SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
@@ -78,7 +78,7 @@ x==y = False
 sameHash = False
 
 ==========================
-FieldsStr 'pvSasC'
+FieldsStr 'pvsaSC'
 ==========================
 
 x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', VERSION:'1.2~6deb2', SUITE:'mySuite', ARCHITECTURE:'i386', SECTION:'main', SOURCE_PACKAGE_NAME:'a')
@@ -117,7 +117,7 @@ x==y = False
 sameHash = False
 
 ==========================
-FieldsStr 'CsaSvp'
+FieldsStr 'CSasvp'
 ==========================
 
 x = QueryResult(SOURCE_PACKAGE_NAME:'a', SECTION:'main', ARCHITECTURE:'i386', SUITE:'mySuite', VERSION:'1.2~6deb2', BINARY_PACKAGE_NAME:'a-pkg')
@@ -234,7 +234,7 @@ x==y = True
 sameHash = True
 
 ==========================
-FieldsStr 'S'
+FieldsStr 's'
 ==========================
 
 x = QueryResult(SUITE:'mySuite')
@@ -312,7 +312,7 @@ x==y = False
 sameHash = False
 
 ==========================
-FieldsStr 's'
+FieldsStr 'S'
 ==========================
 
 x = QueryResult(SECTION:'main')

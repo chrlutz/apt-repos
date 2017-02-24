@@ -385,9 +385,9 @@ class PackageField(Enum):
     '''
     BINARY_PACKAGE_NAME = ('p', 'Package')
     VERSION = ('v', 'Version')
-    SUITE = ('S', 'Suite')
+    SUITE = ('s', 'Suite')
     ARCHITECTURE = ('a', 'Arch')
-    SECTION = ('s', 'Section')
+    SECTION = ('S', 'Section')
     PRIORITY = ('P', 'Priority')
     SOURCE_PACKAGE_NAME = ('C', 'Source')
     LONG_DESC = ('L', 'Long-Desc')

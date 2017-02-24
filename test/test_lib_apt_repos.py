@@ -51,7 +51,7 @@ def dumpSelectedSuites(suites, selectors):
 
 
 def testGetPackageFields():
-    for fieldsStr in [ '', 'pvSasC', 'CsaSvp', 'p', 'v', 'S', 'a', 's', 'C', 'X', 'XYZ' ]:
+    for fieldsStr in [ '', 'pvsaSC', 'CSasvp', 'p', 'v', 's', 'a', 'S', 'C', 'X', 'XYZ' ]:
         print("FieldsStr '" + fieldsStr + "'")
         try:
             print("[" + (", ".join([str(f) for f in PackageField.getByFieldsString(fieldsStr)])) + "]")
@@ -72,7 +72,7 @@ def testQueryResult():
     b2 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "amd64", "section" : "main", "source_pkg" : "b" })
     b3 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "amd64", "section" : "universe", "source_pkg" : "b" })
 
-    for fieldsStr in [ 'pv', 'SasC', 'pvSasC', 'CsaSvp', 'p', 'v', 'S', 'a', 's', 'C' ]:
+    for fieldsStr in [ 'pv', 'saSC', 'pvsaSC', 'CSasvp', 'p', 'v', 's', 'a', 'S', 'C' ]:
         print()
         print("==========================")
         print("FieldsStr '" + fieldsStr + "'")
@@ -112,7 +112,7 @@ def compareAndPrintQueryResults(x, y):
 
 def testQueryPackages():
     setAptReposBaseDir(".")
-    fields = PackageField.getByFieldsString('pvSasC')
+    fields = PackageField.getByFieldsString('pvsaSC')
     repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
     repoSuite.scan(True)
     res = repoSuite.queryPackages(['git'], False, None, None, fields)

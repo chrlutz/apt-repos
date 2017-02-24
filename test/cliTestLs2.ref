@@ -1,5 +1,5 @@
 updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
-Package  | Version  | Suite         | Arch  | Section        	Package  | Version  | Suite         | Arch  | Section        
-======== | ======== | ============= | ===== | ============== 	======== | ======== | ============= | ===== | ============== 
-reprepro | 4.17.0-1 | ubuntu:xenial | amd64 | universe/utils 	reprepro | 4.17.0-1 | ubuntu:xenial | amd64 | universe/utils 
-reprepro | 4.17.0-1 | ubuntu:xenial | i386  | universe/utils 	reprepro | 4.17.0-1 | ubuntu:xenial | i386  | universe/utils 
+Results for Arch 'amd64'				      |	Results for Arch 'i386'
+
+Package Version Suite Section Source				Package Version Suite Section Source
+reprepro 4.17.0-1 ubuntu:xenial universe/utils reprepro		reprepro 4.17.0-1 ubuntu:xenial universe/utils reprepro
