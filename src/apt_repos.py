@@ -44,7 +44,7 @@ from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField
 def main():
     fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
     ttyWidth = os.popen('stty size', 'r').read().split()[1]
-    diffToolDefault = "diff_--side-by-side_--suppress-common-lines_--width={}"
+    diffToolDefault = "diff,--side-by-side,--suppress-common-lines,--width={}"
     
     # fixup to get help-messages for subcommands that require positional argmuments
     # so that "apt-repos -h <subcommand>" prints a help-message and not an error
@@ -101,7 +101,7 @@ def main():
     parse_ls.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help="""
                           Diff-Tool used to compare the separated results from --diff.
                           Default is '{}'.
-                          Use _ instead of spaces if this command has arguments.""".format(diffToolDefault.format("<ttyWidth>")))
+                          Use , (instead of spaces) to provide arguments for the difftool.""".format(diffToolDefault.format("<ttyWidth>")))
     parse_ls.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_ls.set_defaults(sub_function=ls, sub_parser=parse_ls)
 
@@ -324,7 +324,7 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
                 print("", file=tmp)
             subFormatter(newResults[part], newFields, no_header, tmp)
 
-    cmd = diffTool.split("_")
+    cmd = diffTool.split(",")
     cmd.extend(tmpFiles)
     subprocess.call(cmd)
     for tmp in tmpFiles:

@@ -63,13 +63,13 @@ _cliTestLs:
 	$(CLI) ls reprepro >cliTestLs1.res 2>&1 $(EXP_OK)
 	diff -u cliTestLs1.ref cliTestLs1.res $(EXP_OK)
 	
-	$(CLI) ls reprepro -di a -dt diff_-y >cliTestLs2.res 2>&1 $(EXP_OK)
+	$(CLI) ls reprepro -di a -dt diff,-y >cliTestLs2.res 2>&1 $(EXP_OK)
 	diff -u cliTestLs2.ref cliTestLs2.res $(EXP_OK)
 	
-	$(CLI) ls zim -di a -dt diff_-y >cliTestLs3.res 2>&1 $(EXP_FAIL)
+	$(CLI) ls zim -di a -dt diff,-y >cliTestLs3.res 2>&1 $(EXP_FAIL)
 	diff -u cliTestLs3.ref cliTestLs3.res $(EXP_OK)
 	
-	$(CLI) ls zim git -di a -dt diff_-y >cliTestLs4.res 2>&1 $(EXP_FAIL)
+	$(CLI) ls zim git -di a -dt diff,-y >cliTestLs4.res 2>&1 $(EXP_FAIL)
 	diff -u cliTestLs4.ref cliTestLs4.res $(EXP_OK)
 	echo "OK"
 
@@ -78,10 +78,10 @@ _cliTestShow:
 	$(CLI) show reprepro >cliTestShow1.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow1.ref cliTestShow1.res $(EXP_OK)
 	
-	$(CLI) show reprepro -di s -s trusty,xenial -dt diff_-y >cliTestShow2.res 2>&1 $(EXP_OK)
+	$(CLI) show reprepro -di s -s trusty,xenial -dt diff,-y >cliTestShow2.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow2.ref cliTestShow2.res $(EXP_OK)
 	
-	$(CLI) show reprepro -di s -s trusty,xenial -dt diff_-y_--suppress-common-lines >cliTestShow3.res 2>&1 $(EXP_OK)
+	$(CLI) show reprepro -di s -s trusty,xenial -dt diff,-y,--suppress-common-lines >cliTestShow3.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow3.ref cliTestShow3.res $(EXP_OK)
 	echo "OK"
 
