@@ -320,7 +320,7 @@ class RepoSuite:
                     if (requestComponents) and (not component in requestComponents):
                         continue
     
-                    res.add(QueryResult(requestedFields, pkg, v, self.records, self, source))
+                    res.add(QueryResult.createByAptPkgStructures(requestedFields, pkg, v, self.records, self, source))
         return res
 
 
@@ -431,10 +431,28 @@ class QueryResult:
         the requestedFields.
     '''
     
-    def __init__(self, requestedFields, pkg, version, curRecord, suite, source):
+    def __init__(self, fields, data):
         '''
-            This constructor creates a QueryResult for the requestedFields. The
-            corresponding data are collected from the provided objects:
+            This constructor creates a QueryResult for the list of PackageField fields
+            and their corresponding field-data (as a tuple)
+            
+            fields: List of type PackageField that describes which fields
+                             this QueryResult should carry.
+                             
+            data: tuple of values for each of the fields
+        '''
+        self.fields = fields
+        self.data = data
+        
+        
+    @staticmethod
+    def createByAptPkgStructures(requestedFields, pkg, version, curRecord, suite, source):
+        '''
+            This factory-method creates a QueryResult for the requestedFields. The
+            corresponding data are collected from the provided apt_pkg objects:
+            
+            requestedFields: List of type PackageField that describes which fields
+                             this QueryResult should carry.
             
             pkg: Object of type apt_pkg.Package (see apt_pkg docs)
             
@@ -451,9 +469,8 @@ class QueryResult:
                     curRecord.source_pkg to be empty, we force the caller to provide
                     the exact source name directly).
         '''
-        self.fields = requestedFields
         data = list()        
-        for field in self.fields:
+        for field in requestedFields:
             if field == PackageField.BINARY_PACKAGE_NAME:
                 data.append(pkg.name)
             elif field == PackageField.VERSION:
@@ -472,7 +489,8 @@ class QueryResult:
                 data.append(curRecord.long_desc)        
             elif field == PackageField.RECORD:
                 data.append(curRecord.record)        
-        self.data = tuple(data)
+        data = tuple(data)
+        return QueryResult(requestedFields, data)
 
 
     def getData(self):

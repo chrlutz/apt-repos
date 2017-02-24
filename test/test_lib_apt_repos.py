@@ -79,24 +79,24 @@ def testQueryResult():
         print("==========================")
         fields = PackageField.getByFieldsString(fieldsStr)
 
-        x = QueryResult(fields, a1, a1, a1, "mySuite", "a")
-        y = QueryResult(fields, a1, a1, a1, "otherSuite", "a")
+        x = QueryResult.createByAptPkgStructures(fields, a1, a1, a1, "mySuite", "a")
+        y = QueryResult.createByAptPkgStructures(fields, a1, a1, a1, "otherSuite", "a")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, a1, a1, a1, "mySuite", "a")
-        y = QueryResult(fields, a2, a2, a2, "mySuite", "a")
+        x = QueryResult.createByAptPkgStructures(fields, a1, a1, a1, "mySuite", "a")
+        y = QueryResult.createByAptPkgStructures(fields, a2, a2, a2, "mySuite", "a")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, a1, a1, a1, "mySuite", "a")
-        y = QueryResult(fields, b1, b1, b1, "mySuite", "b")
+        x = QueryResult.createByAptPkgStructures(fields, a1, a1, a1, "mySuite", "a")
+        y = QueryResult.createByAptPkgStructures(fields, b1, b1, b1, "mySuite", "b")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, b1, b1, b1, "mySuite", "b")
-        y = QueryResult(fields, b2, b2, b2, "mySuite", "b")
+        x = QueryResult.createByAptPkgStructures(fields, b1, b1, b1, "mySuite", "b")
+        y = QueryResult.createByAptPkgStructures(fields, b2, b2, b2, "mySuite", "b")
         compareAndPrintQueryResults(x, y)
 
-        x = QueryResult(fields, b1, b1, b1, "mySuite", "b")
-        y = QueryResult(fields, b3, b3, b3, "mySuite", "b")
+        x = QueryResult.createByAptPkgStructures(fields, b1, b1, b1, "mySuite", "b")
+        y = QueryResult.createByAptPkgStructures(fields, b3, b3, b3, "mySuite", "b")
         compareAndPrintQueryResults(x, y)
 
 
