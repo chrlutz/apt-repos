@@ -1,6 +1,8 @@
 EXP_OK := || exit 1
 EXP_FAIL := && exit 1 || true
 CLI := ../src/apt-repos -b $(realpath .)
+FINISHED_TEST = @echo "SUCCESSFULLY FINISHED TEST $@"; echo ""; echo "========================================================="
+STARTING_TEST = @echo "STARTING TEST $@"
 
 UNIT_TESTCASES = testPrintHelloWorld \
             testSuiteSelectors \
@@ -14,6 +16,7 @@ test: unittests clitests
 clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow
 
 unittests: clean 
+	$(STARTING_TEST)
 	for i in $(UNIT_TESTCASES); do \
                 echo ""; \
                 echo "----------------------------------------------------------"; \
@@ -26,13 +29,14 @@ unittests: clean
 		diff -u $${i}.ref $${i}.res $(EXP_OK); \
 		echo "OK"; \
 	done
+	$(FINISHED_TEST)
 
 clean:
 	rm -Rf *.res .apt-repos_cache
 
 
 _cliTestHelpSystem:
-	echo "----------------------------------------------------------"
+	$(STARTING_TEST)
 	$(CLI) >cliHelpTest1.res 2>&1 $(EXP_OK)
 	diff -u cliHelpTest1.ref cliHelpTest1.res $(EXP_OK)
 	
@@ -50,16 +54,16 @@ _cliTestHelpSystem:
 	
 	$(CLI) -h show >cliHelpTest6.res 2>&1 $(EXP_OK)
 	diff -u cliHelpTest6.ref cliHelpTest6.res $(EXP_OK)
-	echo "OK"
+	$(FINISHED_TEST)
 
 _cliTestSuites:
-	echo "----------------------------------------------------------"
+	$(STARTING_TEST)
 	$(CLI) suites >cliTestSuites1.res 2>&1 $(EXP_OK)
 	diff -u cliTestSuites1.ref cliTestSuites1.res $(EXP_OK)
-	echo "OK"
+	$(FINISHED_TEST)
 
 _cliTestLs:
-	echo "----------------------------------------------------------"
+	$(STARTING_TEST)
 	$(CLI) ls reprepro >cliTestLs1.res 2>&1 $(EXP_OK)
 	diff -u cliTestLs1.ref cliTestLs1.res $(EXP_OK)
 	
@@ -71,10 +75,10 @@ _cliTestLs:
 	
 	$(CLI) ls zim git -di a -dt diff,-y >cliTestLs4.res 2>&1 $(EXP_FAIL)
 	diff -u cliTestLs4.ref cliTestLs4.res $(EXP_OK)
-	echo "OK"
+	$(FINISHED_TEST)
 
 _cliTestShow:
-	echo "----------------------------------------------------------"
+	$(STARTING_TEST)
 	$(CLI) show reprepro >cliTestShow1.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow1.ref cliTestShow1.res $(EXP_OK)
 	
@@ -83,5 +87,5 @@ _cliTestShow:
 	
 	$(CLI) show reprepro -di s -s trusty,xenial -dt diff,-y,--suppress-common-lines >cliTestShow3.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow3.ref cliTestShow3.res $(EXP_OK)
-	echo "OK"
+	$(FINISHED_TEST)
 
