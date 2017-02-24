@@ -157,13 +157,14 @@ def main():
     logger = logging.getLogger('main')
     
     if "diff" in args.__dict__ and args.diff:
-        if len(args.diff) != 1:
+        diffField = args.diff.split("^")[0]
+        if len(diffField) != 1:
             args.sub_parser.print_usage()
-            print("-di needs exactly one character as argument. provided is: '{}'".format(args.diff), file=sys.stderr)
+            print("-di needs exactly one diffField character as argument. provided is: '{}'".format(diffField), file=sys.stderr)
             sys.exit(1)
-        elif not args.diff in args.columns:
+        elif not diffField in args.columns:
             args.sub_parser.print_usage()
-            print("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, args.diff), file=sys.stderr)
+            print("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, diffField), file=sys.stderr)
             sys.exit(1)
 
     if args.basedir:
@@ -286,7 +287,9 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
     logger = logging.getLogger('diff_formatter')
     
     # split result list at diffField into two different sets:
-    df = PackageField.getByFieldsString(diffField)[0]
+    dfParts = diffField.split("^")
+    df = PackageField.getByFieldsString(dfParts[0])[0]
+    dfIgnores = dfParts[1:]
     dropColumns = set()
     newFields = list()
     for x, field in enumerate(requestFields):
@@ -300,6 +303,8 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
         newResultSet = set()
         for x, d in enumerate(r.getData()):
             if x in dropColumns:
+                if d in dfIgnores:
+                    continue
                 aSet = newResults.get(d)
                 if not aSet:
                     aSet = set()
@@ -310,9 +315,10 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
         newResultSet.add(QueryResult(newFields, tuple(newData)))        
                 
     if len(newResults) != 2:
-        raise Exception("We got not exactly 2 differentiators for Diff-Field '{}'. We found: '{}'".format(
-                        df.getHeader(), 
-                        "', '".join(sorted(newResults.keys()))))
+        raise Exception("We got not exactly 2 differentiators for Diff-Field '{}'. We found: '{}'. Use -di {}^... to ignore results for one of these values."
+                        .format(df.getHeader(), 
+                                "', '".join(sorted(newResults.keys())),
+                                df.getChar()))
         
     tmpFiles = list()
     for part in sorted(newResults.keys()):            

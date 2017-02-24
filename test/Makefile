@@ -71,10 +71,11 @@ _cliTestLs:
 	diff -u cliTestLs2.ref cliTestLs2.res $(EXP_OK)
 	
 	$(CLI) ls zim -di a -dt diff,-y >cliTestLs3.res 2>&1 $(EXP_FAIL)
-	diff -u cliTestLs3.ref cliTestLs3.res $(EXP_OK)
 	
 	$(CLI) ls zim git -di a -dt diff,-y >cliTestLs4.res 2>&1 $(EXP_FAIL)
-	diff -u cliTestLs4.ref cliTestLs4.res $(EXP_OK)
+	
+	$(CLI) ls zim git -di a^all -dt diff,-y >cliTestLs5.res 2>&1 $(EXP_OK)
+	diff -u cliTestLs5.ref cliTestLs5.res $(EXP_OK)
 	$(FINISHED_TEST)
 
 _cliTestShow:
