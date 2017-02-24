@@ -1,12 +1,10 @@
 #!/bin/bash
 #
 # wrapper for calling ./apt_repos.py with the following tasks:
-# - cwd's to the current src folder
 # - suppress some unwanted stdout-output created by underlying
 #   apt-libs
 #
 
-cd $(dirname $(realpath $0))
-./apt_repos.py $@ \
+$(dirname $(realpath $0))/apt_repos.py $@ \
     | grep -v "Reading package lists..." \
     | grep -v "Building dependency tree..."
