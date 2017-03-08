@@ -290,7 +290,10 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
     dfParts = diffField.split("^")
     df = PackageField.getByFieldsString(dfParts[0])[0]
     dfIgnores = dfParts[1:]
-    dropColumns = set()
+    dropColumns = set() # implemented as a set because diffField could be in
+                        # requestFields multiple times. So we want to drop this
+                        # column multiple time - allways for the same diffField!
+                        # (this doesn't make much sense, but it could happen)
     newFields = list()
     for x, field in enumerate(requestFields):
         if field == df:
@@ -303,12 +306,12 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
         newResultSet = set()
         for x, d in enumerate(r.getData()):
             if x in dropColumns:
-                if d in dfIgnores:
+                if str(d) in dfIgnores:
                     continue
-                aSet = newResults.get(d)
+                aSet = newResults.get(str(d))
                 if not aSet:
                     aSet = set()
-                    newResults[d] = aSet
+                    newResults[str(d)] = aSet
                 newResultSet = aSet                
             else:
                 newData.append(d)
