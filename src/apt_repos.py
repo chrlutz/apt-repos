@@ -248,7 +248,7 @@ def table_formatter(result, requestFields, no_header, outfile):
     resultList = sorted(result)
 
     # calculate max col_widths (witch must be at least 1)
-    col_width = [max(len(x) for x in col) for col in zip(*result)]
+    col_width = [max(len(str(x)) for x in col) for col in zip(*result)]
     col_width = [max(1, w) for w in (col_width + [1]*(len(header)-len(col_width)))]
     if not no_header:
         # recalculate col_width for header, too
