@@ -1,0 +1,27 @@
+.TH apt-repos 1 2017\-03\-14
+.SH SYNOPSIS
+ \fBapt\-repos\fR [-h] [-b BASEDIR] {list,ls,suites,show} ...
+
+
+.SH DESCRIPTION
+UNKNOWN
+.SH OPTIONS
+  {list,ls,suites,show}
+                        choose one of these subcommands
+    list (ls)           search and list binary and source packages
+    suites              list configured suites
+    show                show details about packages similar to apt-cache show
+
+  -h, --help            Show a (subcommand specific) help message
+  -b BASEDIR, --basedir BASEDIR
+                        Set a new/custom basedir for config-data and caching.
+                        Please provide the basedir as an absolute path. The
+                        default is $HOME/.apt-repos. The basedir must at least
+                        contain a file named 'suites'. The cache will be
+                        created into a subfolder called '<basedir>/.apt-
+                        repos_cache'.
+.SH DISTRIBUTION
+ The latest version of apt-repos may be downloaded from UNKNOWN
+.SH AUTHORS
+ pwman3 was originally written by Ivan Kelly <ivan@ivankelly.net>.
+ pwman3 is now maintained by Oz Nahum <nahumoz@gmail.com>.

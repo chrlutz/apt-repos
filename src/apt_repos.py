@@ -42,9 +42,6 @@ from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField
 
 
 def main():
-    fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
-    ttyWidth = os.popen('stty size', 'r').read().split()[1]
-    diffToolDefault = "diff,--side-by-side,--suppress-common-lines,--width={}"
     
     # fixup to get help-messages for subcommands that require positional argmuments
     # so that "apt-repos -h <subcommand>" prints a help-message and not an error
@@ -52,6 +49,43 @@ def main():
        ("ls" in sys.argv or "show" in sys.argv):
         sys.argv.append(".")
     
+    parser = createArgparser()
+    args = parser.parse_args()
+
+    setupLogging(logging.DEBUG if args.debug else logging.WARN)
+    logger = logging.getLogger('main')
+    
+    if "diff" in args.__dict__ and args.diff:
+        diffField = args.diff.split("^")[0]
+        if len(diffField) != 1:
+            raise AnError("-di needs exactly one diffField character as argument. provided is: '{}'".format(diffField))
+        elif not diffField in args.columns:
+            raise AnError("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, diffField))
+
+    if args.basedir:
+        setAptReposBaseDir(args.basedir)
+    
+    if "sub_function" in args.__dict__:
+        if args.help:
+            args.sub_parser.print_help()
+            sys.exit(0)
+        else:
+            args.sub_function(args)
+            sys.exit(0)
+    else:
+        if args.help:
+            parser.print_help()
+            sys.exit(0)
+        else:
+            parser.print_usage()
+            sys.exit(1)
+
+
+def createArgparser(formatter_class=None):
+    fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
+    ttyWidth = os.popen('stty size', 'r').read().split()[1]
+    diffToolDefault = "diff,--side-by-side,--suppress-common-lines,--width={}"
+
     parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos", add_help=False)
     parser.add_argument("-h", "--help", action="store_true", help="""
                         Show a (subcommand specific) help message""")
@@ -152,36 +186,7 @@ def main():
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
-
-    args = parser.parse_args()
-
-    setupLogging(logging.DEBUG if args.debug else logging.WARN)
-    logger = logging.getLogger('main')
-    
-    if "diff" in args.__dict__ and args.diff:
-        diffField = args.diff.split("^")[0]
-        if len(diffField) != 1:
-            raise AnError("-di needs exactly one diffField character as argument. provided is: '{}'".format(diffField))
-        elif not diffField in args.columns:
-            raise AnError("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, diffField))
-
-    if args.basedir:
-        setAptReposBaseDir(args.basedir)
-    
-    if "sub_function" in args.__dict__:
-        if args.help:
-            args.sub_parser.print_help()
-            sys.exit(0)
-        else:
-            args.sub_function(args)
-            sys.exit(0)
-    else:
-        if args.help:
-            parser.print_help()
-            sys.exit(0)
-        else:
-            parser.print_usage()
-            sys.exit(1)
+    return parser
 
 
 def setupLogging(loglevel):

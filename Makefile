@@ -7,5 +7,8 @@ run_clitests:
 README.html: README.md
 	pandoc -f markdown -t html README.md >README.html
 
+manpages:
+	tools/build_manpages.py
+
 clean:
 	rm README.html
