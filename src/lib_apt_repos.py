@@ -423,6 +423,39 @@ class PackageField(Enum):
         return res
 
 
+class Priority(Enum):
+    '''
+        This Enum describes the values defined for Priority-Fields.
+    '''
+    REQUIRED = 1
+    IMPORTANT = 2
+    STANDARD = 3
+    OPTIONAL = 4
+    EXTRA = 5
+
+    def __str__(self):
+        return self.name.lower()
+
+    def __hash__(self):
+        return hash(self.value)
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __ne__(self, other):
+        return not(self == other)
+
+    def __lt__(self, other):
+        return self.value < other.value
+    
+    @staticmethod    
+    def getByInt(intVal):
+        for p in Priority:
+            if intVal == p.value:
+                return p
+        return Priority.EXTRA
+
+
 class QueryResult:
     '''
         A QueryResult is able to carry the requestedFields (and only the requestedFields)
@@ -480,7 +513,7 @@ class QueryResult:
             elif field == PackageField.SECTION:
                 data.append(version.section)
             elif field == PackageField.PRIORITY:
-                data.append(version.priority)
+                data.append(Priority.getByInt(version.priority))
             elif field == PackageField.SOURCE_PACKAGE_NAME:
                 data.append(source)
             elif field == PackageField.SUITE:
