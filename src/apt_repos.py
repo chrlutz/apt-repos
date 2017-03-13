@@ -63,8 +63,8 @@ def main():
     subparsers = parser.add_subparsers(help='choose one of these subcommands')
     parser.set_defaults(debug=False)
     
-    # args for subcommand ls
-    parse_ls = subparsers.add_parser('ls', help='search and list binary and source packages', description=ls.__doc__)
+    # args for subcommand list
+    parse_ls = subparsers.add_parser('list', aliases=['ls'], help='search and list binary and source packages', description=ls.__doc__)
     parse_ls.add_argument("-d", "--debug", action="store_true", help="""
                           Switch on debugging message printed to stderr.""")
     parse_ls.add_argument("-s", "--suite", default='default:', help="""
