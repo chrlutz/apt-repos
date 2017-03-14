@@ -4,7 +4,19 @@
 
 
 .SH DESCRIPTION
-UNKNOWN
+
+.br
+   Display information about binary PACKAGE(s) in diverse apt\-repositories and suites.
+.br
+   This tool uses apt\-mechanisms to scan for repositories/suites that are registered in
+.br
+   a suites\-file. For each repository/suite combination a local caching folder
+.br
+   is created in which downloaded Packages files are stored, similar to the cache
+.br
+   known from apt\-cache which lives in /var/lib/apt/lists.
+.br
+
 .SH OPTIONS
   {list,ls,suites,show}
                         choose one of these subcommands
@@ -20,8 +32,10 @@ UNKNOWN
                         contain a file named 'suites'. The cache will be
                         created into a subfolder called '<basedir>/.apt-
                         repos_cache'.
-.SH DISTRIBUTION
- The latest version of apt-repos may be downloaded from UNKNOWN
 .SH AUTHORS
- pwman3 was originally written by Ivan Kelly <ivan@ivankelly.net>.
- pwman3 is now maintained by Oz Nahum <nahumoz@gmail.com>.
+ apt-repos is written and maintained by Christoph Lutz <chrlutz@gmail.com>
+ with contributions from the Landeshauptstadt München.
+ Other contributors are welcome.
+.SH DISTRIBUTION
+ provided as debian-Packages created from the sources on github:
+ https://github.com/chrlutz/apt-repos

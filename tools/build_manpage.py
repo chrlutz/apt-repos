@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 """
-script to install pwman3
+manpage creation tooling derived from 'script to install pwman3'
 """
 
 import datetime
-from distutils.core import Command
-from distutils.errors import DistutilsOptionError
 import argparse
-from setuptools import setup
-from setuptools import find_packages
 import sys
 import os
 
@@ -50,86 +46,6 @@ add to your ```setup.cfg``` the following::
     output = <appname>.1
     parser = <path_to_your_parser>
 """
-
-
-# build.sub_commands.append(('build_manpage', None))
-
-class TestCommand(Command):
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        import sys, subprocess
-
-        raise SystemExit(
-            subprocess.call([sys.executable,
-                             '-m',
-                             'tests.test_pwman']))
-
-
-class BuildManPage(Command):
-
-    description = 'Generate man page from an ArgumentParser instance.'
-
-    user_options = [
-        ('output=', 'O', 'output file'),
-        ('parser=', None, 'module path to an ArgumentParser instance'
-         '(e.g. mymod:func, where func is a method or function which return'
-         'an arparse.ArgumentParser instance.'),
-    ]
-
-    def initialize_options(self):
-        self.output = None
-        self.parser = None
-
-    def finalize_options(self):
-        if self.output is None:
-            raise DistutilsOptionError('\'output\' option is required')
-        if self.parser is None:
-            raise DistutilsOptionError('\'parser\' option is required')
-        mod_name, func_name = self.parser.split(':')
-        fromlist = mod_name.split('.')
-        try:
-            mod = __import__(mod_name, fromlist=fromlist)
-            self._parser = getattr(mod, func_name)(
-                formatter_class=ManPageFormatter)
-
-        except ImportError as err:
-            raise err
-
-        self.announce('Writing man page %s' % self.output)
-        self._today = datetime.date.today()
-
-    def run(self):
-
-        dist = self.distribution
-        homepage = dist.get_url()
-        appname = self._parser.prog
-
-        sections = {'authors': ("pwman3 was originally written by Ivan Kelly "
-                                "<ivan@ivankelly.net>.\n pwman3 is now "
-                                "maintained "
-                                "by Oz Nahum <nahumoz@gmail.com>."),
-                    'distribution': ("The latest version of {} may be "
-                                     "downloaded from {}".format(appname,
-                                                                 homepage))
-                    }
-
-        dist = self.distribution
-        mpf = ManPageFormatter(appname,
-                               desc=dist.get_description(),
-                               long_desc=dist.get_long_description(),
-                               ext_sections=sections)
-
-        m = mpf.format_man_page(self._parser)
-
-        with open(self.output, 'w') as f:
-            f.write(m)
 
 
 class ManPageFormatter(argparse.HelpFormatter):
@@ -232,7 +148,7 @@ class ManPageFormatter(argparse.HelpFormatter):
             return ''
 
         footer = []
-        for section, value in sections.items():
+        for section, value in sorted(sections.items()):
             part = ".SH {}\n {}".format(section.upper(), value)
             footer.append(part)
 
@@ -290,75 +206,3 @@ class ManPageFormatter(argparse.HelpFormatter):
 
             return ', '.join(parts)
 
-
-class ManPageCreator(object):
-
-    """
-    This class takes a little different approach. Instead of relying on
-    information from ArgumentParser, it relies on information retrieved
-    from distutils.
-    This class makes it easy for package maintainer to create man pages in
-    cases, that there is no ArgumentParser.
-    """
-
-    def _mk_name(self, distribution):
-        """
-        """
-        return '.SH NAME\n%s \\- %s\n' % (distribution.get_name(),
-                                          distribution.get_description())
-
-sys.path.insert(0, os.getcwd())
-
-
-install_requires = ['colorama>=0.2.4', 'cryptography']
-
-if sys.platform.startswith('win'):
-    install_requires.append('pyreadline')
-
-
-long_description = u"""\
-Pwman3 aims to provide a simple but powerful commandline interface for
-password management.
-It allows one to store passwords in database locked by master password which
-is AES encrypted.
-Pwman3 supports MySQL, Postgresql and SQLite and even MongoDB"""
-
-packages = find_packages(exclude=['tests', 'pwman/ui/templates'])
-
-
-setup(name='pwman3',
-      version='0.9.3',
-      description=("a command line password manager with support for multiple"
-                   " databases."),
-      long_description=long_description,
-      author='Oz Nahum Tiram',
-      author_email='nahumoz@gmail.com',
-      url='http://pwman3.github.io/pwman3/',
-      license="GNU GPL",
-      packages=packages,
-      include_package_data=True,
-      zip_safe=False,
-      install_requires=install_requires,
-      keywords="password-manager crypto cli",
-      classifiers=['Environment :: Console',
-                   'Intended Audience :: End Users/Desktop',
-                   'Intended Audience :: Developers',
-                   'Intended Audience :: System Administrators',
-                   ('License :: OSI Approved :: GNU General Public License'
-                    ' v3 or later (GPLv3+)'),
-                   'Operating System :: OS Independent',
-                   'Programming Language :: Python',
-                   'Programming Language :: Python :: 3',
-                   'Programming Language :: Python :: 3.2',
-                   'Programming Language :: Python :: 3.3',
-                   'Programming Language :: Python :: 3.4',
-                   'Programming Language :: Python :: 3.5',
-                   ],
-      cmdclass={
-          'build_manpage': BuildManPage,
-          'test': TestCommand
-      },
-      entry_points={
-          'console_scripts': ['pwman3 = pwman.ui.cli:main']
-          }
-      )
