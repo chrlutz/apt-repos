@@ -159,13 +159,9 @@ def main():
     if "diff" in args.__dict__ and args.diff:
         diffField = args.diff.split("^")[0]
         if len(diffField) != 1:
-            args.sub_parser.print_usage()
-            print("-di needs exactly one diffField character as argument. provided is: '{}'".format(diffField), file=sys.stderr)
-            sys.exit(1)
+            raise AnError("-di needs exactly one diffField character as argument. provided is: '{}'".format(diffField))
         elif not diffField in args.columns:
-            args.sub_parser.print_usage()
-            print("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, diffField), file=sys.stderr)
-            sys.exit(1)
+            raise AnError("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, diffField))
 
     if args.basedir:
         setAptReposBaseDir(args.basedir)
@@ -176,6 +172,7 @@ def main():
             sys.exit(0)
         else:
             args.sub_function(args)
+            sys.exit(0)
     else:
         if args.help:
             parser.print_help()
@@ -318,7 +315,7 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
         newResultSet.add(QueryResult(newFields, tuple(newData)))        
                 
     if len(newResults) != 2:
-        raise Exception("We got not exactly 2 differentiators for Diff-Field '{}'. We found: '{}'. Use -di {}^... to ignore results for one of these values."
+        raise AnError("We got not exactly 2 differentiators for Diff-Field '{}'. We found: '{}'. Use -di {}^... to ignore results for one of these values."
                         .format(df.getHeader(), 
                                 "', '".join(sorted(newResults.keys())),
                                 df.getChar()))
@@ -375,8 +372,16 @@ def pp(show, message):
     '''
     if show:
         print(message, end='', flush=True, file=sys.stderr)
-        
+
     
+class AnError (Exception):
+    def __init__(self, message):
+        super(AnError, self).__init__("ERROR: " + message)
+
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (AnError) as e:
+        print("\n" + str(e) + "\n",  file=sys.stderr)
+        sys.exit(1)
