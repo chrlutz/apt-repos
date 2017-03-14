@@ -156,7 +156,7 @@ class ManPageFormatter(argparse.HelpFormatter):
 
     def format_man_page(self, parser):
         page = []
-        page.append(self._mk_title(self._prog))
+        page.append(self._mk_title(self._prog.replace(" ", "-")))
         page.append(self._mk_synopsis(parser))
         page.append(self._mk_description())
         page.append(self._mk_options(parser))

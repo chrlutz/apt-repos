@@ -1,0 +1,23 @@
+.TH apt-repos-suites 1 2017\-03\-14
+.SH SYNOPSIS
+ \fBapt\-repos suites\fR [-h] [-d] [-s SUITE] [-v]
+
+
+.SH DESCRIPTION
+subcommand suites: print a list of registered suites
+.SH OPTIONS
+  -h, --help            show this help message and exit
+  -d, --debug           Switch on debugging message printed to stderr.
+  -s SUITE, --suite SUITE
+                        Only show info for these SUITE(s). The list of SUITEs
+                        is specified comma-separated. The default value is ':'
+                        (all suites).
+  -v, --verbose         also print corresponding sources.list-entries for each
+                        suite
+.SH AUTHORS
+ apt-repos is written and maintained by Christoph Lutz <chrlutz@gmail.com>
+ with contributions from the Landeshauptstadt München.
+ Other contributors are welcome.
+.SH DISTRIBUTION
+ provided as debian-Packages created from the sources on github:
+ https://github.com/chrlutz/apt-repos

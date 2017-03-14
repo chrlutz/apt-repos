@@ -7,7 +7,7 @@ sys.path.append("tools/")
 from build_manpage import ManPageFormatter
 
 sys.path.append("src/")
-from apt_repos import createArgparser, __doc__
+from apt_repos import createArgparsers, __doc__, ls, show, suites
 
 
 def main():	
@@ -17,13 +17,17 @@ def main():
                'distribution': ("provided as debian-Packages created from the sources on github:\n "
                                 "https://github.com/chrlutz/apt-repos")
     }
-    parser = createArgparser()
 
-    createManpage(parser, 'apt-repos', __doc__, sections)
+    (parser, parser_ls, parser_show, parser_suites) = createArgparsers()
+
+    createManpage(parser, 'apt-repos', __doc__.strip(), sections)
+    createManpage(parser_ls, 'apt-repos ls', ls.__doc__.strip(), sections)
+    createManpage(parser_show, 'apt-repos show', show.__doc__.strip(), sections)
+    createManpage(parser_suites, 'apt-repos suites', suites.__doc__.strip(), sections)
 
 
 def createManpage(parser, appname, desc, sections):
-    filename="man/{}.1".format(appname)
+    filename="man/{}.1".format(appname.replace(" ", "-"))
     mpf = ManPageFormatter(appname, desc=desc, long_desc=desc, ext_sections=sections)
     m = mpf.format_man_page(parser)
     with open(filename, 'w') as f:

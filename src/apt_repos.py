@@ -49,7 +49,7 @@ def main():
        ("ls" in sys.argv or "show" in sys.argv):
         sys.argv.append(".")
     
-    parser = createArgparser()
+    parser = createArgparsers()[0]
     args = parser.parse_args()
 
     setupLogging(logging.DEBUG if args.debug else logging.WARN)
@@ -81,7 +81,7 @@ def main():
             sys.exit(1)
 
 
-def createArgparser(formatter_class=None):
+def createArgparsers():
     fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
     ttyWidth = os.popen('stty size', 'r').read().split()[1]
     diffToolDefault = "diff,--side-by-side,--suppress-common-lines,--width={}"
@@ -186,7 +186,7 @@ def createArgparser(formatter_class=None):
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
-    return parser
+    return (parser, parse_ls, parse_show, parse_suites)
 
 
 def setupLogging(loglevel):
