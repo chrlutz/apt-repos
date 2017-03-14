@@ -1,4 +1,4 @@
-usage: apt-repos [-h] [-b BASEDIR] {ls,suites,show} ...
+usage: apt-repos [-h] [-b BASEDIR] {list,ls,suites,show} ...
 
 Display information about binary PACKAGE(s) in diverse apt-repositories and
 suites. This tool uses apt-mechanisms to scan for repositories/suites that are
@@ -7,8 +7,9 @@ caching folder is created in which downloaded Packages files are stored,
 similar to the cache known from apt-cache which lives in /var/lib/apt/lists.
 
 positional arguments:
-  {ls,suites,show}      choose one of these subcommands
-    ls                  search and list binary and source packages
+  {list,ls,suites,show}
+                        choose one of these subcommands
+    list (ls)           search and list binary and source packages
     suites              list configured suites
     show                show details about packages similar to apt-cache show
 

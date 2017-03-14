@@ -1,0 +1,16 @@
+# ubuntu:trusty [archive:]
+deb http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+
+# ubuntu:trusty-security
+deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+deb-src http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+# ubuntu:xenial [archive:, default:]
+deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+
+# ubuntu:xenial-security [default:]
+deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
+deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
+

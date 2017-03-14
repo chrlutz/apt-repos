@@ -1,4 +1,4 @@
-ubuntu:trusty
-ubuntu:trusty-security
-ubuntu:xenial
-ubuntu:xenial-security
+# ubuntu:trusty [archive:]
+# ubuntu:trusty-security
+# ubuntu:xenial [archive:, default:]
+# ubuntu:xenial-security [default:]

@@ -134,7 +134,9 @@ class RepoSuite:
         self.sourcesListEntry = suiteDesc['SourcesList']
         self.hasDebSrc = suiteDesc.get('DebSrc')
         self.architectures = suiteDesc['Architectures'] 
-        self.trustedGPGFile = suiteDesc.get('TrustedGPG') 
+        self.trustedGPGFile = suiteDesc.get('TrustedGPG')
+        self.tags = suiteDesc["Tags"] if suiteDesc.get("Tags") else []
+
 
         # create caching structure
         dirs = [ "/etc/apt", "/var/lib/dpkg", "/var/cache/apt/archives/partial", "/var/lib/apt/lists/partial" ]
@@ -229,11 +231,21 @@ class RepoSuite:
         ''' 
         return self.suite
 
+
+    def getTags(self):
+        '''
+            Returns the tags that are assigned to the suite.
+        '''
+        return self.tags
+
+
     def __len__(self):
         return len(self.suite)
 
+
     def __str__(self):
         return self.suite
+
 
     def __hash__(self):
         return hash((self.suite))

@@ -60,6 +60,12 @@ _cliTestSuites:
 	$(STARTING_TEST)
 	$(CLI) suites >cliTestSuites1.res 2>&1 $(EXP_OK)
 	diff -u cliTestSuites1.ref cliTestSuites1.res $(EXP_OK)
+	
+	$(CLI) suites --verbose >cliTestSuites2.res 2>&1 $(EXP_OK)
+	diff -u cliTestSuites2.ref cliTestSuites2.res $(EXP_OK)
+	
+	$(CLI) suites --verbose -s trusty >cliTestSuites3.res 2>&1 $(EXP_OK)
+	diff -u cliTestSuites3.ref cliTestSuites3.res $(EXP_OK)
 	$(FINISHED_TEST)
 
 _cliTestLs:
@@ -71,8 +77,10 @@ _cliTestLs:
 	diff -u cliTestLs2.ref cliTestLs2.res $(EXP_OK)
 	
 	$(CLI) ls zim -di a -dt diff,-y >cliTestLs3.res 2>&1 $(EXP_FAIL)
+	diff -u cliTestLs3.ref cliTestLs3.res $(EXP_OK)
 	
 	$(CLI) ls zim git -di a -dt diff,-y >cliTestLs4.res 2>&1 $(EXP_FAIL)
+	diff -u cliTestLs4.ref cliTestLs4.res $(EXP_OK)
 	
 	$(CLI) ls zim git -di a^all -dt diff,-y >cliTestLs5.res 2>&1 $(EXP_OK)
 	diff -u cliTestLs5.ref cliTestLs5.res $(EXP_OK)

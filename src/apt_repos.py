@@ -112,6 +112,8 @@ def main():
     parse_suites.add_argument("-s", "--suite", default=':', help="""
                               Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
                               The default value is ':' (all suites).""")
+    parse_suites.add_argument("-v", "--verbose", action="store_true", help="""
+                              also print corresponding sources.list-entries for each suite""")
     parse_suites.set_defaults(sub_function=suites, sub_parser=parse_suites)
 
     # args for subcommand show
@@ -202,7 +204,10 @@ def suites(args):
     logger = logging.getLogger('suites')
     suites = getSuites(args.suite.split(','))
     for s in sorted(suites):
-        print(s.getSuiteName())
+        print("# {}{}".format(s.getSuiteName(), (" [" + (":, ".join(sorted(s.getTags())) + ":]")) if len(s.getTags()) > 0 else ""))
+        if args.verbose:
+            print(s.getSourcesList() + "\n")
+
 
 
 def show(args):

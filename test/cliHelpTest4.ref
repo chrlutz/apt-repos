@@ -1,4 +1,4 @@
-usage: apt-repos suites [-h] [-d] [-s SUITE]
+usage: apt-repos suites [-h] [-d] [-s SUITE] [-v]
 
 subcommand suites: print a list of registered suites
 
@@ -9,3 +9,5 @@ optional arguments:
                         Only show info for these SUITE(s). The list of SUITEs
                         is specified comma-separated. The default value is ':'
                         (all suites).
+  -v, --verbose         also print corresponding sources.list-entries for each
+                        suite

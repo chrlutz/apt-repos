@@ -1,0 +1,4 @@
+# ubuntu:trusty [archive:]
+deb http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+
