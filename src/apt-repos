@@ -7,4 +7,6 @@
 
 $(dirname $(realpath $0))/apt_repos.py $@ \
     | grep -v "Reading package lists..." \
-    | grep -v "Building dependency tree..."
+    | grep -v "Building dependency tree..." \
+    | grep -v "Abhängigkeitsbaum wird aufgebaut..." \
+    | grep -v "Paketlisten werden gelesen"
