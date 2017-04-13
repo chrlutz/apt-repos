@@ -324,7 +324,7 @@ class RepoSuite:
                     if (requestArchs) and (not v.arch in requestArchs):
                         continue
         
-                    parts = v.section.split("/")
+                    parts = v.section.split("/", 1)
                     if len(parts) == 1:
                         component, section = "main", parts[0]
                     else:
