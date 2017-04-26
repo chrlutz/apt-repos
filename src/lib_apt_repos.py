@@ -439,11 +439,11 @@ class Priority(Enum):
     '''
         This Enum describes the values defined for Priority-Fields.
     '''
-    REQUIRED = 1
-    IMPORTANT = 2
-    STANDARD = 3
-    OPTIONAL = 4
-    EXTRA = 5
+    REQUIRED = apt_pkg.PRI_REQUIRED
+    IMPORTANT = apt_pkg.PRI_IMPORTANT
+    STANDARD = apt_pkg.PRI_STANDARD
+    OPTIONAL = apt_pkg.PRI_OPTIONAL
+    EXTRA = apt_pkg.PRI_EXTRA
 
     def __str__(self):
         return self.name.lower()
