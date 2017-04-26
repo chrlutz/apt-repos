@@ -404,6 +404,8 @@ class PackageField(Enum):
     SOURCE_PACKAGE_NAME = ('C', 'Source')
     LONG_DESC = ('L', 'Long-Desc')
     RECORD = ('R', 'Full-Record')
+    BASE_URL = ('B', 'Base-Url')
+    FILENAME = ('F', 'File-Url')
 
     def __str__(self):
         return "<PackageField.{}>".format(self.name)
@@ -534,6 +536,18 @@ class QueryResult:
                 data.append(curRecord.long_desc)        
             elif field == PackageField.RECORD:
                 data.append(curRecord.record)        
+            elif field == PackageField.BASE_URL:
+                sourcesListEntry = re.sub('^deb(?:\s+\[.*\])?\s+', '', suite.sourcesListEntry)
+                sourcesListEntry = sourcesListEntry.split(None, 1)[0]
+                data.append(sourcesListEntry)
+            elif field == PackageField.FILENAME:
+                sourcesListEntry = re.sub('^deb(?:\s+\[.*\])?\s+', '', suite.sourcesListEntry)
+                sourcesListEntry = sourcesListEntry.split(None, 1)[0]
+                if not sourcesListEntry.endswith('/'):
+                    sourcesListEntry += '/'
+
+                filename = sourcesListEntry + curRecord.filename
+                data.append(filename)
         data = tuple(data)
         return QueryResult(requestedFields, data)
 
