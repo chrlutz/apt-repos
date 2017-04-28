@@ -43,7 +43,7 @@ optional arguments:
                         'pvsaSC'. Possible characters are: (p)=Package,
                         (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
                         (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
-                        Record
+                        Record, (B)=Base-Url, (F)=File-Url
   -f {table,list}, --format {table,list}
                         Specifies the output-format of the package list.
                         Default is 'table'. Possible values: 'table' to pretty
