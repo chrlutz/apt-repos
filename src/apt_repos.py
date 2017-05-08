@@ -83,7 +83,10 @@ def main():
 
 def createArgparsers():
     fieldChars = ", ".join(["({})={}".format(f.getChar(), f.getHeader()) for f in PackageField])
-    ttyWidth = os.popen('stty size', 'r').read().split()[1]
+    if sys.stdout.isatty():
+        ttyWidth = os.popen('stty size', 'r').read().split()[1]
+    else:
+        ttyWidth = 80
     diffToolDefault = "diff,--side-by-side,--suppress-common-lines,--width={}"
 
     parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos", add_help=False)
