@@ -46,7 +46,7 @@ from os.path import expanduser
 from enum import Enum
 
 
-__baseDirs = [ expanduser('~') + '/.apt-repos', '/etc/apt-repos' ]
+__baseDirs = [ expanduser('~') + '/.config/apt-repos', expanduser('~') + '/.apt-repos', '/etc/apt-repos' ]
 __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
 
 
@@ -65,19 +65,25 @@ def setAptReposBaseDir(dir):
 def getSuites(selectors=None):
     logger = logging.getLogger('getSuites')
     
-    suitesData = []
+    suitesData = dict() # map of filename --> (jsonData, basedir)
+    suitesCount = 0
     for basedir in __baseDirs:
         if not os.path.isdir(basedir):
             if len(suitesData) == 0:
                 logger.warning("BaseDir {} doesn't exist".format(basedir))
             continue
-        for filename in sorted(os.listdir(basedir)):
-            filename = basedir + "/" + filename
+        for f in sorted(os.listdir(basedir)):
+            if f in suitesData:
+                continue
+            filename = basedir + "/" + f
             if os.path.isfile(filename) and str(filename).endswith(".suites"):
                 logger.debug("reading suites file " + filename)
                 with open(filename, 'r') as file:
-                    suitesData.extend(json.load(file))
-    if len(suitesData) == 0:
+                    jsonData = json.load(file)
+                    suitesData[f] = (jsonData, basedir)
+                    suitesCount += len(jsonData)
+                    
+    if suitesCount == 0:
         logger.warning("No *.suites-files or no suites-data found in the directories '" + "', '".join(__baseDirs) + "'")
         
     if not selectors:
@@ -92,18 +98,21 @@ def getSuites(selectors=None):
         else:
             srepo, ssuiteName = parts
         
-        for i, suiteDesc in enumerate(suitesData):
-            tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
+        count = 0
+        for key, (suiteDescs, basedir) in suitesData.items():
+            for suiteDesc in suiteDescs:
+                count+=1
+                tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
 
-            parts = suiteDesc["Suite"].split(":", 1)
-            if len(parts) == 1:
-                repo, suiteName = ("", parts[0])
-            else:
-                repo, suiteName = parts
+                parts = suiteDesc["Suite"].split(":", 1)
+                if len(parts) == 1:
+                    repo, suiteName = ("", parts[0])
+                else:
+                    repo, suiteName = parts
                 
-            if (repo.startswith(srepo) or srepo in tags) and \
-               (suiteName == ssuiteName or ssuiteName == ""):
-                selected.add(RepoSuite(__baseDirs[0], __cacheDir, suiteDesc, i))
+                if (repo.startswith(srepo) or srepo in tags) and \
+                   (suiteName == ssuiteName or ssuiteName == ""):
+                    selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
                 
     return selected
     
