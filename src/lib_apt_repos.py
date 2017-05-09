@@ -70,7 +70,7 @@ def getSuites(selectors=None):
     for basedir in __baseDirs:
         if not os.path.isdir(basedir):
             if len(suitesData) == 0:
-                logger.warning("BaseDir {} doesn't exist".format(basedir))
+                logger.debug("Skipping BaseDir {} which doesn't exist".format(basedir))
             continue
         for f in sorted(os.listdir(basedir)):
             if f in suitesData:
