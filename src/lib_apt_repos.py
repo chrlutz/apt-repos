@@ -232,6 +232,16 @@ class RepoSuite:
         return None
         
 
+    def getDistsURL(self):
+        '''
+            Returns an URL to the dists-folder for the suite in the form <REPO_URL>/dists/<SUITENAME>
+        '''
+        entries = str(self.sourcesListEntry).split(" ")
+        if "[" in entries[1] and "]" in entries[1]:
+            return "{}/dists/{}".format(entries[2].rstrip('/'), entries[3])
+        return "{}/dists/{}".format(entries[1].rstrip('/'), entries[2])
+
+
     def getSuiteName(self):
         '''
             Returns the full suite name (consisting of <repository>:<suitename>) of this

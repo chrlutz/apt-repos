@@ -1,0 +1,21 @@
+INFO     Setting new BaseDir: .
+ubuntu:trusty
+http://de.archive.ubuntu.com/ubuntu/dists/trusty
+deb http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+
+ubuntu:trusty-security
+http://security.ubuntu.com/ubuntu/dists/trusty-security
+deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+deb-src http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
+ubuntu:xenial
+http://de.archive.ubuntu.com/ubuntu/dists/xenial
+deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+
+ubuntu:xenial-security
+http://security.ubuntu.com/ubuntu/dists/xenial-security
+deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
+deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
+

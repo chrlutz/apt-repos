@@ -44,6 +44,15 @@ def testSuiteSelectors():
         dumpSelectedSuites(getSuites(selector), selector)
 
 
+def testSuiteProperties():
+    setAptReposBaseDir(".")
+    for s in sorted(getSuites([":"])):
+        print(s.getSuiteName())
+        print(s.getDistsURL())
+        print(s.getSourcesList())
+        print()
+
+
 def dumpSelectedSuites(suites, selectors):
     print("\nSelected suites for selectors: " + (", ".join(selectors) if selectors else str(selectors)))
     for s in sorted(suites):

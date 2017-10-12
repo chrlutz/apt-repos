@@ -6,6 +6,7 @@ STARTING_TEST = @echo "STARTING TEST $@"
 
 UNIT_TESTCASES = testPrintHelloWorld \
             testSuiteSelectors \
+            testSuiteProperties \
             testGetPackageFields \
             testQueryResult \
             testQueryPackages \
