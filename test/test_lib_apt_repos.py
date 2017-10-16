@@ -48,7 +48,7 @@ def testSuiteProperties():
     setAptReposBaseDir(".")
     for s in sorted(getSuites([":"])):
         print(s.getSuiteName())
-        print(s.getDistsURL())
+        print(s.getDistsUrl())
         print(s.getSourcesList())
         print()
 

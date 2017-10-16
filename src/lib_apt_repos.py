@@ -232,9 +232,9 @@ class RepoSuite:
         return None
         
 
-    def getDistsURL(self):
+    def getDistsUrl(self):
         '''
-            Returns an URL to the dists-folder for the suite in the form <REPO_URL>/dists/<SUITENAME>
+            Returns an Url to the dists-folder for the suite in the form <REPO_URL>/dists/<SUITENAME>
         '''
         entries = str(self.sourcesListEntry).split(" ")
         if "[" in entries[1] and "]" in entries[1]:
