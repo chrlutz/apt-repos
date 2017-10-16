@@ -232,14 +232,65 @@ class RepoSuite:
         return None
         
 
+    def hasSources(self):
+        '''
+            Returns if this suite is configured to contain sources
+        '''
+        return self.hasDebSrc
+
+
+    def getRepoUrl(self):
+        '''
+            Returns the Repository-Url
+        '''
+        (mod, url, suite, components) = self._parsedSourceListEntry()
+        return url
+
+
     def getDistsUrl(self):
         '''
             Returns an Url to the dists-folder for the suite in the form <REPO_URL>/dists/<SUITENAME>
         '''
-        entries = str(self.sourcesListEntry).split(" ")
-        if "[" in entries[1] and "]" in entries[1]:
-            return "{}/dists/{}".format(entries[2].rstrip('/'), entries[3])
-        return "{}/dists/{}".format(entries[1].rstrip('/'), entries[2])
+        (mod, url, suite, components) = self._parsedSourceListEntry()
+        return "{}/dists/{}".format(url.rstrip('/'), suite)
+
+
+    def getAptSuite(self):
+        '''
+            Returns the suite set in the apt.conf line
+        '''
+        (mod, url, suite, components) = self._parsedSourceListEntry()
+        return suite
+
+
+    def getComponents(self):
+        '''
+            Returns the suite set in the apt.conf line
+        '''
+        (mod, url, suite, components) = self._parsedSourceListEntry()
+        return components
+
+
+    def _parsedSourceListEntry(self):
+        '''
+           Returns (modifier, url, suite, components)
+           from the sourcesListEntry
+        '''
+        parts = str(self.sourcesListEntry).split(" ")
+        if "[" in parts[1] and "]" in parts[1]:
+            mod = parts[1]
+            parts = parts[2:]
+        else:
+            mod = None
+            parts = parts[1:]
+        return (mod, parts[0], parts[1], parts[2:])
+
+
+    def getArchitectures(self):
+        '''
+            Returns the architectures, the suite is configured for
+        '''
+        return self.architectures
 
 
     def getSuiteName(self):
