@@ -189,7 +189,27 @@ def createArgparsers():
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
-    return (parser, parse_ls, parse_show, parse_suites)
+
+    # args for subcommand dsc
+    parse_dsc = subparsers.add_parser('dsc', help='list urls of dsc-files for particular source-packages.', description=dsc.__doc__)
+    parse_dsc.add_argument("-d", "--debug", action="store_true", help="""
+                              Switch on debugging message printed to stderr.""")
+    parse_dsc.add_argument("-s", "--suite", default='default:', help="""
+                              Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                              The list of suites is read in the specified order (this is interesting together with --first).
+                              The default value is 'default:'.""")
+    parse_dsc.add_argument("-c", "--component", help="""
+                              Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
+                              Note: component and section fields are not exactly the same. A component is only the first part
+                              of a section (everything before the '/'). There is also a special treatment for sections
+                              in the component 'main', in which case 'main/' is typically not named in a section-field.
+                              For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
+    parse_dsc.add_argument("-1", "--first", action="store_true", default=False, help="Query only for the first matching dsc file, then skip the others.")
+    parse_dsc.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
+    parse_dsc.add_argument('package', nargs='+', help='Name of a source PACKAGE')
+    parse_dsc.set_defaults(sub_function=dsc, sub_parser=parse_dsc)
+
+    return (parser, parse_ls, parse_show, parse_suites, parse_dsc)
 
 
 def setupLogging(loglevel):
@@ -251,6 +271,86 @@ def ls(args):
         diff_formatter(result, requestFields, args.diff, args.diff_tool, args.no_header, list_formatter)            
     else:
         formatter(result, requestFields, args.no_header, sys.stdout)
+
+
+def dsc(args):
+    '''
+       subcommand dsc: list urls of dsc-files available for source-packages.
+    '''
+    logger = logging.getLogger('dsc')
+
+    suites = getSuites(args.suite.split(','))
+    requestPackages = { p for p in args.package }
+    requestComponents = { c for c in args.component.split(',') } if args.component else {}
+
+    showProgress = True
+    pp(showProgress, "{}querying sources lists for {} suites".format(
+        "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
+
+    urls = list()
+    for x, suite in enumerate(suites):
+        pp(showProgress, ".{}".format(x+1))
+        res = queryDscFiles(suite, requestPackages, requestComponents, logger, not args.no_update, args.first)
+        if res:
+            urls.extend(res)
+        if args.first and len(urls) > 0:
+            break
+    pp(showProgress, '\n')
+
+    for url in urls:
+        print(url)
+
+
+def queryDscFiles(suite, requestPackages, requestComponents, logger, update, first):
+    '''
+       queries for DSC-Files in sources lists provided by the apt_repos.Suite suite,
+       - Matching all packages in requestPackages (yet, matching the exact name only) 
+       - and from the requestedComponents (also exact match)
+       - Printing debugging information to logger
+       - Updating during scan if update==True
+       - Returning immediately after the first match if first==True
+       - Returning a list of urls to DSC-Files
+    '''
+    import apt_pkg
+    result = list()
+    logger.debug("querying sources from " + suite.getSuiteName())
+    suite.scan(update)
+    sourcesFiles = suite.getSourcesFiles()
+    if not sourcesFiles:
+        logger.debug("no sources files for suite {}".format(suite.getSuiteName()))
+        return
+    for sourcesFile in sourcesFiles: # there's one sourcesFile per component
+        # skip unrequested components:
+        # TODO: this is too much implementation specific to the apt_pkg lib... improve if possible
+        m = re.search("^.*_([^_]+)_source_Sources$", sourcesFile)
+        if not m:
+            raise AnError("Sorry, I can't extract a component name from the sources file name {}".format(sourcesFile))
+        component = m.group(1)
+        if len(requestComponents) > 0 and not component in requestComponents:
+            logger.debug("skipping component {} as not requested in --component".format(component))
+            continue
+
+        logger.debug("parsing sources file {}".format(sourcesFile))
+        with open(sourcesFile, 'r') as f:
+            tagfile = apt_pkg.TagFile(f)
+            for package in tagfile:
+                name = package['Package']
+                if not name in requestPackages:
+                    continue
+                dscFile = None
+                for f in package['Files'].split("\n"):
+                    (md5, size, fname) = f.strip().split(" ")
+                    if fname.endswith(".dsc"):
+                        dscFile = fname
+                if not dscFile:
+                    logger.warn("Did't find a dsc-file in Files-Attribute:\n{}".format(package['Files']))
+                    continue
+                path = os.path.join(package['Directory'], dscFile)
+                url = os.path.join(suite.getRepoUrl(), path)
+                result.append(url)
+                if first:
+                    return result
+    return result
 
 
 def table_formatter(result, requestFields, no_header, outfile):
