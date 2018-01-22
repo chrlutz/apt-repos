@@ -7,7 +7,7 @@ sys.path.append("tools/")
 from build_manpage import ManPageFormatter
 
 sys.path.append("src/")
-from apt_repos import createArgparsers, __doc__, ls, show, suites
+from apt_repos import createArgparsers, __doc__, ls, show, suites, dsc
 
 
 def main():	
@@ -18,10 +18,11 @@ def main():
                                 "https://github.com/chrlutz/apt-repos")
     }
 
-    (parser, parser_ls, parser_show, parser_suites) = createArgparsers()
+    (parser, parser_ls, parser_show, parser_suites, parser_dsc) = createArgparsers()
 
     createManpage(parser, 'apt-repos', __doc__.strip(), sections)
     createManpage(parser_ls, 'apt-repos ls', ls.__doc__.strip(), sections)
+    createManpage(parser_dsc, 'apt-repos dsc', dsc.__doc__.strip(), sections)
     createManpage(parser_show, 'apt-repos show', show.__doc__.strip(), sections)
     createManpage(parser_suites, 'apt-repos suites', suites.__doc__.strip(), sections)
 

@@ -1,0 +1,39 @@
+.TH apt-repos-dsc 1 2018\-01\-22
+.SH SYNOPSIS
+ \fBapt\-repos dsc\fR [-h] [-d] [-s SUITE] [-c COMPONENT] [-1] [-nu]
+              package [package ...]
+
+
+.SH DESCRIPTION
+subcommand dsc: list urls of dsc\-files available for source\-packages.
+.SH OPTIONS
+  package               Name of a source PACKAGE
+
+  -h, --help            show this help message and exit
+  -d, --debug           Switch on debugging message printed to stderr.
+  -s SUITE, --suite SUITE
+                        Only show info for these SUITE(s). The list of SUITEs
+                        is specified comma-separated. The list of suites is
+                        read in the specified order (this is interesting
+                        together with --first). The default value is
+                        'default:'.
+  -c COMPONENT, --component COMPONENT
+                        Only show info for COMPONENT(s). The list of
+                        COMPONENTs is specified comma-separated. Note:
+                        component and section fields are not exactly the same.
+                        A component is only the first part of a section
+                        (everything before the '/'). There is also a special
+                        treatment for sections in the component 'main', in
+                        which case 'main/' is typically not named in a
+                        section-field. For this switch -c we have to specify
+                        'main' to see packages from the component 'main'.
+  -1, --first           Query only for the first matching dsc file, then skip
+                        the others.
+  -nu, --no-update      Skip downloading of packages list.
+.SH AUTHORS
+ apt-repos is written and maintained by Christoph Lutz <chrlutz@gmail.com>
+ with contributions from the Landeshauptstadt München.
+ Other contributors are welcome.
+.SH DISTRIBUTION
+ provided as debian-Packages created from the sources on github:
+ https://github.com/chrlutz/apt-repos
