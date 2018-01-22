@@ -14,10 +14,13 @@ subcommand dsc: list urls of dsc\-files available for source\-packages.
   -s SUITE, --suite SUITE
                         Only show info for these SUITE(s). The list of SUITEs
                         is specified comma-separated. The list of suites is
-                        scanned in the reverse order of the suites specified
-                        in the corresponding *.suites-file. This is in
-                        particular interesting together with --first. The
-                        default value is 'default:'.
+                        scanned in the specified order. If the list contains a
+                        tag or a selector that matches multiple suites (e.g.
+                        default:), these suites are scanned in reverse order
+                        as specified in the corresponding *.suites-file. This
+                        specific ordering is in particular interesting
+                        together with --first. The default value is
+                        'default:'.
   -c COMPONENT, --component COMPONENT
                         Only show info for COMPONENT(s). The list of
                         COMPONENTs is specified comma-separated. Note:

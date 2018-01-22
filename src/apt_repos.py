@@ -196,8 +196,10 @@ def createArgparsers():
                               Switch on debugging message printed to stderr.""")
     parse_dsc.add_argument("-s", "--suite", default='default:', help="""
                               Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                              The list of suites is scanned in the reverse order of the suites specified in the
-                              corresponding *.suites-file. This is in particular interesting together with --first.
+                              The list of suites is scanned in the specified order. If the list contains a tag
+                              or a selector that matches multiple suites (e.g. default:), these suites are scanned
+                              in reverse order as specified in the corresponding *.suites-file.
+                              This specific ordering is in particular interesting together with --first.
                               The default value is 'default:'.""")
     parse_dsc.add_argument("-c", "--component", help="""
                               Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
@@ -282,7 +284,11 @@ def dsc(args):
     '''
     logger = logging.getLogger('dsc')
 
-    suites = getSuites(args.suite.split(','))
+    # parse --suite and determine the specific suite scan-order
+    suites = list()
+    for selector in args.suite.split(','):
+        suites.extend(sorted(getSuites([selector]), reverse=True))
+    
     requestPackages = { p for p in args.package }
     requestComponents = { c for c in args.component.split(',') } if args.component else {}
 
@@ -294,11 +300,12 @@ def dsc(args):
     for package in requestPackages: # pre-seed results
         results[package] = list()
 
-    for x, suite in enumerate(sorted(suites, reverse=True)):
+    for x, suite in enumerate(suites):
         pp(showProgress, ".{}".format(x+1))
         queryDscFiles(results, suite, requestComponents, logger, not args.no_update, args.first)
         if args.first and gotAllFirsts(results):
            break
+
     pp(showProgress, '\n')
 
     for package, urls in sorted(results.items()):
