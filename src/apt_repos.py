@@ -290,32 +290,33 @@ def dsc(args):
     pp(showProgress, "{}querying sources lists for {} suites".format(
         "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
 
-    urls = list()
+    results = {}
+    for package in requestPackages: # pre-seed results
+        results[package] = list()
+
     for x, suite in enumerate(sorted(suites, reverse=True)):
         pp(showProgress, ".{}".format(x+1))
-        res = queryDscFiles(suite, requestPackages, requestComponents, logger, not args.no_update, args.first)
-        if res:
-            urls.extend(res)
-        if args.first and len(urls) > 0:
-            break
+        queryDscFiles(results, suite, requestComponents, logger, not args.no_update, args.first)
+        if args.first and gotAllFirsts(results):
+           break
     pp(showProgress, '\n')
 
-    for url in urls:
-        print(url)
+    for package, urls in sorted(results.items()):
+        for url in urls[: 1 if (args.first and len(urls) > 0) else len(urls)]:
+            print(url)
 
 
-def queryDscFiles(suite, requestPackages, requestComponents, logger, update, first):
+def queryDscFiles(results, suite, requestComponents, logger, update, first):
     '''
        queries for DSC-Files in sources lists provided by the apt_repos.Suite suite,
-       - Matching all packages in requestPackages (yet, matching the exact name only) 
-       - and from the requestedComponents (also exact match)
+       - Find a source package for each key in results (yet, matching the exact package name only) 
        - Printing debugging information to logger
-       - Updating during scan if update==True
-       - Returning immediately after the first match if first==True
-       - Returning a list of urls to DSC-Files
+       - Updating ReposSuite during scan if update==True
+       - Don't neccissarily collect more than one URL for a package if first==True
+       - adds all found dsc-files to results
+       - results is a hash map with key ("package name") to a "list of urls" mapping
     '''
     import apt_pkg
-    result = list()
     logger.debug("querying sources from " + suite.getSuiteName())
     suite.scan(update)
     sourcesFiles = suite.getSourcesFiles()
@@ -338,7 +339,8 @@ def queryDscFiles(suite, requestPackages, requestComponents, logger, update, fir
             tagfile = apt_pkg.TagFile(f)
             for package in tagfile:
                 name = package['Package']
-                if not name in requestPackages:
+                urls = results.get(name) # results is pre-seeded with the requested packages
+                if urls == None:
                     continue
                 dscFile = None
                 for f in package['Files'].split("\n"):
@@ -350,10 +352,19 @@ def queryDscFiles(suite, requestPackages, requestComponents, logger, update, fir
                     continue
                 path = os.path.join(package['Directory'], dscFile)
                 url = os.path.join(suite.getRepoUrl(), path)
-                result.append(url)
-                if first:
-                    return result
-    return result
+                urls.append(url)
+                if first and gotAllFirsts(results):
+                    return
+    return
+
+
+def gotAllFirsts(results):
+    if not results:
+        return True
+    for package, urls in results.items():
+        if len(urls) == 0:
+            return False
+    return True
 
 
 def table_formatter(result, requestFields, no_header, outfile):

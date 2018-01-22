@@ -115,5 +115,11 @@ _cliTestDsc:
 	
 	$(CLI) dsc -c universe -s ubuntu: reprepro >cliTestDsc5.res 2>&1 $(EXP_OK)
 	diff -u cliTestDsc5.ref cliTestDsc5.res $(EXP_OK)	
+
+	$(CLI) dsc reprepro zim git >cliTestDsc6.res 2>&1 $(EXP_OK)
+	diff -u cliTestDsc6.ref cliTestDsc6.res $(EXP_OK)	
+
+	$(CLI) dsc -1 reprepro zim git >cliTestDsc7.res 2>&1 $(EXP_OK)
+	diff -u cliTestDsc7.ref cliTestDsc7.res $(EXP_OK)	
 	$(FINISHED_TEST)
 
