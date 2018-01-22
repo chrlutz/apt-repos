@@ -14,7 +14,7 @@ UNIT_TESTCASES = testPrintHelloWorld \
 
 test: unittests clitests
 
-clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow
+clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow _cliTestDsc
 
 unittests: clean 
 	$(STARTING_TEST)
@@ -97,5 +97,23 @@ _cliTestShow:
 	
 	$(CLI) show reprepro -di s -s trusty,xenial -dt diff,-y,--suppress-common-lines >cliTestShow3.res 2>&1 $(EXP_OK)
 	diff -u cliTestShow3.ref cliTestShow3.res $(EXP_OK)
+	$(FINISHED_TEST)
+
+_cliTestDsc:
+	$(STARTING_TEST)
+	$(CLI) dsc reprepro >cliTestDsc1.res 2>&1 $(EXP_OK)
+	diff -u cliTestDsc1.ref cliTestDsc1.res $(EXP_OK)
+	
+	$(CLI) dsc -s ubuntu: reprepro >cliTestDsc2.res 2>&1 $(EXP_OK)
+	diff -u cliTestDsc2.ref cliTestDsc2.res $(EXP_OK)
+	
+	$(CLI) dsc -s ubuntu: notexistent >cliTestDsc3.res 2>&1 $(EXP_FAIL)
+	diff -u cliTestDsc3.ref cliTestDsc3.res $(EXP_OK)
+	
+	$(CLI) dsc -c main -s ubuntu: reprepro >cliTestDsc4.res 2>&1 $(EXP_FAIL)
+	diff -u cliTestDsc4.ref cliTestDsc4.res $(EXP_OK)
+	
+	$(CLI) dsc -c universe -s ubuntu: reprepro >cliTestDsc5.res 2>&1 $(EXP_OK)
+	diff -u cliTestDsc5.ref cliTestDsc5.res $(EXP_OK)	
 	$(FINISHED_TEST)
 

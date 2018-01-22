@@ -196,7 +196,8 @@ def createArgparsers():
                               Switch on debugging message printed to stderr.""")
     parse_dsc.add_argument("-s", "--suite", default='default:', help="""
                               Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                              The list of suites is read in the specified order (this is interesting together with --first).
+                              The list of suites is scanned in the reverse order of the suites specified in the
+                              corresponding *.suites-file. This is in particular interesting together with --first.
                               The default value is 'default:'.""")
     parse_dsc.add_argument("-c", "--component", help="""
                               Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
@@ -204,7 +205,9 @@ def createArgparsers():
                               of a section (everything before the '/'). There is also a special treatment for sections
                               in the component 'main', in which case 'main/' is typically not named in a section-field.
                               For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
-    parse_dsc.add_argument("-1", "--first", action="store_true", default=False, help="Query only for the first matching dsc file, then skip the others.")
+    parse_dsc.add_argument("-1", "--first", action="store_true", default=False, help="""
+                              Query only for the first matching dsc file for a source package, then skip the others sources
+                              for this package.""")
     parse_dsc.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_dsc.add_argument('package', nargs='+', help='Name of a source PACKAGE')
     parse_dsc.set_defaults(sub_function=dsc, sub_parser=parse_dsc)
@@ -288,7 +291,7 @@ def dsc(args):
         "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
 
     urls = list()
-    for x, suite in enumerate(suites):
+    for x, suite in enumerate(sorted(suites, reverse=True)):
         pp(showProgress, ".{}".format(x+1))
         res = queryDscFiles(suite, requestPackages, requestComponents, logger, not args.no_update, args.first)
         if res:
