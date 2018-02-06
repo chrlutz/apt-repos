@@ -131,14 +131,23 @@ def createArgparsers():
                           Specifies the output-format of the package list. Default is 'table'.
                           Possible values: 'table' to pretty print a nice table; 'list' to print a
                           space separated list of columns that can easily be processed with bash tools.""")
-    parse_ls.add_argument("-di", "--diff", type=str, required=False, help="""
-                          Similar to -s switch, but expects in DIFF exactly two comma separated parts
-                          ("suiteA,suiteB"), calculates the output for suiteA and suiteB separately 
-                          and diff's this output with the diff tool specified in --diff-tool.""")
-    parse_ls.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help="""
+    diff_help = """
+                          Specify the character of a colunm over which we should compare two different results.
+                          The character needs to be one of the characters described for the --columns switch.
+                          Typical useful comparisons are e.g. comparing the results for two different 
+                          architectures i386/amd64 (a) or comparing two different suites (s).
+                          Since we can just compare two different results, please ensure that the result set of your
+                          query returns exactly two different values for the specified column. It could be
+                          necessary to ignore some results. E.g if '--diff a' is specified and our query returns 3 results
+                          for the architectures 'amd64', 'i386' and 'all', we might want to ignore architecture 'all'
+                          packages. This can be done using the argument '--diff a^all' which would ignore the 
+                          architecture 'all' packages and just compare 'amd64' and 'i386' packages."""
+    parse_ls.add_argument("-di", "--diff", type=str, required=False, help=diff_help)
+    diff_tool_help = """
                           Diff-Tool used to compare the separated results from --diff.
                           Default is '{}'.
-                          Use , (instead of spaces) to provide arguments for the difftool.""".format(diffToolDefault.format("<ttyWidth>")))
+                          Use , (instead of spaces) to provide arguments for the difftool.""".format(diffToolDefault.format("<ttyWidth>"))
+    parse_ls.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help=diff_tool_help)
     parse_ls.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_ls.set_defaults(sub_function=ls, sub_parser=parse_ls)
 
@@ -178,14 +187,8 @@ def createArgparsers():
     parse_show.add_argument("-col", "--columns", type=str, required=False, default='sR', help="""
                               Specify the columns that should be printed. Default is 'sR'.
                               Possible characters are: """ + fieldChars)
-    parse_show.add_argument("-di", "--diff", type=str, required=False, help="""
-                              Similar to -s switch, but expects in DIFF exactly two comma separated parts
-                              ("suiteA,suiteB"), calculates the output for suiteA and suiteB separately 
-                              and diff's this output with the diff tool specified in --diff-tool.""")
-    parse_show.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help="""
-                              Diff-Tool used to compare the separated results from --diff.
-                              Default is '{}'.
-                              Use _ instead of spaces if this command has arguments.""".format(diffToolDefault.format("<ttyWidth>")))
+    parse_show.add_argument("-di", "--diff", type=str, required=False, help=diff_help)
+    parse_show.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help=diff_tool_help)
     parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
     parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
     parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
