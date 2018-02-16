@@ -126,7 +126,7 @@ def compareAndPrintQueryResults(x, y):
 
 def testQueryPackages():
     setAptReposBaseDir(".")
-    fields = PackageField.getByFieldsString('pvsaSC')
+    fields = PackageField.getByFieldsString('pvsaSCFB')
     repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
     repoSuite.scan(True)
     res = repoSuite.queryPackages(['git'], False, None, None, fields)
