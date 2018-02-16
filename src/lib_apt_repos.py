@@ -406,6 +406,81 @@ class RepoSuite:
         return res
 
 
+    def querySources(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields):
+        '''
+            This method queries source packages in this repository/suite by several criteria and returns a
+            result set with elements of type QueryResult:
+
+            requestPackages (list of string; mandatory): is a list of package names.
+                            A package name is the name of a source package.
+
+            isRE (boolean) specifies if package names in requestPackages should be treated
+                 as regular expressions. It is possible to search for parts of the package
+                 name this way and much more...
+
+            #TODO:clarify what to do with arch
+            #requestArch (list of string, optional): is a list of accepted architectures.
+            #            If requestArch is None, all architectures are accepted.
+
+            requestComponent (list of string, optional): is a list of accepted components.
+                             If requestComponent is None, all components are accepted.
+
+            requestFields (list of string, mandatory): is a list of fields that should be copied
+                          into the query result. QueryResults will automatically order fields in
+                          this list order and will accumulate the (hashable) QueryResult-Objects
+                          by these fields.
+        '''
+        logger = logging.getLogger('RepoSuite.queryPackages')
+        res = set()
+
+        sourcesFiles = self.getSourcesFiles()
+        if not sourcesFiles:
+            logger.debug("no sources files for suite {}".format(suite.getSuiteName()))
+            return
+
+        for sourcesFile in sourcesFiles: # there's one sourcesFile per component
+            # skip unrequested components:
+            # TODO: this is too much implementation specific to the apt_pkg lib... improve if possible
+            m = re.search("^.*_([^_]+)_source_Sources$", sourcesFile)
+            if not m:
+                raise AnError("Sorry, I can't extract a component name from the sources file name {}".format(sourcesFile))
+            component = m.group(1)
+            if requestComponents and len(requestComponents) > 0 and not component in requestComponents:
+                logger.debug("skipping component {} as not requested in --component".format(component))
+                continue
+
+            logger.debug("parsing sources file {}".format(sourcesFile))
+            with open(sourcesFile, 'r') as f:
+                tagfile = apt_pkg.TagFile(f)
+                for source in tagfile:
+                    name = source['Package']
+
+                    for req in requestPackages:
+                        if isRE:
+                            m = re.search(req, name)
+                            if not m:
+                                continue
+                        else:
+                            if not (name == req):
+                                continue
+
+                        logger.debug("Found package {}".format(name))
+
+                        #if (requestArchs) and (not v.arch in requestArchs):
+                        #    continue
+
+                        parts = source['Section'].split("/", 1)
+                        if len(parts) == 1:
+                            component, section = "main", parts[0]
+                        else:
+                            component, section = parts
+                        if (requestComponents) and (not component in requestComponents):
+                            continue
+
+                        res.add(QueryResult.createBySourcesTagFileSection(requestedFields, source, self))
+        return res
+
+
     def getSourcesFiles(self):
         '''
             If this RepoSuite is configured to support Sources (Key "DebSrc" in suites-file is True)
@@ -647,7 +722,7 @@ class QueryResult:
                 data.append(source['Section'])
             elif field == PackageField.PRIORITY:
                 data.append(Priority.getByName(source['Priority']))
-            elif field == PackageField.ARCHITECTURE:
+            elif field == PackageField.ARCHITECTURE: # not a final solution!
                 data.append(source['Architecture'])
             elif field == PackageField.SUITE:
                 data.append(suite)
@@ -656,15 +731,18 @@ class QueryResult:
             elif field == PackageField.BASE_URL:
                 data.append(os.path.join(suite.getRepoUrl(), ""))
             elif field == PackageField.FILENAME:
-                dscFile = ""
-                for f in package['Files'].split("\n"):
+                dscFile = None
+                for f in source['Files'].split("\n"):
                     (md5, size, fname) = f.strip().split(" ")
                     if fname.endswith(".dsc"):
                         dscFile = fname
                         break
-                # TODO: maybe throw exception if no dscFile found?
-                data.append(os.path.join(suite.getRepoUrl(), source['Directory'], dscFile))
-            # TODO: throw excepion if field is not supported?
+                if dscFile:
+                    data.append(os.path.join(suite.getRepoUrl(), source['Directory'], dscFile))
+                else:
+                    data.append(None)
+            else:
+                raise Exception('Package Field \'{}\' (or column character \'{}\') is not supported for source packages'.format(field.name, field.getChar()))
         data = tuple(data)
         return QueryResult(requestedFields, data)
 

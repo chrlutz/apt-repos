@@ -134,6 +134,16 @@ def testQueryPackages():
         print(qr)
 
 
+def testQuerySources():
+    setAptReposBaseDir(".")
+    fields = PackageField.getByFieldsString('CvsaSFB')
+    repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
+    repoSuite.scan(True)
+    res = repoSuite.querySources(['git'], False, None, None, fields)
+    for qr in sorted(res):
+        print(qr)
+
+
 def testGetSourcesFiles():
     setAptReposBaseDir(".")
     repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
