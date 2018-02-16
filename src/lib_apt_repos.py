@@ -539,6 +539,13 @@ class Priority(Enum):
                 return p
         return Priority.EXTRA
 
+    @staticmethod
+    def getByName(name):
+        for p in Priority:
+            if name.upper() == p.name:
+                return p
+        return Priority.EXTRA
+
 
 class QueryResult:
     '''
@@ -607,17 +614,57 @@ class QueryResult:
             elif field == PackageField.RECORD:
                 data.append(curRecord.record)        
             elif field == PackageField.BASE_URL:
-                sourcesListEntry = re.sub('^deb(?:\s+\[.*\])?\s+', '', suite.sourcesListEntry)
-                sourcesListEntry = sourcesListEntry.split(None, 1)[0]
-                data.append(sourcesListEntry)
+                data.append(os.path.join(suite.getRepoUrl(), ""))
             elif field == PackageField.FILENAME:
-                sourcesListEntry = re.sub('^deb(?:\s+\[.*\])?\s+', '', suite.sourcesListEntry)
-                sourcesListEntry = sourcesListEntry.split(None, 1)[0]
-                if not sourcesListEntry.endswith('/'):
-                    sourcesListEntry += '/'
+                data.append(os.path.join(suite.getRepoUrl(), curRecord.filename))
+        data = tuple(data)
+        return QueryResult(requestedFields, data)
 
-                filename = sourcesListEntry + curRecord.filename
-                data.append(filename)
+
+    @staticmethod
+    def createBySourcesTagFileSection(requestedFields, source, suite):
+        '''
+            This factory-method creates a QueryResult for the requestedFields. The
+            corresponding data are collected from the provided section of an
+            apt_pkg.TagFile:
+
+            requestedFields: List of type PackageField that describes which fields
+                             this QueryResult should carry.
+
+            source: Object of type apt_pkg.TagSection that can be retrieved e.g. by
+                    apt_pkg.TagFile(<sourceFile>) for a particular sources control
+                    file <sourceFile> (see apt_pkg docs).
+
+            suite: The RepoSuite object
+        '''
+        data = list()
+        for field in requestedFields:
+            if field == PackageField.SOURCE_PACKAGE_NAME:
+                data.append(source['Package'])
+            elif field == PackageField.VERSION:
+                data.append(source['Version'])
+            elif field == PackageField.SECTION:
+                data.append(source['Section'])
+            elif field == PackageField.PRIORITY:
+                data.append(Priority.getByName(source['Priority']))
+            elif field == PackageField.ARCHITECTURE:
+                data.append(source['Architecture'])
+            elif field == PackageField.SUITE:
+                data.append(suite)
+            elif field == PackageField.RECORD:
+                data.append(source)
+            elif field == PackageField.BASE_URL:
+                data.append(os.path.join(suite.getRepoUrl(), ""))
+            elif field == PackageField.FILENAME:
+                dscFile = ""
+                for f in package['Files'].split("\n"):
+                    (md5, size, fname) = f.strip().split(" ")
+                    if fname.endswith(".dsc"):
+                        dscFile = fname
+                        break
+                # TODO: maybe throw exception if no dscFile found?
+                data.append(os.path.join(suite.getRepoUrl(), source['Directory'], dscFile))
+            # TODO: throw excepion if field is not supported?
         data = tuple(data)
         return QueryResult(requestedFields, data)
 
