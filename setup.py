@@ -1,4 +1,6 @@
-import src
+import sys
+
+import apt_repos
 
 from distutils.core import setup
 

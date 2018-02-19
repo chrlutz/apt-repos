@@ -2,20 +2,16 @@ Source: apt-repos
 Section: main
 Priority: optional
 Build-Depends:
- aspell-de,
+ pandoc,
+ perl,
  cdbs,
  config-package-dev,
  debhelper (>= 9),
  dh-python,
- goto-ldap,
- goto-facter,
  python3,
  python3-debian,
- python3-limux-docmaker,
- python3-texttable,
  python3-xdg,
- python3-pyqt5,
- python3-pyqt5.qtwebkit
+ python3-apt
 Standards-Version: 3.9.8
 XS-Python-Version: current
 Maintainer: Christph Lutz <christoph.lutz@interface-ag.de>
@@ -24,26 +20,10 @@ Package: apt-repos
 Architecture: all
 Depends:
  ${misc:Depends},
- goto-facter,
- goto-ldap,
- goto-usersession,
- kdelibs-bin,
- libfile-libmagic-perl,
- libgosa-perl,
- libxml-libxml-perl,
- mime-tools,
- perl,
  python3,
+ python3-apt,
  python3-apt-repos (= ${source:Version}),
- python3-mopynaco,
- python3-pyqt5,
- python3-pyqt5.qtwebkit,
- python3-pyqt5,
- python3-lxml,
- python3-texttable,
- python3-xdg,
- libkf5kdelibs4support5-bin,
- limux-default-settings,
+ python3-xdg
 Description: Show infos about binary and source packages in multiple apt-repositories
  utilizing libapt / python-apt/ apt_pkg without the need to change the local
  system and it's apt-setup.
@@ -54,8 +34,7 @@ Section: python
 Depends:
  ${misc:Depends},
  ${python3:Depends},
- python3-mopynaco,
- python3-xdg,
- goto-ldap
+ python3-apt,
+ python3-xdg
 Description: ${pkg:Description}
  ${pkg:Longdescription}
