@@ -1,0 +1,30 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+include /usr/share/cdbs/1/rules/buildvars.mk
+
+THE_PACKAGE := python3-apt-repos
+
+SUBSTVARS := debian/$(THE_PACKAGE).substvars
+
+override_dh_gencontrol:
+	echo -n pkg:Description= >> $(SUBSTVARS)
+	python3 setup.py --description >> $(SUBSTVARS)
+	echo -n pkg:Longdescription= >> $(SUBSTVARS)
+	bash -c 'shopt -o -s pipefail; python3 setup.py --long-description | pandoc --from=rst --to=plain | perl -pe "s/\n/\$${Newline}/g" >> $(SUBSTVARS)'
+	echo >> $(SUBSTVARS)
+	dh_gencontrol
+
+override_dh_auto_build:
+	resources/build "$(DEB_SOURCE_PACKAGE)" "$(DEB_VERSION)"
+	dh_auto_build
+
+override_dh_auto_install:
+	dh_auto_install -ppython3-apt-repos --destdir=$(CURDIR)/debian/python3-apt-repos
+	dh_auto_install -papt-repos
+
+%:
+	dh $@ --with config-package --without python-support --with python3 --buildsystem=pybuild
+
