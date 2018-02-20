@@ -1,11 +1,10 @@
 #!/bin/bash
 #
-# wrapper for calling ./apt_repos.py with the following tasks:
+# wrapper for calling ./apt_repos_cli.py with the following tasks:
 # - suppress some unwanted stdout-output created by underlying
 #   apt-libs
 #
-
-$(dirname $(realpath $0))/apt_repos.py $@ \
+exec python3 $(dirname $(realpath $0))/apt_repos_cli.py $@ \
     | grep -v "Reading package lists..." \
     | grep -v "Building dependency tree..." \
     | grep -v "Abhängigkeitsbaum wird aufgebaut..." \
