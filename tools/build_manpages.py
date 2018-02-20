@@ -4,10 +4,12 @@ import os
 import sys
 
 sys.path.append("tools/")
+sys.path.append("bin/")
+sys.path.append(".")
+
 from build_manpage import ManPageFormatter
 
-sys.path.append("src/")
-from apt_repos import createArgparsers, __doc__, ls, show, suites, dsc
+from apt_repos_cli import createArgparsers, __doc__, ls, show, suites, dsc
 
 
 def main():	
