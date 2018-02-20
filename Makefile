@@ -11,4 +11,4 @@ manpages:
 	tools/build_manpages.py
 
 clean:
-	rm README.html
+	rm -f README.html
