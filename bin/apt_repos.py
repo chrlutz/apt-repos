@@ -38,7 +38,8 @@ import tempfile
 import subprocess
 import functools
 
-from lib_apt_repos import setAptReposBaseDir, getSuites, RepoSuite, PackageField, QueryResult
+import apt_repos
+from apt_repos import PackageField, QueryResult
 
 
 def main():
@@ -63,7 +64,7 @@ def main():
             raise AnError("The character -di needs to be also in -col. provided is: -col '{}' and -di '{}'".format(args.columns, diffField))
 
     if args.basedir:
-        setAptReposBaseDir(args.basedir)
+        apt_repos.setAptReposBaseDir(args.basedir)
     
     if "sub_function" in args.__dict__:
         if args.help:
@@ -238,7 +239,7 @@ def suites(args):
        subcommand suites: print a list of registered suites
     '''
     logger = logging.getLogger('suites')
-    suites = getSuites(args.suite.split(','))
+    suites = apt_repos.getSuites(args.suite.split(','))
     for s in sorted(suites):
         print("# {}{}".format(s.getSuiteName(), (" [" + (":, ".join(sorted(s.getTags())) + ":]")) if len(s.getTags()) > 0 else ""))
         if args.verbose:
@@ -290,7 +291,7 @@ def dsc(args):
     # parse --suite and determine the specific suite scan-order
     suites = list()
     for selector in args.suite.split(','):
-        suites.extend(sorted(getSuites([selector]), reverse=True))
+        suites.extend(sorted(apt_repos.getSuites([selector]), reverse=True))
     
     requestPackages = { p for p in args.package }
     requestComponents = { c for c in args.component.split(',') } if args.component else {}
@@ -481,7 +482,7 @@ def queryPackages(args):
     '''
     logger = logging.getLogger('queryPackages')
 
-    suites = getSuites(args.suite.split(','))
+    suites = apt_repos.getSuites(args.suite.split(','))
     requestPackages = { p for p in args.package }
     requestArchs = { a for a in args.architecture.split(',') } if args.architecture else {}
     requestComponents = { c for c in args.component.split(',') } if args.component else {}

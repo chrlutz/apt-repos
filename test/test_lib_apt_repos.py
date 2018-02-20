@@ -1,7 +1,7 @@
 #!/usr/bin/python3 -Es
 # -*- coding: utf-8 -*-
 ##################################################################################
-"""Launcher for Test-Methods to test lib_apt_repos"""
+"""Launcher for Test-Methods to test the python3-apt-repos library"""
 #
 # Copyright (C) 2017  Christoph Lutz
 #
@@ -25,8 +25,9 @@ import sys
 import argparse
 import logging
 
-sys.path.append("../src/")
-from lib_apt_repos import getSuites, setAptReposBaseDir, QueryResult, PackageField 
+sys.path.append("../")
+import apt_repos
+from apt_repos import PackageField, QueryResult
 
 
 def testPrintHelloWorld():
@@ -34,19 +35,19 @@ def testPrintHelloWorld():
 
 
 def testSuiteSelectors():
-    setAptReposBaseDir(".")
+    apt_repos.setAptReposBaseDir(".")
     selectors = [
         None, [":"], ["default:"], ["ubuntu:xenial"], ["xenial"],
         ["ub:trusty"], ["ubuntu:"], ["u:"], ["u:trusty"],
         ["ubuntu:trusty-security", "ubuntu:xenial-security"]
     ]
     for selector in selectors:
-        dumpSelectedSuites(getSuites(selector), selector)
+        dumpSelectedSuites(apt_repos.getSuites(selector), selector)
 
 
 def testSuiteProperties():
-    setAptReposBaseDir(".")
-    for s in sorted(getSuites([":"])):
+    apt_repos.setAptReposBaseDir(".")
+    for s in sorted(apt_repos.getSuites([":"])):
         print(s.getSuiteName())
         print(s.getAptSuite())
         print(s.getRepoUrl())
@@ -125,9 +126,9 @@ def compareAndPrintQueryResults(x, y):
 
 
 def testQueryPackages():
-    setAptReposBaseDir(".")
+    apt_repos.setAptReposBaseDir(".")
     fields = PackageField.getByFieldsString('pvsaSCFB')
-    repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
+    repoSuite = list(apt_repos.getSuites(["ubuntu:trusty"]))[0]
     repoSuite.scan(True)
     res = repoSuite.queryPackages(['git'], False, None, None, fields)
     for qr in sorted(res):
@@ -135,9 +136,9 @@ def testQueryPackages():
 
 
 def testQuerySources():
-    setAptReposBaseDir(".")
+    apt_repos.setAptReposBaseDir(".")
     fields = PackageField.getByFieldsString('CvsaSFB')
-    repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
+    repoSuite = list(apt_repos.getSuites(["ubuntu:trusty"]))[0]
     repoSuite.scan(True)
     res = repoSuite.querySources(['git'], False, None, None, fields)
     for qr in sorted(res):
@@ -145,8 +146,8 @@ def testQuerySources():
 
 
 def testGetSourcesFiles():
-    setAptReposBaseDir(".")
-    repoSuite = list(getSuites(["ubuntu:trusty"]))[0]
+    apt_repos.setAptReposBaseDir(".")
+    repoSuite = list(apt_repos.getSuites(["ubuntu:trusty"]))[0]
     repoSuite.scan(True)
     for file in repoSuite.getSourcesFiles():
         # we can't just print the absolute filename which is not diffable, so
