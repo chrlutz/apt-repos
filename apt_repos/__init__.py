@@ -22,9 +22,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 """
-    This python module provides methods and classes to retrieve information
-    about debian binary- and source-packages from independent apt-repositories
-    using python apt_pkg module. Analog to well the well known tool apt-cache
+    This python3 module provides an API to retrieve information about debian
+    binary- and source-packages from (system) independent apt-repositories
+    using python's 'apt_pkg' module. Analog to the well known tool apt-cache
     it downloads Packages files from the inspected repsitories to a local cache
     and reads the information from there. One main advantage of this module
     is, that the local apt-setup (/etc/apt/sources.list, ...) doesn't need to
