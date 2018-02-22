@@ -1,1 +1,13 @@
-.vscode/
+/.vscode/
+/.pybuild/
+/debian/apt-repos.debhelper.log
+/debian/apt-repos.substvars
+/debian/apt-repos/
+/debian/debhelper-build-stamp
+/debian/files
+/debian/python3-apt-repos.debhelper.log
+/debian/python3-apt-repos.postinst.debhelper
+/debian/python3-apt-repos.prerm.debhelper
+/debian/python3-apt-repos.substvars
+/debian/python3-apt-repos/
+/debian/tmp/
