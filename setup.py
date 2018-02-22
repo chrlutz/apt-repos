@@ -1,6 +1,7 @@
 import sys
 
 import apt_repos
+import re
 
 from distutils.core import setup
 
@@ -10,13 +11,10 @@ with open('debian/changelog', 'rb') as reader:
     chlog = Changelog(reader, max_blocks = 1)
 version = chlog.get_version().full_version
 
-description = apt_repos.__doc__.strip()
+long_description = re.sub(' +', ' ', apt_repos.__doc__.strip())
+long_description = re.sub('\n ', '\n', long_description)
 
-long_description = '''
-    Show information about binary and source packages in multiple (independent)
-    apt-repositories utilizing libapt / python-apt/ apt_pkg without the need to
-    change the local system and it's apt-setup.
-'''
+description = '''Python3 API to show information about binary and source packages in multiple (system) independent apt-repositories.'''
 
 settings = dict(
 

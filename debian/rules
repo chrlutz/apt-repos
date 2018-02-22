@@ -8,13 +8,12 @@ include /usr/share/cdbs/1/rules/buildvars.mk
 THE_PACKAGE := python3-apt-repos
 
 SUBSTVARS := debian/$(THE_PACKAGE).substvars
-FORMAT := pandoc --from=rst --to=plain | perl -pe "s/\n/\$${Newline}/g"
 
 override_dh_gencontrol:
 	echo -n pkg:Description= >> $(SUBSTVARS)
-	python3 setup.py --description | $(FORMAT) >> $(SUBSTVARS)
+	python3 setup.py --description >> $(SUBSTVARS)
 	echo -n pkg:Longdescription= >> $(SUBSTVARS)
-	bash -c 'shopt -o -s pipefail; python3 setup.py --long-description | $(FORMAT) >> $(SUBSTVARS)' 
+	bash -c 'shopt -o -s pipefail; python3 setup.py --long-description | pandoc --from=rst --to=plain | perl -pe "s/\n/\\\$${Newline}/g" >> $(SUBSTVARS)'
 	echo >> $(SUBSTVARS)
 	dh_gencontrol
 
