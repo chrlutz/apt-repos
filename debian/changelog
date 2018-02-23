@@ -1,3 +1,9 @@
+apt-repos (1.43) bionic; urgency=medium
+
+  * fixed error handling when no sources files found
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Fri, 23 Feb 2018 18:58:56 +0100
+
 apt-repos (1.42) bionic; urgency=low
 
   * Initial Release.
