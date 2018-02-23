@@ -1,3 +1,2 @@
-
-bin/apt-repos                           /usr/bin/
-bin/apt_repos_cli.py                    /usr/bin/
+bin/*		/usr/bin/
+conf/*		/etc/apt-repos/
