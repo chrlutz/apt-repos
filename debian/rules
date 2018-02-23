@@ -26,6 +26,10 @@ override_dh_auto_install:
 	dh_auto_install -ppython3-apt-repos --destdir=$(CURDIR)/debian/python3-apt-repos
 	dh_auto_install -papt-repos
 
+override_dh_auto_test:
+	make -C test
+	dh_auto_test
+
 %:
 	dh $@ --with config-package --without python-support --with python3 --buildsystem=pybuild
 
