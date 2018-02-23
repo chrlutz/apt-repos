@@ -13,5 +13,6 @@
 /debian/tmp/
 
 # automatically built by debian-packaging:
-conf/debian.suites
-conf/ubuntu.suites
+/conf/debian.suites
+/conf/ubuntu.suites
+/README.html

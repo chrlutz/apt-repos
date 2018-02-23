@@ -23,6 +23,7 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	debian/createSuites.sh
+	make manpages README.html
 	dh_auto_install -ppython3-apt-repos --destdir=$(CURDIR)/debian/python3-apt-repos
 	dh_auto_install -papt-repos
 
