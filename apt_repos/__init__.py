@@ -435,8 +435,8 @@ class RepoSuite:
 
         sourcesFiles = self.getSourcesFiles()
         if not sourcesFiles:
-            logger.debug("no sources files for suite {}".format(suite.getSuiteName()))
-            return
+            logger.debug("no sources files for suite {}".format(self.getSuiteName()))
+            return res
 
         for sourcesFile in sourcesFiles: # there's one sourcesFile per component
             # skip unrequested components:
