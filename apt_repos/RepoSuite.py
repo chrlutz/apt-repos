@@ -368,33 +368,33 @@ class RepoSuite:
 
             logger.debug("parsing sources file {}".format(sourcesFile))
             with open(sourcesFile, 'r') as f:
-                tagfile = apt_pkg.TagFile(f)
-                for source in tagfile:
-                    name = source['Package']
+                with apt_pkg.TagFile(f) as tagfile:
+                    for source in tagfile:
+                        name = source['Package']
 
-                    for req in requestPackages:
-                        if isRE:
-                            m = re.search(req, name)
-                            if not m:
+                        for req in requestPackages:
+                            if isRE:
+                                m = re.search(req, name)
+                                if not m:
+                                    continue
+                            else:
+                                if not (name == req):
+                                    continue
+
+                            logger.debug("Found package {}".format(name))
+
+                            #if (requestArchs) and (not v.arch in requestArchs):
+                            #    continue
+
+                            parts = source['Section'].split("/", 1)
+                            if len(parts) == 1:
+                                component, section = "main", parts[0]
+                            else:
+                                component, section = parts
+                            if (requestComponents) and (not component in requestComponents):
                                 continue
-                        else:
-                            if not (name == req):
-                                continue
 
-                        logger.debug("Found package {}".format(name))
-
-                        #if (requestArchs) and (not v.arch in requestArchs):
-                        #    continue
-
-                        parts = source['Section'].split("/", 1)
-                        if len(parts) == 1:
-                            component, section = "main", parts[0]
-                        else:
-                            component, section = parts
-                        if (requestComponents) and (not component in requestComponents):
-                            continue
-
-                        res.add(QueryResult.createBySourcesTagFileSection(requestedFields, source, self))
+                            res.add(QueryResult.createBySourcesTagFileSection(requestedFields, source, self))
         return res
 
 
