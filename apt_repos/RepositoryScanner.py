@@ -53,14 +53,12 @@ def scanReleases(url, recursive=True):
     '''
        return suites found at url and all it's relevant subfolders if recursive==True
     '''
-    #print("retrieving suites at url {}".format(url))
     suites = list()
     ignoreFolders = list(['by-hash'])
     index = HtmlIndexParser(url)
 
-    if index.release or index.inRelease:
-        releaseFileUrl = index.inRelease if index.inRelease else index.release
-        suite = scanReleaseFile(releaseFileUrl)
+    if index.release:
+        suite = scanReleaseFile(index.release)
         if suite:
           suites.append(suite)
           ignoreFolders.extend(suite['components'])
@@ -83,22 +81,25 @@ def scanReleaseFile(url):
         fp.write(req.data)
         fp.seek(0)
         with apt_pkg.TagFile(fp) as tagfile:
-            for section in tagfile:
-                components = section.get('Components').split(" ") if section.get('Components') else list()
-                architectures = section.get('Architectures').split(" ") if section.get('Architectures') else list()
-                md5sum = section.get('MD5Sum').split("\n") if section.get('Md5Sum') else list()
-                files=[re.sub(" +", " ", s.strip()).split(" ")[2] for s in md5sum]
-                hasSources=suiteHasSources(files)
+            try:
+                for section in tagfile:
+                    components = section.get('Components').split(" ") if section.get('Components') else list()
+                    architectures = section.get('Architectures').split(" ") if section.get('Architectures') else list()
+                    md5sum = section.get('MD5Sum').split("\n") if section.get('Md5Sum') else list()
+                    files=[re.sub(" +", " ", s.strip()).split(" ")[2] for s in md5sum]
+                    hasSources=suiteHasSources(files)
 
-                suite = section.get('Suite')
-                if suite:
-                    return { 
-                        'suite':suite,
-                        'components':components,
-                        'architectures':architectures,
-                        'hasSources':hasSources,
-                        #'files':files
-                    }
+                    suite = section.get('Suite')
+                    if suite:
+                        return { 
+                            'suite':suite,
+                            'components':components,
+                            'architectures':architectures,
+                            'hasSources':hasSources,
+                            #'files':files
+                        }
+            except SystemError as s:
+                raise Exception("invalid release file or no suite found at {}".format(url))
 
 
 def suiteHasSources(files):
