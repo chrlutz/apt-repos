@@ -53,8 +53,6 @@ class Repository:
             Note: The apt-cache is not scanned and not updated there! 
                   Always call scan(...) before accessing package metadata!
         '''
-        logger = logging.getLogger('Repository.__init__')
-
         self.desc = repoDesc.get('Repository')
         self.prefix = repoDesc['Prefix']
         self.url = repoDesc['Url']
@@ -77,24 +75,37 @@ class Repository:
         for s in self.suites:
             sid = prefix + s
             if sid == selector or suite=="":
-                res.append(self.getSuiteDesc(sid, sid[len(prefix):]))
+                found = scanRepository(self.url, [sid[len(prefix):]])
+                res.extend(self.getSuiteDescs(prefix, found))
         
+        if len(self.suites) == 0 and self.scan:
+            if len(suite) > 0:
+                sid = prefix + suite
+                found = scanRepository(self.url, [sid[len(prefix):]])
+                res.extend(self.getSuiteDescs(prefix, found))
+            else:
+                found = scanRepository(self.url)
+                res.extend(self.getSuiteDescs(prefix, found))
+                
         return res
 
-    
-    def getSuiteDesc(self, sid, suitename):
-        suite = scanRepository(self.url, [suitename])[0]
-        archs = list()
-        for arch in self.architectures:
-            if arch in suite['architectures']:
-                archs.append(arch)
-        return {
-            "Suite" : sid,
-            "SourcesList" : "deb {} {} {}".format(self.url, suite['suite'], " ".join(suite['components'])),
-            "DebSrc" : suite['hasSources'],
-            "Architectures" : archs if len(archs) > 0 else suite['architectures'],
-            "TrustedGPG" : self.trustedGPGFile
-        }
+
+    def getSuiteDescs(self, prefix, suites):
+        res = list()
+        for suite in suites:
+            archs = list()
+            if self.architectures:
+                for arch in self.architectures:
+                    if arch in suite['architectures']:
+                        archs.append(arch)
+            res.append({
+                "Suite" : prefix + suite['suite'],
+                "SourcesList" : "deb {} {} {}".format(self.url, suite['suite'], " ".join(suite['components'])),
+                "DebSrc" : suite['hasSources'],
+                "Architectures" : archs if self.architectures else suite['architectures'],
+                "TrustedGPG" : self.trustedGPGFile
+            })
+        return res
 
 
     def getArchitectures(self):

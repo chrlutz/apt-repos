@@ -40,7 +40,10 @@ def scanRepository(url, suites=None):
     res = list()
     if suites:
         for s in suites:
-            res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release'))))
+            try:
+                res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release'))))
+            except Exception as ex:
+                '''TODO: add debug message'''
     else:
         res.extend(scanReleases(urljoin(url, "dists/")))
     return res
@@ -50,7 +53,7 @@ def scanReleases(url, recursive=True):
     '''
        return suites found at url and all it's relevant subfolders if recursive==True
     '''
-    print("retrieving suites at url {}".format(url))
+    #print("retrieving suites at url {}".format(url))
     suites = list()
     ignoreFolders = list(['by-hash'])
     index = HtmlIndexParser(url)
@@ -73,6 +76,9 @@ def scanReleases(url, recursive=True):
 def scanReleaseFile(url):
     http = urllib3.PoolManager()
     req = http.request('GET', url)
+    if req.status != 200:
+        raise Exception("http-request to url {} failed with status code {}".format(url, req.status))
+
     with tempfile.TemporaryFile() as fp:
         fp.write(req.data)
         fp.seek(0)
@@ -113,6 +119,8 @@ class HtmlIndexParser(HTMLParser):
         self.subfolders = dict()
         http = urllib3.PoolManager()
         req = http.request('GET', self.baseurl)
+        if req.status != 200:
+            raise Exception("http-request to url {} failed with status code {}".format(url, req.status))
         self.feed(req.data.decode('utf8'))
         
     def handle_starttag(self, tag, attrs):

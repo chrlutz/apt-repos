@@ -172,12 +172,12 @@ def testRepository():
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "u", "bionic")
-    dumpQuerySuiteDescsResult(repo, "ubuntu", "bi")
-    dumpQuerySuiteDescsResult(repo, "", "bi")
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "noexist")
+    dumpQuerySuiteDescsResult(repo, "", "noexist")
     dumpQuerySuiteDescsResult(repo, "", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu", "")
-    dumpQuerySuiteDescsResult(repo, "ubuntu", "bi")
     dumpQuerySuiteDescsResult(repo, "ubuntu:test-", "bionic")
+    dumpQuerySuiteDescsResult(repo, "another", "bionic")
 
     repo = Repository({
       "Repository" : "Main Ubuntu Repository",
@@ -190,12 +190,27 @@ def testRepository():
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "de-bionic")
     dumpQuerySuiteDescsResult(repo, "u", "de-bionic")
-    dumpQuerySuiteDescsResult(repo, "", "de-bi")
+    dumpQuerySuiteDescsResult(repo, "", "de-noexist")
     dumpQuerySuiteDescsResult(repo, "", "de-bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu", "")
     dumpQuerySuiteDescsResult(repo, "ubuntu:de-", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
 
+    repo = Repository({
+      "Repository" : "Main Ubuntu Repository",
+      "Prefix" : "ubuntu",
+      "Url" : "http://de.archive.ubuntu.com/ubuntu/",
+      "Scan" : True,
+      "Architectures" : [ "i386", "amd64" ],
+      "TrustedGPG" : "./gpg/ubuntu.gpg"
+    })
+    print("\n" + str(repo))
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
+    dumpQuerySuiteDescsResult(repo, "", "bionic")
+    dumpQuerySuiteDescsResult(repo, "", "noexist")
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "")
+    dumpQuerySuiteDescsResult(repo, "ubuntu:de-", "bionic")
+    dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
 
 
 def dumpQuerySuiteDescsResult(repo, prefix, suite):

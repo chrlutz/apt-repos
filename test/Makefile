@@ -13,6 +13,7 @@ UNIT_TESTCASES = testPrintHelloWorld \
             testQuerySources \
             testGetSourcesFiles \
             testRepository
+#UNIT_TESTCASES = testRepository
 
 test: unittests clitests
 
