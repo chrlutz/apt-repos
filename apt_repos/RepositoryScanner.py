@@ -14,13 +14,6 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
 
 
-def main():
-    for suite in scanRepository('http://de.archive.ubuntu.com/ubuntu/', ['artful', 'bionic']):
-        print(suite)
-    for suite in scanRepository('http://de.archive.ubuntu.com/ubuntu/'):
-        print(suite)
-
-
 def scanRepository(url, suites=None):
     res = list()
     if suites:
