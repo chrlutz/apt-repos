@@ -13,11 +13,22 @@ import tempfile
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
 
-REPO_URL='http://de.archive.ubuntu.com/ubuntu/dists/'
 
 def main():
-    for release in sorted(scanReleases(REPO_URL)):
-        print(release)
+    for suite in scanRepository('http://de.archive.ubuntu.com/ubuntu/', ['artful', 'bionic']):
+        print(suite)
+    for suite in scanRepository('http://de.archive.ubuntu.com/ubuntu/'):
+        print(suite)
+
+
+def scanRepository(url, suites=None):
+    res = list()
+    if suites:
+        for s in suites:
+            res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release'))))
+    else:
+        res.extend(scanReleases(urljoin(url, "dists/")))
+    return res
 
 
 def scanReleases(url, recursive=True):
@@ -26,33 +37,42 @@ def scanReleases(url, recursive=True):
     '''
     print("retrieving suites at url {}".format(url))
     suites = list()
-    components = list()
+    ignoreFolders = list(['by-hash'])
     index = HtmlIndexParser(url)
 
     if index.release or index.inRelease:
         releaseFileUrl = index.inRelease if index.inRelease else index.release
-        http = urllib3.PoolManager()
-        req = http.request('GET', releaseFileUrl)
-        with tempfile.TemporaryFile() as fp:
-            fp.write(req.data)
-            fp.seek(0)
-            with apt_pkg.TagFile(fp) as tagfile:
-                for section in tagfile:
-                    components = section.get('Components').split(" ") if section.get('Components') else list()
-                    architectures = section.get('Architectures').split(" ") if section.get('Architectures') else list()
-                    suite = section.get('Suite')
-                    if suite:
-                        suites.append((suite, components, architectures))
-                        break
+        suite = scanReleaseFile(releaseFileUrl)
+        if suite:
+          suites.append(suite)
+          ignoreFolders.extend(suite['components'])
 
     if recursive:
-        ignoreFolders = list(['by-hash'])
-        ignoreFolders.extend(components)
         for subfolder, suburl in sorted(index.getSubfolders().items()):
             if not subfolder in ignoreFolders:
                 suites.extend(scanReleases(suburl))
 
     return suites
+
+
+def scanReleaseFile(url):
+    http = urllib3.PoolManager()
+    req = http.request('GET', url)
+    with tempfile.TemporaryFile() as fp:
+        fp.write(req.data)
+        fp.seek(0)
+        with apt_pkg.TagFile(fp) as tagfile:
+            for section in tagfile:
+                components = section.get('Components').split(" ") if section.get('Components') else list()
+                architectures = section.get('Architectures').split(" ") if section.get('Architectures') else list()
+                suite = section.get('Suite')
+                if suite:
+                    return { 
+                        'suite':suite,
+                        'components':components,
+                        'architectures':architectures
+                    }
+
 
 
 class HtmlIndexParser(HTMLParser):
@@ -85,7 +105,6 @@ class HtmlIndexParser(HTMLParser):
 
     def getSubfolders(self):
         return self.subfolders
-
 
 
 if __name__ == "__main__":
