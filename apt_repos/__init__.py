@@ -48,6 +48,7 @@ from enum import Enum
 from apt_repos.RepoSuite import RepoSuite
 from apt_repos.PackageField import PackageField
 from apt_repos.QueryResult import QueryResult
+from apt_repos.Repository import Repository
 
 
 __baseDirs = [ expanduser('~') + '/.config/apt-repos', expanduser('~') + '/.apt-repos', '/etc/apt-repos' ]
@@ -70,6 +71,7 @@ def getSuites(selectors=None):
     logger = logging.getLogger('getSuites')
     
     suitesData = dict() # map of filename --> (jsonData, basedir)
+    reposData = dict() # map of filename --> (jsonData, basedir)
     suitesCount = 0
     for basedir in __baseDirs:
         if not os.path.isdir(basedir):
@@ -80,12 +82,17 @@ def getSuites(selectors=None):
             if f in suitesData:
                 continue
             filename = basedir + "/" + f
-            if os.path.isfile(filename) and str(filename).endswith(".suites"):
-                logger.debug("reading suites file " + filename)
-                with open(filename, 'r') as file:
-                    jsonData = json.load(file)
-                    suitesData[f] = (jsonData, basedir)
-                    suitesCount += len(jsonData)
+            if os.path.isfile(filename):
+                if str(filename).endswith(".suites"):
+                    logger.debug("reading suites file " + filename)
+                    with open(filename, 'r') as file:
+                        jsonData = json.load(file)
+                        suitesData[f] = (jsonData, basedir)
+                        suitesCount += len(jsonData)
+                elif str(filename).endswith(".repos"):
+                    with open(filename, 'r') as file:
+                        jsonData = json.load(file)
+                        reposData[f] = (jsonData, basedir)
                     
     if suitesCount == 0:
         logger.warning("No *.suites-files or no suites-data found in the directories '" + "', '".join(__baseDirs) + "'")
@@ -116,6 +123,13 @@ def getSuites(selectors=None):
                 
                 if (repo == srepo or srepo == "" or srepo in tags) and \
                    (suiteName == ssuiteName or ssuiteName == ""):
+                    selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
+
+        for key, (repoDescs, basedir) in reposData.items():
+            for repoDesc in repoDescs:                
+                for suiteDesc in Repository(repoDesc).querySuiteDescs(srepo, ssuiteName):
+                    count+=1
+                    #tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
                     selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
                 
     return selected
