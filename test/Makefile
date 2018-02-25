@@ -11,7 +11,8 @@ UNIT_TESTCASES = testPrintHelloWorld \
             testQueryResult \
             testQueryPackages \
             testQuerySources \
-            testGetSourcesFiles
+            testGetSourcesFiles \
+            testRepository
 
 test: unittests clitests
 

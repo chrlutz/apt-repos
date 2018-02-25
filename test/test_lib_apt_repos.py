@@ -28,6 +28,7 @@ import logging
 sys.path.append("../")
 import apt_repos
 from apt_repos import PackageField, QueryResult
+from apt_repos.Repository import Repository
 
 
 def testPrintHelloWorld():
@@ -157,6 +158,51 @@ def testGetSourcesFiles():
             keep = os.path.basename(file) + ("/" if len(keep) > 0 else "") + keep
             file = os.path.dirname(file)    
         print(("<testfolder>/" if len(file) > 0 else "") + keep)
+
+
+def testRepository():
+    repo = Repository({
+      "Repository" : "Main Ubuntu Repository",
+      "Prefix" : "ubuntu",
+      "Url" : "http://archive.ubuntu.com/ubuntu/",
+      "Suites" : [ "xenial", "bionic" ],
+      "Architectures" : [ "i386", "amd64" ],
+      "TrustedGPG" : "./gpg/ubuntu.gpg"
+    })
+    print("\n" + str(repo))
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
+    dumpQuerySuiteDescsResult(repo, "u", "bionic")
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bi")
+    dumpQuerySuiteDescsResult(repo, "", "bi")
+    dumpQuerySuiteDescsResult(repo, "", "bionic")
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "")
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bi")
+    dumpQuerySuiteDescsResult(repo, "ubuntu:test-", "bionic")
+
+    repo = Repository({
+      "Repository" : "Main Ubuntu Repository",
+      "Prefix" : "ubuntu:de-",
+      "Url" : "http://de.archive.ubuntu.com/ubuntu/",
+      "Suites" : [ "xenial", "bionic" ],
+      "Architectures" : [ "i386", "amd64" ],
+      "TrustedGPG" : "./gpg/ubuntu.gpg"
+    })
+    print("\n" + str(repo))
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "de-bionic")
+    dumpQuerySuiteDescsResult(repo, "u", "de-bionic")
+    dumpQuerySuiteDescsResult(repo, "", "de-bi")
+    dumpQuerySuiteDescsResult(repo, "", "de-bionic")
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "")
+    dumpQuerySuiteDescsResult(repo, "ubuntu:de-", "bionic")
+    dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
+
+
+
+def dumpQuerySuiteDescsResult(repo, prefix, suite):
+    print("  Results for '{}', '{}':".format(prefix, suite))
+    for suiteDesc in repo.querySuiteDescs(prefix, suite):
+        for key, value in sorted(suiteDesc.items()):
+            print("    {}: {}".format(key, value))
 
 
 def dump(obj):

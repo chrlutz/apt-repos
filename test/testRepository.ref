@@ -1,0 +1,67 @@
+
+Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
+  Results for 'ubuntu', 'bionic':
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'u', 'bionic':
+  Results for 'ubuntu', 'bi':
+  Results for '', 'bi':
+  Results for '', 'bionic':
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'ubuntu', '':
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+    Suite: ubuntu:xenial
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'ubuntu', 'bi':
+  Results for 'ubuntu:test-', 'bionic':
+
+Repository('ubuntu:de-', 'http://de.archive.ubuntu.com/ubuntu/')
+  Results for 'ubuntu', 'de-bionic':
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:de-bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'u', 'de-bionic':
+  Results for '', 'de-bi':
+  Results for '', 'de-bionic':
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:de-bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'ubuntu', '':
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+    Suite: ubuntu:de-xenial
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:de-bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'ubuntu:de-', 'bionic':
+  Results for 'ubuntu:', 'bionic':
