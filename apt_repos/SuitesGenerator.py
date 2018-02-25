@@ -65,14 +65,28 @@ def scanReleaseFile(url):
             for section in tagfile:
                 components = section.get('Components').split(" ") if section.get('Components') else list()
                 architectures = section.get('Architectures').split(" ") if section.get('Architectures') else list()
+                md5sum = section.get('MD5Sum').split("\n") if section.get('Md5Sum') else list()
+                files=[re.sub(" +", " ", s.strip()).split(" ")[2] for s in md5sum]
+                hasSources=suiteHasSources(files)
+
                 suite = section.get('Suite')
                 if suite:
                     return { 
                         'suite':suite,
                         'components':components,
-                        'architectures':architectures
+                        'architectures':architectures,
+                        'hasSources':hasSources,
+                        #'files':files
                     }
 
+
+def suiteHasSources(files):
+    for f in files:
+        if ( f.endswith('/source/Sources') or 
+             f.endswith('/source/Sources.xz') or
+             f.endswith('/source/Sources.gz')):
+            return True
+    return False
 
 
 class HtmlIndexParser(HTMLParser):
