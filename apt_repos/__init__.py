@@ -114,7 +114,7 @@ def getSuites(selectors=None):
                 else:
                     repo, suiteName = parts
                 
-                if (repo.startswith(srepo) or srepo in tags) and \
+                if (repo == srepo or srepo == "" or srepo in tags) and \
                    (suiteName == ssuiteName or ssuiteName == ""):
                     selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
                 

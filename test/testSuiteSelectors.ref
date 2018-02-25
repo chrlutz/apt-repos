@@ -21,7 +21,6 @@ Selected suites for selectors: xenial
 ubuntu:xenial
 
 Selected suites for selectors: ub:trusty
-ubuntu:trusty
 
 Selected suites for selectors: ubuntu:
 ubuntu:trusty
@@ -30,13 +29,8 @@ ubuntu:xenial
 ubuntu:xenial-security
 
 Selected suites for selectors: u:
-ubuntu:trusty
-ubuntu:trusty-security
-ubuntu:xenial
-ubuntu:xenial-security
 
 Selected suites for selectors: u:trusty
-ubuntu:trusty
 
 Selected suites for selectors: ubuntu:trusty-security, ubuntu:xenial-security
 ubuntu:trusty-security
