@@ -170,9 +170,10 @@ def testRepository():
     }
 
     repo = Repository({ **basisRepoDesc, **{
+      "Repository" : "Testing Basics",
       "Suites" : [ "xenial", "bionic" ]
     }})
-    print("\nTesting Basics with " + str(repo))
+    print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "u", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu", "noexist")
@@ -183,11 +184,12 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "another", "bionic")
 
     repo = Repository({ **basisRepoDesc, **{
+      "Repository" : "Testing different Prefix",
       "Prefix" : "ubuntu:de-",
       "Url" : "http://de.archive.ubuntu.com/ubuntu/",
       "Suites" : [ "xenial", "bionic" ]
     }})
-    print("\nTesting different Prefix with " + str(repo))
+    print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "de-bionic")
     dumpQuerySuiteDescsResult(repo, "u", "de-bionic")
     dumpQuerySuiteDescsResult(repo, "", "de-noexist")
@@ -197,9 +199,10 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
 
     repo = Repository({ **basisRepoDesc, **{
+      "Repository" : "Testing Scan==True",
       "Scan" : True
     }})
-    print("\nTesting Scan==True with " + str(repo))
+    print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "", "bionic")
     dumpQuerySuiteDescsResult(repo, "", "noexist")
@@ -211,17 +214,19 @@ def testRepository():
     # suitename than it's .../dists/<dist>-path. ExtractSuiteFromReleaseUrl
     # should give precidence to <dist> in this case.
     repo = Repository({ **basisRepoDesc, **{
+      "Repository" : "Testing ExtractSuiteFromReleaseUrl==True",
       "Suites" : [ "bionic" ],
       "ExtractSuiteFromReleaseUrl": True,
     }})
-    print("\nTesting ExtractSuiteFromReleaseUrl==True with " + str(repo))
+    print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
     repo = Repository({ **basisRepoDesc, **{
+      "Repository" : "Testing Trusted==True",
       "Suites" : [ "bionic" ],
       "Trusted": True
     }})
-    print("\nTesting Trusted==True with " + str(repo))
+    print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
 

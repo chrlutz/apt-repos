@@ -137,4 +137,4 @@ class Repository:
 
 
     def __str__(self):
-        return "Repository('{}', '{}')".format(self.prefix, self.url)
+        return "Repository: {} ({})".format(self.desc, self.url)

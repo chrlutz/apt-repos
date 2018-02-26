@@ -1,5 +1,5 @@
 
-Testing Basics with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
+Repository: Testing Basics (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -33,7 +33,7 @@ INFO     Starting new HTTP connection (1): archive.ubuntu.com
   Results for 'ubuntu:test-', 'bionic':
   Results for 'another', 'bionic':
 
-Testing different Prefix with Repository('ubuntu:de-', 'http://de.archive.ubuntu.com/ubuntu/')
+Repository: Testing different Prefix (http://de.archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'de-bionic':
 INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -66,7 +66,7 @@ INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
   Results for 'ubuntu:de-', 'bionic':
   Results for 'ubuntu:', 'bionic':
 
-Testing Scan==True with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
+Repository: Testing Scan==True (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -300,7 +300,7 @@ INFO     Starting new HTTP connection (1): archive.ubuntu.com
   Results for 'ubuntu:', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
 
-Testing ExtractSuiteFromReleaseUrl==True with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
+Repository: Testing ExtractSuiteFromReleaseUrl==True (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -309,7 +309,7 @@ INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
 
-Testing Trusted==True with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
+Repository: Testing Trusted==True (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
