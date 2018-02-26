@@ -1,18 +1,15 @@
 [
+    "--------------------------------------------------------",
     {
       "Repository" : "Main Debian Repository",
       "Prefix" : "debian",
       "Url" : "http://deb.debian.org/debian/",
-      "Scan" : true,
+      "Suites" : [ 
+          "stretch",
+          "stretch-backports",
+          "stretch-updates"
+      ],
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/debian.gpg"
-    },
-    {
-      "Repository" : "Main Ubuntu Repository",
-      "Prefix" : "ubuntu",
-      "Url" : "http://archive.ubuntu.com/ubuntu/",
-      "Suites" : [ "trusty", "bionic" ],
-      "Architectures" : [ "i386", "amd64" ],
-      "TrustedGPG" : "./gpg/ubuntu.gpg"
     }
 ]
