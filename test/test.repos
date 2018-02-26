@@ -9,6 +9,7 @@
           "stretch-backports",
           "stretch-updates"
       ],
+      "ExtractSuiteFromReleaseUrl": true,
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/debian.gpg"
     },

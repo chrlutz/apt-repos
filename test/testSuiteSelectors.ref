@@ -3,12 +3,26 @@ INFO     Setting new BaseDir: .
 Selected suites for selectors: None
 ubuntu:xenial
 ubuntu:xenial-security
+INFO     Starting new HTTP connection (1): deb.debian.org
+INFO     Redirecting http://deb.debian.org/debian/dists/stretch/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch/Release
+INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
+INFO     Starting new HTTP connection (1): deb.debian.org
+INFO     Redirecting http://deb.debian.org/debian/dists/stretch-backports/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-backports/Release
+INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
+INFO     Starting new HTTP connection (1): deb.debian.org
+INFO     Redirecting http://deb.debian.org/debian/dists/stretch-updates/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-updates/Release
+INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
 
 Selected suites for selectors: :
 ubuntu:trusty
 ubuntu:trusty-security
 ubuntu:xenial
 ubuntu:xenial-security
+debian:stretch
+debian:stretch-backports
+debian:stretch-updates
+ubuntu:de-bionic
 
 Selected suites for selectors: default:
 ubuntu:xenial
@@ -21,12 +35,14 @@ Selected suites for selectors: xenial
 ubuntu:xenial
 
 Selected suites for selectors: ub:trusty
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
 
 Selected suites for selectors: ubuntu:
 ubuntu:trusty
 ubuntu:trusty-security
 ubuntu:xenial
 ubuntu:xenial-security
+ubuntu:de-bionic
 
 Selected suites for selectors: u:
 

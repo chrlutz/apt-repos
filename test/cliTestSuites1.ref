@@ -2,7 +2,7 @@
 # ubuntu:trusty-security
 # ubuntu:xenial [archive:, default:]
 # ubuntu:xenial-security [default:]
-# debian:stable
+# debian:stretch
 # debian:stretch-backports
-# debian:stable-updates
+# debian:stretch-updates
 # ubuntu:de-bionic

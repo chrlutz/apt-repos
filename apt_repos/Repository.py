@@ -56,6 +56,7 @@ class Repository:
         '''
         self.desc = repoDesc.get('Repository')
         self.prefix = repoDesc['Prefix']
+        self.prefix = self.prefix + ('' if ':' in self.prefix else ':')
         self.url = repoDesc['Url']
         self.scan = repoDesc.get('Scan')
         self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
@@ -66,29 +67,28 @@ class Repository:
         self.tags = repoDesc["Tags"] if repoDesc.get("Tags") else []        
 
 
-    def querySuiteDescs(self, repo, suite):
+    def querySuiteDescs(self, selRepo, selSuite):
         res = list()
-        prefix = self.prefix if(":" in self.prefix) else "{}:".format(self.prefix)
-        (r, s) = prefix.split(":", 1)
-        repo = "{}:".format(r) if repo=="" else "{}:".format(repo)
-        if not prefix.startswith(repo):
+        (ownRepo, ownSuitePrefix) = self.prefix.split(":", 1)
+        selRepo = ownRepo if selRepo=='' else selRepo
+        selSuite = ownSuitePrefix if selSuite=='' else selSuite
+        selector = "{}:{}".format(selRepo, selSuite)
+        if not selector.startswith(self.prefix):
             return res
-        selector = repo + suite
+        suite = selector[len(self.prefix):]
 
-        for s in self.suites:
-            sid = prefix + s
-            if sid == selector or suite=="":
-                found = scanRepository(self.url, [sid[len(prefix):]])
-                res.extend(self.getSuiteDescs(prefix, found))
+        for ownSuite in self.suites:
+            if suite == ownSuite or suite=='':
+                found = scanRepository(self.url, [ownSuite])
+                res.extend(self.getSuiteDescs(self.prefix, found))
         
-        if len(self.suites) == 0 and self.scan:
+        if self.scan:
             if len(suite) > 0:
-                sid = prefix + suite
-                found = scanRepository(self.url, [sid[len(prefix):]])
-                res.extend(self.getSuiteDescs(prefix, found))
+                found = scanRepository(self.url, [suite])
+                res.extend(self.getSuiteDescs(self.prefix, found))
             else:
                 found = scanRepository(self.url)
-                res.extend(self.getSuiteDescs(prefix, found))
+                res.extend(self.getSuiteDescs(self.prefix, found))
                 
         return res
 

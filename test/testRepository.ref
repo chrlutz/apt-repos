@@ -1,5 +1,5 @@
 
-Testing Basics with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
+Testing Basics with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -66,7 +66,7 @@ INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
   Results for 'ubuntu:de-', 'bionic':
   Results for 'ubuntu:', 'bionic':
 
-Testing Scan==True with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
+Testing Scan==True with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -296,9 +296,11 @@ INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Suite: ubuntu:xenial-updates
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu:de-', 'bionic':
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
   Results for 'ubuntu:', 'bionic':
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
 
-Testing ExtractSuiteFromReleaseUrl==True with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
+Testing ExtractSuiteFromReleaseUrl==True with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -307,7 +309,7 @@ INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
 
-Testing Trusted==True with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
+Testing Trusted==True with Repository('ubuntu:', 'http://archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']

@@ -1,4 +1,14 @@
 INFO     Setting new BaseDir: .
+INFO     Starting new HTTP connection (1): deb.debian.org
+INFO     Redirecting http://deb.debian.org/debian/dists/stretch/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch/Release
+INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
+INFO     Starting new HTTP connection (1): deb.debian.org
+INFO     Redirecting http://deb.debian.org/debian/dists/stretch-backports/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-backports/Release
+INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
+INFO     Starting new HTTP connection (1): deb.debian.org
+INFO     Redirecting http://deb.debian.org/debian/dists/stretch-updates/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-updates/Release
+INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
 ubuntu:trusty
 trusty
 http://de.archive.ubuntu.com/ubuntu/
@@ -38,4 +48,44 @@ True
 ['i386', 'amd64']
 deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
 deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
+
+debian:stretch
+stretch
+http://deb.debian.org/debian/
+http://deb.debian.org/debian/dists/stretch
+['main', 'contrib', 'non-free']
+True
+['i386', 'amd64']
+deb http://deb.debian.org/debian/ stretch main contrib non-free
+deb-src http://deb.debian.org/debian/ stretch main contrib non-free
+
+debian:stretch-backports
+stretch-backports
+http://deb.debian.org/debian/
+http://deb.debian.org/debian/dists/stretch-backports
+['main', 'contrib', 'non-free']
+True
+['i386', 'amd64']
+deb http://deb.debian.org/debian/ stretch-backports main contrib non-free
+deb-src http://deb.debian.org/debian/ stretch-backports main contrib non-free
+
+debian:stretch-updates
+stretch-updates
+http://deb.debian.org/debian/
+http://deb.debian.org/debian/dists/stretch-updates
+['main', 'contrib', 'non-free']
+True
+['i386', 'amd64']
+deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+
+ubuntu:de-bionic
+bionic
+http://de.archive.ubuntu.com/ubuntu/
+http://de.archive.ubuntu.com/ubuntu/dists/bionic
+['main', 'restricted', 'universe', 'multiverse']
+True
+['i386', 'amd64']
+deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
 
