@@ -3,7 +3,20 @@
       "Repository" : "Main Debian Repository",
       "Prefix" : "debian",
       "Url" : "http://deb.debian.org/debian/",
-      "Scan" : true,
+      "Suites" : [ 
+          "jessie",
+          "jessie-backports",
+          "jessie-updates",
+          "jessie-proposed-updates",
+          "stretch",
+          "stretch-backports",
+          "stretch-updates",
+          "stretch-proposed-updates",
+          "wheezy",
+          "wheezy-backports",
+          "wheezy-updates",
+          "wheezy-proposed-updates"
+      ],
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/debian.gpg"
     },
