@@ -144,7 +144,7 @@ class RepoSuite:
 
     def getTrustedGPG(self):
         if self.trustedGPGFile:
-            with open(self.basedir + "/" + self.trustedGPGFile, "rb") as fh:
+            with open(os.path.join(self.basedir, self.trustedGPGFile), "rb") as fh:
                 return fh.read()
         return None
         
