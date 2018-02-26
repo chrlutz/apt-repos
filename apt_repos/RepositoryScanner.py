@@ -96,6 +96,7 @@ def scanReleaseFile(url):
                             'components':components,
                             'architectures':architectures,
                             'hasSources':hasSources,
+                            'url':url
                             #'files':files
                         }
             except SystemError as s:

@@ -32,6 +32,7 @@ import apt.progress
 import functools
 
 from apt_repos.RepositoryScanner import scanRepository
+from urllib.parse import urlparse
 
 
 class Repository:
@@ -57,6 +58,7 @@ class Repository:
         self.prefix = repoDesc['Prefix']
         self.url = repoDesc['Url']
         self.scan = repoDesc.get('Scan')
+        self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
         self.suites = repoDesc["Suites"] if repoDesc.get("Suites") else []
         self.architectures = repoDesc.get('Architectures')
         self.trustedGPGFile = repoDesc.get('TrustedGPG')
@@ -98,9 +100,12 @@ class Repository:
                 for arch in self.architectures:
                     if arch in suite['architectures']:
                         archs.append(arch)
+            suitename = suite['suite']
+            if self.extractSuiteFromReleaseUrl:
+                suitename = re.sub(".*\/dists\/", "", os.path.dirname(urlparse(suite['url']).path))
             res.append({
-                "Suite" : prefix + suite['suite'],
-                "SourcesList" : "deb {} {} {}".format(self.url, suite['suite'], " ".join(suite['components'])),
+                "Suite" : prefix + suitename,
+                "SourcesList" : "deb {} {} {}".format(self.url, suitename, " ".join(suite['components'])),
                 "DebSrc" : suite['hasSources'],
                 "Architectures" : archs if self.architectures else suite['architectures'],
                 "TrustedGPG" : self.trustedGPGFile

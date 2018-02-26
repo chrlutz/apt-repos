@@ -212,6 +212,21 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu:de-", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
 
+    # Better would be to test a repo whose Release-File states a different
+    # suitename than it's .../dists/<dist>-path. ExtractSuiteFromReleaseUrl
+    # should give precidence to <dist> in this case.
+    repo = Repository({
+      "Repository" : "Main Ubuntu Repository",
+      "Prefix" : "ubuntu",
+      "Url" : "http://de.archive.ubuntu.com/ubuntu/",
+      "Suites" : [ "bionic" ],
+      "ExtractSuiteFromReleaseUrl": True,
+      "Architectures" : [ "i386", "amd64" ],
+      "TrustedGPG" : "./gpg/ubuntu.gpg"
+    })
+    print("\n" + str(repo))
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
+
 
 def dumpQuerySuiteDescsResult(repo, prefix, suite):
     print("  Results for '{}', '{}':".format(prefix, suite))

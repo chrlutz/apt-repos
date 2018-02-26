@@ -297,3 +297,12 @@ INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu:de-', 'bionic':
   Results for 'ubuntu:', 'bionic':
+
+Repository('ubuntu', 'http://de.archive.ubuntu.com/ubuntu/')
+  Results for 'ubuntu', 'bionic':
+INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
