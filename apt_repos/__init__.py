@@ -127,6 +127,8 @@ def getSuites(selectors=None):
 
         for key, (repoDescs, basedir) in reposData.items():
             for repoDesc in repoDescs:                
+                if not type(repoDesc) is dict:
+                    continue
                 for suiteDesc in Repository(repoDesc).querySuiteDescs(srepo, ssuiteName):
                     count+=1
                     #tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
