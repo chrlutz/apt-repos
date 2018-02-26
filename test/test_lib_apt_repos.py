@@ -161,15 +161,18 @@ def testGetSourcesFiles():
 
 
 def testRepository():
-    repo = Repository({
+    basisRepoDesc = {
       "Repository" : "Main Ubuntu Repository",
       "Prefix" : "ubuntu",
       "Url" : "http://archive.ubuntu.com/ubuntu/",
-      "Suites" : [ "xenial", "bionic" ],
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/ubuntu.gpg"
-    })
-    print("\n" + str(repo))
+    }
+
+    repo = Repository({ **basisRepoDesc, **{
+      "Suites" : [ "xenial", "bionic" ]
+    }})
+    print("\nTesting Basics with " + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "u", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu", "noexist")
@@ -179,15 +182,12 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu:test-", "bionic")
     dumpQuerySuiteDescsResult(repo, "another", "bionic")
 
-    repo = Repository({
-      "Repository" : "Main Ubuntu Repository",
+    repo = Repository({ **basisRepoDesc, **{
       "Prefix" : "ubuntu:de-",
       "Url" : "http://de.archive.ubuntu.com/ubuntu/",
-      "Suites" : [ "xenial", "bionic" ],
-      "Architectures" : [ "i386", "amd64" ],
-      "TrustedGPG" : "./gpg/ubuntu.gpg"
-    })
-    print("\n" + str(repo))
+      "Suites" : [ "xenial", "bionic" ]
+    }})
+    print("\nTesting different Prefix with " + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "de-bionic")
     dumpQuerySuiteDescsResult(repo, "u", "de-bionic")
     dumpQuerySuiteDescsResult(repo, "", "de-noexist")
@@ -196,15 +196,10 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu:de-", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
 
-    repo = Repository({
-      "Repository" : "Main Ubuntu Repository",
-      "Prefix" : "ubuntu",
-      "Url" : "http://de.archive.ubuntu.com/ubuntu/",
-      "Scan" : True,
-      "Architectures" : [ "i386", "amd64" ],
-      "TrustedGPG" : "./gpg/ubuntu.gpg"
-    })
-    print("\n" + str(repo))
+    repo = Repository({ **basisRepoDesc, **{
+      "Scan" : True
+    }})
+    print("\nTesting Scan==True with " + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "", "bionic")
     dumpQuerySuiteDescsResult(repo, "", "noexist")
@@ -215,16 +210,18 @@ def testRepository():
     # Better would be to test a repo whose Release-File states a different
     # suitename than it's .../dists/<dist>-path. ExtractSuiteFromReleaseUrl
     # should give precidence to <dist> in this case.
-    repo = Repository({
-      "Repository" : "Main Ubuntu Repository",
-      "Prefix" : "ubuntu",
-      "Url" : "http://de.archive.ubuntu.com/ubuntu/",
+    repo = Repository({ **basisRepoDesc, **{
       "Suites" : [ "bionic" ],
       "ExtractSuiteFromReleaseUrl": True,
-      "Architectures" : [ "i386", "amd64" ],
-      "TrustedGPG" : "./gpg/ubuntu.gpg"
-    })
-    print("\n" + str(repo))
+    }})
+    print("\nTesting ExtractSuiteFromReleaseUrl==True with " + str(repo))
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
+
+    repo = Repository({ **basisRepoDesc, **{
+      "Suites" : [ "bionic" ],
+      "Trusted": True
+    }})
+    print("\nTesting Trusted==True with " + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
 

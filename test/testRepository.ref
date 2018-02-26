@@ -1,5 +1,5 @@
 
-Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
+Testing Basics with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'bionic':
 INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -33,7 +33,7 @@ INFO     Starting new HTTP connection (1): archive.ubuntu.com
   Results for 'ubuntu:test-', 'bionic':
   Results for 'another', 'bionic':
 
-Repository('ubuntu:de-', 'http://de.archive.ubuntu.com/ubuntu/')
+Testing different Prefix with Repository('ubuntu:de-', 'http://de.archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'de-bionic':
 INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
     Architectures: ['i386', 'amd64']
@@ -66,243 +66,252 @@ INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
   Results for 'ubuntu:de-', 'bionic':
   Results for 'ubuntu:', 'bionic':
 
-Repository('ubuntu', 'http://de.archive.ubuntu.com/ubuntu/')
+Testing Scan==True with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'bionic':
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for '', 'bionic':
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for '', 'noexist':
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
   Results for 'ubuntu', '':
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ artful main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ artful main restricted universe multiverse
     Suite: ubuntu:artful
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ artful-backports main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ artful-backports main restricted universe multiverse
     Suite: ubuntu:artful-backports
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ artful-proposed main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ artful-proposed main restricted universe multiverse
     Suite: ubuntu:artful-proposed
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ artful-security main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ artful-security main restricted universe multiverse
     Suite: ubuntu:artful-security
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ artful-updates main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ artful-updates main restricted universe multiverse
     Suite: ubuntu:artful-updates
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
     Suite: ubuntu:bionic-backports
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
     Suite: ubuntu:bionic-proposed
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
     Suite: ubuntu:bionic-security
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
     Suite: ubuntu:bionic-updates
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
     Suite: ubuntu:bionic-backports
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
     Suite: ubuntu:bionic-proposed
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
     Suite: ubuntu:bionic-security
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
     Suite: ubuntu:bionic-updates
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ precise main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise main restricted universe multiverse
     Suite: ubuntu:precise
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ precise-backports main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-backports main restricted universe multiverse
     Suite: ubuntu:precise-backports
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ precise-proposed main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-proposed main restricted universe multiverse
     Suite: ubuntu:precise-proposed
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ precise-security main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-security main restricted universe multiverse
     Suite: ubuntu:precise-security
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ precise-updates main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-updates main restricted universe multiverse
     Suite: ubuntu:precise-updates
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
     Suite: ubuntu:trusty
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
     Suite: ubuntu:trusty-backports
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ trusty-proposed main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-proposed main restricted universe multiverse
     Suite: ubuntu:trusty-proposed
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ trusty-security main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-security main restricted universe multiverse
     Suite: ubuntu:trusty-security
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse
     Suite: ubuntu:trusty-updates
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
     Suite: ubuntu:xenial
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
     Suite: ubuntu:xenial-backports
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial-proposed main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-proposed main restricted universe multiverse
     Suite: ubuntu:xenial-proposed
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
     Suite: ubuntu:xenial-security
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
     Suite: ubuntu:xenial-updates
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu:de-', 'bionic':
   Results for 'ubuntu:', 'bionic':
 
-Repository('ubuntu', 'http://de.archive.ubuntu.com/ubuntu/')
+Testing ExtractSuiteFromReleaseUrl==True with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
   Results for 'ubuntu', 'bionic':
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:bionic
+    TrustedGPG: ./gpg/ubuntu.gpg
+
+Testing Trusted==True with Repository('ubuntu', 'http://archive.ubuntu.com/ubuntu/')
+  Results for 'ubuntu', 'bionic':
+INFO     Starting new HTTP connection (1): archive.ubuntu.com
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
