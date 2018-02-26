@@ -70,6 +70,9 @@ _cliTestSuites:
 	
 	$(CLI) suites --verbose -s trusty >cliTestSuites3.res 2>&1 $(EXP_OK)
 	diff -u cliTestSuites3.ref cliTestSuites3.res $(EXP_OK)
+
+	$(CLI) suites --verbose -s ubuntu:de-bionic >cliTestSuites4.res 2>&1 $(EXP_OK)
+	diff -u cliTestSuites4.ref cliTestSuites4.res $(EXP_OK)
 	$(FINISHED_TEST)
 
 _cliTestLs:
@@ -88,6 +91,9 @@ _cliTestLs:
 	
 	$(CLI) ls zim git -di a^all -dt diff,-y >cliTestLs5.res 2>&1 $(EXP_OK)
 	diff -u cliTestLs5.ref cliTestLs5.res $(EXP_OK)
+
+	$(CLI) ls zim git -s ubuntu:de-bionic >cliTestLs6.res 2>&1 $(EXP_OK)
+	diff -u cliTestLs6.ref cliTestLs6.res $(EXP_OK)
 	$(FINISHED_TEST)
 
 _cliTestShow:

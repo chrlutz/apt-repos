@@ -11,5 +11,15 @@
       ],
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/debian.gpg"
-    }
+    },
+    "--------------------------------------------------------",
+    {
+      "Repository" : "German Main Ubuntu Repository",
+      "Prefix" : "ubuntu:de-",
+      "Url" : "http://de.archive.ubuntu.com/ubuntu/",
+      "Suites" : [ "bionic" ],
+      "Architectures" : [ "i386", "amd64" ],
+      "TrustedGPG" : "./gpg/ubuntu.gpg"
+    },
+    "--------------------------------------------------------"
 ]
