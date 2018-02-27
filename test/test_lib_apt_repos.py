@@ -25,7 +25,7 @@ import sys
 import argparse
 import logging
 
-sys.path.append("../")
+sys.path.insert(0, "../")
 import apt_repos
 from apt_repos import PackageField, QueryResult
 from apt_repos.Repository import Repository
