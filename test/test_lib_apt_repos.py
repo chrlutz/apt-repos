@@ -169,10 +169,10 @@ def testRepository():
       "TrustedGPG" : "./gpg/ubuntu.gpg"
     }
 
-    repo = Repository({ **basisRepoDesc, **{
+    repo = Repository(mergedict(basisRepoDesc, {
       "Repository" : "Testing Basics",
       "Suites" : [ "xenial", "bionic" ]
-    }})
+    }))
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "u", "bionic")
@@ -183,12 +183,12 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu:test-", "bionic")
     dumpQuerySuiteDescsResult(repo, "another", "bionic")
 
-    repo = Repository({ **basisRepoDesc, **{
+    repo = Repository(mergedict(basisRepoDesc,{
       "Repository" : "Testing different Prefix",
       "Prefix" : "ubuntu:de-",
       "Url" : "http://de.archive.ubuntu.com/ubuntu/",
       "Suites" : [ "xenial", "bionic" ]
-    }})
+    }))
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "de-bionic")
     dumpQuerySuiteDescsResult(repo, "u", "de-bionic")
@@ -198,10 +198,10 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu:de-", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
 
-    repo = Repository({ **basisRepoDesc, **{
+    repo = Repository(mergedict(basisRepoDesc, {
       "Repository" : "Testing Option Scan==True",
       "Scan" : True
-    }})
+    }))
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "", "bionic")
@@ -213,29 +213,36 @@ def testRepository():
     # Better would be to test a repo whose Release-File states a different
     # suitename than it's .../dists/<dist>-path. ExtractSuiteFromReleaseUrl
     # should give precidence to <dist> in this case.
-    repo = Repository({ **basisRepoDesc, **{
+    repo = Repository(mergedict(basisRepoDesc, {
       "Repository" : "Testing Option ExtractSuiteFromReleaseUrl==True",
       "Suites" : [ "bionic" ],
       "ExtractSuiteFromReleaseUrl": True,
-    }})
+    }))
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
-    repo = Repository({ **basisRepoDesc, **{
+    repo = Repository(mergedict(basisRepoDesc, {
       "Repository" : "Testing Option Trusted==True",
       "Suites" : [ "bionic" ],
       "Trusted": True
-    }})
+    }))
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
-    repo = Repository({ **basisRepoDesc, **{
+    repo = Repository(mergedict(basisRepoDesc, {
       "Repository" : "Testing Option DebSrc==True",
       "Suites" : [ "bionic" ],
       "DebSrc" : False,
-    }})
+    }))
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
+
+
+def mergedict(a, b):
+    res = dict(a)
+    for key, value in b.items():
+        res[key] = value
+    return res
 
 
 def dumpQuerySuiteDescsResult(repo, prefix, suite):
