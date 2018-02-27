@@ -1,3 +1,37 @@
+apt-repos (1.44) bionic; urgency=medium
+
+  * NEW FEATURE: added support for *.repos config files
+    * new modules apt_repos.RepositoryScanner and apt_repos.Repository
+    * added automatic hasSources recognition for Repositories
+    * scanning Repositories with Scan==True and no suites now + testcases
+    * integrated new modules into productive suites-scanning + clitests
+    * added repos option ExtractSuiteFromReleaseUrl + testcase
+    * added repos option Trusted + testcase
+    * ignore comments (strings) in repos config
+    * added clitest for prefixed repos (ubuntu:de-)
+    * fixed clitests with new test.repos config, trying to keep side effects (speed) small
+    * implemented repos option DebSrc + Tests
+    * allow config to have no *.suites files if there are *.repos files instead
+
+  * cleanups, bugfixes, refactoring:
+    * split __init__.py into separate class files
+    * using context manager for TagFile now
+    * cope with absolute gpg file paths
+    * replaced debian/createSuites.sh by appropriate main.repos conf file
+
+  * debian packaging improvements:
+    * fixed debian package dependencies
+    * activated automatic tests during debian packaging
+    * adding manpage- and README.html creation to debian packaging
+
+  * adjusted suite selector behaviour for repo prefixes
+    it's better to let us specify the full repo names instead of
+    unintentionally add repos starting with the same characters.
+
+  * make existence of suites option TrustedGPG optional
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Tue, 27 Feb 2018 12:39:11 +0100
+
 apt-repos (1.43) bionic; urgency=medium
 
   * fixed error handling when no sources files found
