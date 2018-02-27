@@ -21,9 +21,12 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
+import logging
 import os
 import apt_pkg
 from apt_repos.PackageField import PackageField
+
+logger = logging.getLogger(__name__)
 
 
 class QueryResult:

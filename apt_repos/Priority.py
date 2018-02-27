@@ -24,6 +24,8 @@
 import apt_pkg
 from enum import Enum
 
+logger = logging.getLogger(__name__)
+
 
 class Priority(Enum):
     '''

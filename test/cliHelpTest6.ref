@@ -1,3 +1,4 @@
+INFO     apt_repos: Using basedir '.'
 usage: apt-repos show [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT]
                       [-r] [-col COLUMNS] [-di DIFF] [-dt DIFF_TOOL] [-nu]
                       package [package ...]

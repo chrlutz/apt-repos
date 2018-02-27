@@ -1,18 +1,14 @@
-INFO     Setting new BaseDir: .
+INFO     apt_repos: Using basedir '.'
 
 Selected suites for selectors: None
 ubuntu:xenial
 ubuntu:xenial-security
-INFO     Starting new HTTP connection (1): deb.debian.org
-INFO     Redirecting http://deb.debian.org/debian/dists/stretch/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch/Release
-INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
-INFO     Starting new HTTP connection (1): deb.debian.org
-INFO     Redirecting http://deb.debian.org/debian/dists/stretch-backports/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-backports/Release
-INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
-INFO     Starting new HTTP connection (1): deb.debian.org
-INFO     Redirecting http://deb.debian.org/debian/dists/stretch-updates/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-updates/Release
-INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     apt_repos.RepositoryScanner: Scanning repository http://wirzelprimpft.de/apt/repos/ 
+WARNING  apt_repos.RepositoryScanner: Could not resolve repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch
+INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-backports
+INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-updates
+INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
 
 Selected suites for selectors: :
 ubuntu:trusty
@@ -30,12 +26,14 @@ ubuntu:xenial-security
 
 Selected suites for selectors: ubuntu:xenial
 ubuntu:xenial
+INFO     apt_repos.RepositoryScanner: Scanning repository http://wirzelprimpft.de/apt/repos/ xenial
+WARNING  apt_repos.RepositoryScanner: Could not resolve suite xenial of repository http://wirzelprimpft.de/apt/repos/
 
 Selected suites for selectors: xenial
 ubuntu:xenial
 
 Selected suites for selectors: ub:trusty
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
 
 Selected suites for selectors: ubuntu:
 ubuntu:trusty

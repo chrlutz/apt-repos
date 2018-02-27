@@ -1,14 +1,10 @@
-INFO     Setting new BaseDir: .
-INFO     Starting new HTTP connection (1): deb.debian.org
-INFO     Redirecting http://deb.debian.org/debian/dists/stretch/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch/Release
-INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
-INFO     Starting new HTTP connection (1): deb.debian.org
-INFO     Redirecting http://deb.debian.org/debian/dists/stretch-backports/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-backports/Release
-INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
-INFO     Starting new HTTP connection (1): deb.debian.org
-INFO     Redirecting http://deb.debian.org/debian/dists/stretch-updates/Release -> http://cdn-fastly.deb.debian.org/debian/dists/stretch-updates/Release
-INFO     Starting new HTTP connection (1): cdn-fastly.deb.debian.org
-INFO     Starting new HTTP connection (1): de.archive.ubuntu.com
+INFO     apt_repos: Using basedir '.'
+INFO     apt_repos.RepositoryScanner: Scanning repository http://wirzelprimpft.de/apt/repos/ 
+WARNING  apt_repos.RepositoryScanner: Could not resolve repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch
+INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-backports
+INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-updates
+INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
 ubuntu:trusty
 trusty
 http://de.archive.ubuntu.com/ubuntu/

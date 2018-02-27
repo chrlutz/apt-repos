@@ -50,17 +50,17 @@ from apt_repos.PackageField import PackageField
 from apt_repos.QueryResult import QueryResult
 from apt_repos.Repository import Repository
 
+logger = logging.getLogger(__name__)
 
 __baseDirs = [ expanduser('~') + '/.config/apt-repos', expanduser('~') + '/.apt-repos', '/etc/apt-repos' ]
 __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
 
 
 def setAptReposBaseDir(dir):
-    logger = logging.getLogger('getSuites')
     global __baseDirs
     global __cacheDir
     if(os.path.isdir(dir)):
-        logger.info("Setting new BaseDir: " + dir)
+        logger.info("Using basedir '{}'".format(os.path.relpath(dir)))
         __baseDirs = [ os.path.realpath(dir) ]
         __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
     else:
@@ -68,8 +68,6 @@ def setAptReposBaseDir(dir):
 
 
 def getSuites(selectors=None):
-    logger = logging.getLogger('getSuites')
-    
     suitesData = dict() # map of filename --> (jsonData, basedir)
     reposData = dict() # map of filename --> (jsonData, basedir)
     configSectionsCount = 0

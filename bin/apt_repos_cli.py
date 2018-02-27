@@ -41,6 +41,8 @@ import functools
 import apt_repos
 from apt_repos import PackageField, QueryResult
 
+logger = logging.getLogger(__name__)
+
 
 def main():
     
@@ -53,8 +55,7 @@ def main():
     parser = createArgparsers()[0]
     args = parser.parse_args()
 
-    setupLogging(logging.DEBUG if args.debug else logging.WARN)
-    logger = logging.getLogger('main')
+    setupLogging(logging.DEBUG if args.debug else logging.INFO)
     
     if "diff" in args.__dict__ and args.diff:
         diffField = args.diff.split("^")[0]
@@ -226,19 +227,19 @@ def setupLogging(loglevel):
        Initializing logging and set log-level
     '''
     kwargs = {
-        'format': '%(asctime)s %(levelname)-8s %(message)s',
-        'datefmt':'%Y-%m-%d,%H:%M:%S',
+        'format': '%(levelname)-8s %(name)s: %(message)s',
         'level': loglevel,
         'stream': sys.stderr
     }
     logging.basicConfig(**kwargs)
+    logging.getLogger("urllib3").setLevel(logging.ERROR)
+
 
 
 def suites(args):
     '''
        subcommand suites: print a list of registered suites
     '''
-    logger = logging.getLogger('suites')
     suites = apt_repos.getSuites(args.suite.split(','))
     for s in sorted(suites):
         print("# {}{}".format(s.getSuiteName(), (" [" + (":, ".join(sorted(s.getTags())) + ":]")) if len(s.getTags()) > 0 else ""))
@@ -251,8 +252,6 @@ def show(args):
     '''
        subcommand show: print details about packages similar to what apt-cache show does
     '''
-    logger = logging.getLogger('show')
-
     (result, requestFields) = queryPackages(args)
 
     formatter = singleLines_formatter
@@ -267,8 +266,6 @@ def ls(args):
     '''
        subcommand ls: search and print a list of packages
     '''
-    logger = logging.getLogger('ls')
-
     (result, requestFields) = queryPackages(args)
     
     if args.format == 'table':
@@ -286,8 +283,6 @@ def dsc(args):
     '''
        subcommand dsc: list urls of dsc-files available for source-packages.
     '''
-    logger = logging.getLogger('dsc')
-
     # parse --suite and determine the specific suite scan-order
     suites = list()
     for selector in args.suite.split(','):
@@ -419,8 +414,6 @@ def singleLines_formatter(result, requestFields, no_header, outfile):
 
 
 def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFormatter):
-    logger = logging.getLogger('diff_formatter')
-    
     # split result list at diffField into two different sets:
     dfParts = diffField.split("^")
     df = PackageField.getByFieldsString(dfParts[0])[0]
@@ -480,8 +473,6 @@ def queryPackages(args):
        queries Packages by the args provided on the command line and returns a
        tuple of (queryResults, requestFields)
     '''
-    logger = logging.getLogger('queryPackages')
-
     suites = apt_repos.getSuites(args.suite.split(','))
     requestPackages = { p for p in args.package }
     requestArchs = { a for a in args.architecture.split(',') } if args.architecture else {}

@@ -34,6 +34,8 @@ import functools
 from apt_repos.RepositoryScanner import scanRepository
 from urllib.parse import urlparse
 
+logger = logging.getLogger(__name__)
+
 
 class Repository:
     '''

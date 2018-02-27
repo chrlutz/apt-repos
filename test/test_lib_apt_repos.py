@@ -259,10 +259,11 @@ def dump(obj):
 
 def main():
     logging.basicConfig(**{
-        'format': '%(levelname)-8s %(message)s',
+        'format': '%(levelname)-8s %(name)s: %(message)s',
         'level': logging.INFO,
         'stream': sys.stdout
     })
+    logging.getLogger("urllib3").setLevel(logging.CRITICAL)
     
     args = argparse.ArgumentParser(description=__doc__)
     args.add_argument('method', nargs='+', help='Name of a test method to run')

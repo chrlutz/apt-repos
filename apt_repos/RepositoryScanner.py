@@ -21,7 +21,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
-
+import logging
 import sys
 import configparser
 import urllib3
@@ -34,18 +34,25 @@ import apt_pkg
 import tempfile
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
+from urllib3.exceptions import MaxRetryError
+
+logger = logging.getLogger(__name__)
 
 
 def scanRepository(url, suites=None):
+    logger.info("Scanning repository {} {}".format(url, " ".join(suites) if suites else ""))
     res = list()
     if suites:
         for s in suites:
             try:
                 res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release'))))
             except Exception as ex:
-                '''TODO: add debug message'''
+                logger.warn("Could not resolve suite {} of repository {}".format(s, url))
     else:
-        res.extend(scanReleases(urljoin(url, "dists/")))
+        try:
+            res.extend(scanReleases(urljoin(url, "dists/")))
+        except Exception as ex:
+            logger.warn("Could not resolve repository {}".format(url))
     return res
 
 
@@ -73,12 +80,9 @@ def scanReleases(url, recursive=True):
 
 def scanReleaseFile(url):
     http = urllib3.PoolManager()
-    req = http.request('GET', url)
-    if req.status != 200:
-        raise Exception("http-request to url {} failed with status code {}".format(url, req.status))
-
+    data = getHttp(url)
     with tempfile.TemporaryFile() as fp:
-        fp.write(req.data)
+        fp.write(data)
         fp.seek(0)
         with apt_pkg.TagFile(fp) as tagfile:
             try:
@@ -119,11 +123,7 @@ class HtmlIndexParser(HTMLParser):
         self.release = None
         self.inRelease = None
         self.subfolders = dict()
-        http = urllib3.PoolManager()
-        req = http.request('GET', self.baseurl)
-        if req.status != 200:
-            raise Exception("http-request to url {} failed with status code {}".format(self.baseurl, req.status))
-        self.feed(req.data.decode('utf8'))
+        self.feed(getHttp(self.baseurl).decode('utf8'))
         
     def handle_starttag(self, tag, attrs):
         if tag.upper() == 'A':
@@ -144,6 +144,18 @@ class HtmlIndexParser(HTMLParser):
 
     def getSubfolders(self):
         return self.subfolders
+
+
+def getHttp(url):
+    http = urllib3.PoolManager()
+    try:
+        req = http.request('GET', url)
+        if req.status != 200:
+            raise Exception("http-request to url {} failed with status code {}".format(url, req.status))
+        return req.data
+    except MaxRetryError as e:
+        raise Exception("http-request to url {} failed".format(url), e)
+    
 
 
 if __name__ == "__main__":

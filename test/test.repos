@@ -1,6 +1,14 @@
 [
     "--------------------------------------------------------",
     {
+      "Repository" : "Unresolvable Repository",
+      "Prefix" : "nothing",
+      "Url" : "http://wirzelprimpft.de/apt/repos/",
+      "Scan" : true,
+      "Architectures" : [ "i386", "amd64" ]
+    },
+    "--------------------------------------------------------",
+    {
       "Repository" : "Main Debian Repository",
       "Prefix" : "debian",
       "Url" : "http://deb.debian.org/debian/",

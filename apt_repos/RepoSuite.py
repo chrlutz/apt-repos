@@ -33,6 +33,8 @@ import functools
 
 from apt_repos.QueryResult import QueryResult
 
+logger = logging.getLogger(__name__)
+
 
 class RepoSuite:
     '''
@@ -51,8 +53,6 @@ class RepoSuite:
             Note: The apt-cache is not scanned and not updated there! 
                   Always call scan(...) before accessing package metadata!
         '''
-        logger = logging.getLogger('RepoSuite.__init__')
-
         self.suite = suiteDesc['Suite']
         self.ordervalue = ordervalue        
         self.basedir = baseDir
@@ -81,7 +81,6 @@ class RepoSuite:
         
 
     def _ensureFileContent(self, file, content):
-        logger = logging.getLogger('RepoSuite.ensureFileContent')
         '''
             This method ensures that the file <file> contains <content> but
             modifies the file only if the file not yet exists or it exists
@@ -110,7 +109,6 @@ class RepoSuite:
             Call this method before accessing packages data, e.g. like in queryPackages(...).
             If update==False, the already cached local metadata are used.
         '''  
-        logger = logging.getLogger('RepoSuite.__setRootContext')
         logger.debug("scanning repository/suite {} {} update".format(self.suite, 'with' if update else 'without'))
         apt_pkg.read_config_file(apt_pkg.config, self.rootdir + "/etc/apt/apt.conf")                
         apt_pkg.config.set("Dir", self.rootdir)
@@ -128,7 +126,6 @@ class RepoSuite:
         '''
             Returns the sourcesList-Entry used for this repo/suite constellation
         '''
-        logger = logging.getLogger('RepoSuite.getSourcesList')
         logger.debug("got self.sourcesListEntry=" + str(self.sourcesListEntry))
         debSrc = ""
         if self.hasDebSrc:
@@ -280,7 +277,6 @@ class RepoSuite:
                           this list order and will accumulate the (hashable) QueryResult-Objects
                           by these fields.
         '''
-        logger = logging.getLogger('RepoSuite.queryPackages')
         res = set()
         for pkg in self.cache.packages:
             for v in pkg.version_list:
@@ -348,7 +344,6 @@ class RepoSuite:
                           this list order and will accumulate the (hashable) QueryResult-Objects
                           by these fields.
         '''
-        logger = logging.getLogger('RepoSuite.queryPackages')
         res = set()
 
         sourcesFiles = self.getSourcesFiles()
@@ -422,7 +417,7 @@ class RepoSuite:
             Logging of network activity for RepoSuite.updateCache()
         '''
     
-        logger = logging.getLogger('Progress')
+        logger = logging.getLogger(__name__)
     
         def start(self):
             self.logger.debug("[start]")

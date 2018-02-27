@@ -1,3 +1,4 @@
+INFO     apt_repos: Using basedir '.'
 updating (use --no-update to skip) and querying sources lists for 2 suites.1.2
 http://security.ubuntu.com/ubuntu/pool/main/g/git/git_1.9.1-1ubuntu0.7.dsc
 http://de.archive.ubuntu.com/ubuntu/pool/universe/r/reprepro/reprepro_4.17.0-1.dsc
