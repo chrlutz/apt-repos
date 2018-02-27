@@ -72,7 +72,7 @@ def getSuites(selectors=None):
     
     suitesData = dict() # map of filename --> (jsonData, basedir)
     reposData = dict() # map of filename --> (jsonData, basedir)
-    suitesCount = 0
+    configSectionsCount = 0
     for basedir in __baseDirs:
         if not os.path.isdir(basedir):
             if len(suitesData) == 0:
@@ -88,14 +88,15 @@ def getSuites(selectors=None):
                     with open(filename, 'r') as file:
                         jsonData = json.load(file)
                         suitesData[f] = (jsonData, basedir)
-                        suitesCount += len(jsonData)
+                        configSectionsCount += len(jsonData)
                 elif str(filename).endswith(".repos"):
                     with open(filename, 'r') as file:
                         jsonData = json.load(file)
                         reposData[f] = (jsonData, basedir)
+                        configSectionsCount += len(jsonData)
                     
-    if suitesCount == 0:
-        logger.warning("No *.suites-files or no suites-data found in the directories '" + "', '".join(__baseDirs) + "'")
+    if configSectionsCount == 0:
+        logger.warning("No *.suites- or *.repos-files found in the directories '" + "', '".join(__baseDirs) + "'")
         
     if not selectors:
         selectors = ["default:"]
