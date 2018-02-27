@@ -63,6 +63,7 @@ class Repository:
         self.suites = repoDesc["Suites"] if repoDesc.get("Suites") else []
         self.architectures = repoDesc.get('Architectures')
         self.trustedGPGFile = repoDesc.get('TrustedGPG')
+        self.debSrc = repoDesc.get('DebSrc')
         self.trusted = repoDesc.get('Trusted')
         self.tags = repoDesc["Tags"] if repoDesc.get("Tags") else []        
 
@@ -105,10 +106,11 @@ class Repository:
             if self.extractSuiteFromReleaseUrl:
                 suitename = re.sub(".*\/dists\/", "", os.path.dirname(urlparse(suite['url']).path))
             option = '' if not self.trusted else '[trusted=yes] '
+            debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
             res.append({
                 "Suite" : prefix + suitename,
                 "SourcesList" : "deb {}{} {} {}".format(option, self.url, suitename, " ".join(suite['components'])),
-                "DebSrc" : suite['hasSources'],
+                "DebSrc" : debSrc,
                 "Architectures" : archs if self.architectures else suite['architectures'],
                 "TrustedGPG" : self.trustedGPGFile
             })

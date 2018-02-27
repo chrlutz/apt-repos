@@ -199,7 +199,7 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu:", "bionic")
 
     repo = Repository({ **basisRepoDesc, **{
-      "Repository" : "Testing Scan==True",
+      "Repository" : "Testing Option Scan==True",
       "Scan" : True
     }})
     print("\n" + str(repo))
@@ -214,7 +214,7 @@ def testRepository():
     # suitename than it's .../dists/<dist>-path. ExtractSuiteFromReleaseUrl
     # should give precidence to <dist> in this case.
     repo = Repository({ **basisRepoDesc, **{
-      "Repository" : "Testing ExtractSuiteFromReleaseUrl==True",
+      "Repository" : "Testing Option ExtractSuiteFromReleaseUrl==True",
       "Suites" : [ "bionic" ],
       "ExtractSuiteFromReleaseUrl": True,
     }})
@@ -222,9 +222,17 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
     repo = Repository({ **basisRepoDesc, **{
-      "Repository" : "Testing Trusted==True",
+      "Repository" : "Testing Option Trusted==True",
       "Suites" : [ "bionic" ],
       "Trusted": True
+    }})
+    print("\n" + str(repo))
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
+
+    repo = Repository({ **basisRepoDesc, **{
+      "Repository" : "Testing Option DebSrc==True",
+      "Suites" : [ "bionic" ],
+      "DebSrc" : False,
     }})
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
