@@ -30,7 +30,7 @@ override_dh_install:
 	dh_install --exclude=__pycache__
 
 override_dh_auto_test:
-	make -C test clitests
+	make -C test
 	dh_auto_test
 
 %:
