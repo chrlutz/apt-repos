@@ -33,8 +33,8 @@ def createManpage(parser, appname, desc, sections):
     filename="man/{}.1".format(appname.replace(" ", "-"))
     mpf = ManPageFormatter(appname, desc=desc, long_desc=desc, ext_sections=sections)
     m = mpf.format_man_page(parser)
-    with open(filename, 'w') as f:
-        print(m.encode('utf8'), file=f)
+    with open(filename, 'wb') as f:
+        f.write(m.encode('utf8'))
 
 
 if __name__ == "__main__":
