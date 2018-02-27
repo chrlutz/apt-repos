@@ -1,4 +1,5 @@
 [
+    "--------------------------------------------------------",
     {
       "Repository" : "Main Debian Repository",
       "Prefix" : "debian",
@@ -17,15 +18,39 @@
           "wheezy-updates",
           "wheezy-proposed-updates"
       ],
+      "ExtractSuiteFromReleaseUrl": true,
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/debian.gpg"
     },
+    "--------------------------------------------------------",
     {
       "Repository" : "Main Ubuntu Repository",
       "Prefix" : "ubuntu",
       "Url" : "http://archive.ubuntu.com/ubuntu/",
-      "Suites" : [ "trusty", "bionic" ],
+      "Suites" : [ 
+          "trusty",
+          "trusty-backports",
+          "trusty-proposed",
+          "trusty-security",
+          "trusty-updates",
+          "xenial",
+          "xenial-backports",
+          "xenial-proposed",
+          "xenial-security",
+          "xenial-updates",
+          "artful",
+          "artful-backports",
+          "artful-proposed",
+          "artful-security",
+          "artful-updates",
+          "bionic",
+          "bionic-backports",
+          "bionic-proposed",
+          "bionic-security",
+          "bionic-updates"
+      ],
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/ubuntu.gpg"
-    }
+    },
+    "--------------------------------------------------------"
 ]
