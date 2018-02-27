@@ -1,3 +1,11 @@
+apt-repos (1.45.1) bionic; urgency=medium
+
+  * exclude __pycache__ from packaging
+  * reworked logging and improved error-messages and responsiveness
+  * reenabled all tests since logging work better now
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Tue, 27 Feb 2018 19:55:06 +0100
+
 apt-repos (1.45) bionic; urgency=medium
 
   * fixed bug in exception handling
