@@ -122,7 +122,7 @@ class HtmlIndexParser(HTMLParser):
         http = urllib3.PoolManager()
         req = http.request('GET', self.baseurl)
         if req.status != 200:
-            raise Exception("http-request to url {} failed with status code {}".format(url, req.status))
+            raise Exception("http-request to url {} failed with status code {}".format(self.baseurl, req.status))
         self.feed(req.data.decode('utf8'))
         
     def handle_starttag(self, tag, attrs):
