@@ -1,3 +1,13 @@
+apt-repos (1.45) bionic; urgency=medium
+
+  * fixed bug in exception handling
+  * removed obsolete createSuites.sh
+  * ensure my libs are preferred for the unittest
+  * better compatibility with older python3 version
+  * produce readable manpages instead of rubbish
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Tue, 27 Feb 2018 15:56:52 +0100
+
 apt-repos (1.44) bionic; urgency=medium
 
   * NEW FEATURE: added support for *.repos config files
