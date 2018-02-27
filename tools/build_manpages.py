@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+# -*- coding: utf-8 -*-
 import os
 import sys
 
@@ -34,7 +34,7 @@ def createManpage(parser, appname, desc, sections):
     mpf = ManPageFormatter(appname, desc=desc, long_desc=desc, ext_sections=sections)
     m = mpf.format_man_page(parser)
     with open(filename, 'w') as f:
-        f.write(m)
+        print(m.encode('utf8'), file=f)
 
 
 if __name__ == "__main__":
