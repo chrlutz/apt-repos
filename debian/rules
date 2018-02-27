@@ -27,7 +27,7 @@ override_dh_auto_install:
 	dh_auto_install -papt-repos
 
 override_dh_auto_test:
-	make -C test
+	make -C test clitests
 	dh_auto_test
 
 %:
