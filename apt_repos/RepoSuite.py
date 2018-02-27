@@ -75,7 +75,8 @@ class RepoSuite:
         # ensure our config files are properly configured
         self._ensureFileContent(self.rootdir + "/etc/apt/sources.list", self.getSourcesList())
         self._ensureFileContent(self.rootdir + "/etc/apt/apt.conf", self.getAptConf())
-        self._ensureFileContent(self.rootdir + "/etc/apt/trusted.gpg", self.getTrustedGPG())
+        if self.trustedGPGFile:
+            self._ensureFileContent(self.rootdir + "/etc/apt/trusted.gpg", self.getTrustedGPG())
         self._ensureFileContent(self.rootdir + "/var/lib/dpkg/status", "")
         
 
