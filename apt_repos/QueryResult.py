@@ -25,6 +25,7 @@ import logging
 import os
 import apt_pkg
 from apt_repos.PackageField import PackageField
+from apt_repos.Priority import Priority
 
 logger = logging.getLogger(__name__)
 
