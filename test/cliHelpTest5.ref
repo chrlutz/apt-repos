@@ -1,4 +1,4 @@
-INFO     apt_repos: Using basedir '.'
+INFO[apt_repos]: Using basedir '.'
 usage: apt-repos list [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT]
                       [-r] [-nu] [-nh] [-col COLUMNS] [-f {table,list}]
                       [-di DIFF] [-dt DIFF_TOOL]

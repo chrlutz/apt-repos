@@ -1,5 +1,5 @@
-INFO     apt_repos: Using basedir '.'
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
+INFO[apt_repos]: Using basedir '.'
+INFO[apt_repos.RepositoryScanner]: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
 updating (use --no-update to skip) and querying sources lists for 5 suites.1.2.3.4.5
 http://de.archive.ubuntu.com/ubuntu/pool/universe/r/reprepro/reprepro_5.1.1-1.dsc
 http://de.archive.ubuntu.com/ubuntu/pool/universe/r/reprepro/reprepro_4.17.0-1.dsc

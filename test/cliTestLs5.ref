@@ -1,4 +1,4 @@
-INFO     apt_repos: Using basedir '.'
+INFO[apt_repos]: Using basedir '.'
 updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
 Results for Arch 'amd64'				      |	Results for Arch 'i386'
 

@@ -1,4 +1,4 @@
-INFO     apt_repos: Using basedir '.'
+INFO[apt_repos]: Using basedir '.'
 usage: apt-repos suites [-h] [-d] [-s SUITE] [-v]
 
 subcommand suites: print a list of registered suites

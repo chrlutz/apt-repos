@@ -227,7 +227,7 @@ def setupLogging(loglevel):
        Initializing logging and set log-level
     '''
     kwargs = {
-        'format': '%(levelname)-8s %(name)s: %(message)s',
+        'format': '%(levelname)s[%(name)s]: %(message)s',
         'level': loglevel,
         'stream': sys.stderr
     }
