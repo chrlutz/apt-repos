@@ -9,7 +9,7 @@ sys.path.append(".")
 
 from build_manpage import ManPageFormatter
 
-from apt_repos_cli import createArgparsers, __doc__, ls, show, suites, dsc
+from apt_repos_cli import createArgparsers, __doc__, ls, show, suites, dsc, src
 
 
 def main():	
@@ -20,10 +20,11 @@ def main():
                                 "https://github.com/chrlutz/apt-repos")
     }
 
-    (parser, parser_ls, parser_show, parser_suites, parser_dsc) = createArgparsers()
+    (parser, parser_ls, parser_show, parser_suites, parser_dsc, parser_src) = createArgparsers()
 
     createManpage(parser, 'apt-repos', __doc__.strip(), sections)
     createManpage(parser_ls, 'apt-repos ls', ls.__doc__.strip(), sections)
+    createManpage(parser_src, 'apt-repos src', src.__doc__.strip(), sections)
     createManpage(parser_dsc, 'apt-repos dsc', dsc.__doc__.strip(), sections)
     createManpage(parser_show, 'apt-repos show', show.__doc__.strip(), sections)
     createManpage(parser_suites, 'apt-repos suites', suites.__doc__.strip(), sections)

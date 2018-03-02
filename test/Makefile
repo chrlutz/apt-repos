@@ -58,6 +58,12 @@ _cliTestHelpSystem:
 	
 	$(CLI) -h show >cliHelpTest6.res 2>&1 $(EXP_OK)
 	diff -u cliHelpTest6.ref cliHelpTest6.res $(EXP_OK)
+
+	$(CLI) -h dsc >cliHelpTest7.res 2>&1 $(EXP_OK)
+	diff -u cliHelpTest7.ref cliHelpTest7.res $(EXP_OK)
+
+	$(CLI) -h sources >cliHelpTest8.res 2>&1 $(EXP_OK)
+	diff -u cliHelpTest8.ref cliHelpTest8.res $(EXP_OK)
 	$(FINISHED_TEST)
 
 _cliTestSuites:
@@ -135,3 +141,11 @@ _cliTestDsc:
 	diff -u cliTestDsc8.ref cliTestDsc8.res $(EXP_OK)
 	$(FINISHED_TEST)
 
+_cliTestSource:
+	$(STARTING_TEST)
+	$(CLI) src git >cliTestSource1.res 2>&1 $(EXP_OK)
+	diff -u cliTestSource1.ref cliTestSource1.res $(EXP_OK)
+	
+	$(CLI) src git -col CvsaSF >cliTestSource2.res 2>&1 $(EXP_OK)
+	diff -u cliTestSource2.ref cliTestSource2.res $(EXP_OK)	
+	$(FINISHED_TEST)

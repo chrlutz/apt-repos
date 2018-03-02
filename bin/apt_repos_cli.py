@@ -48,9 +48,9 @@ def main():
     
     # fixup to get help-messages for subcommands that require positional argmuments
     # so that "apt-repos -h <subcommand>" prints a help-message and not an error
-    if ("-h" in sys.argv or "--help" in sys.argv) and \
-       ("ls" in sys.argv or "show" in sys.argv):
-        sys.argv.append(".")
+    for subcmd in ['ls', 'list', 'src', 'source', 'sources', 'dsc', 'show']:
+        if ("-h" in sys.argv or "--help" in sys.argv) and subcmd in sys.argv:
+            sys.argv.append(".")
     
     parser = createArgparsers()[0]
     args = parser.parse_args()
@@ -105,7 +105,7 @@ def createArgparsers():
     
     # subcommand parsers
     parse_ls = subparsers.add_parser('list', aliases=['ls'], help='query and list binary packages and their properties', description=ls.__doc__)
-    parse_src = subparsers.add_parser('sources', aliases=['src'], help='query and list source packages and their properties', description=src.__doc__)
+    parse_src = subparsers.add_parser('sources', aliases=['src', 'source'], help='query and list source packages and their properties', description=src.__doc__)
     parse_suites = subparsers.add_parser('suites', help='list configured suites', description=suites.__doc__)
     parse_show = subparsers.add_parser('show', help='show details about packages similar to apt-cache show', description=show.__doc__)
     parse_dsc = subparsers.add_parser('dsc', help='list urls of dsc-files for particular source-packages.', description=dsc.__doc__)
@@ -121,7 +121,7 @@ def createArgparsers():
     __SS = __SSSS = 1                    # argument exists in a special variant
     commonArguments = {
         parse_ls:     [ '-d', '-s', '-a', '-c', '-r', '-nu', '-nh', '-col', '-f', '-di', '-dt', 'package', ___x, ___x ],
-        parse_src:    [ '-d', '-s', '-a', '-c', '-r', '-nu', '-nh', '-col', '-f', '-di', '-dt', 'source' , ___x, ___x ],
+        parse_src:    [ '-d', '-s', ___x, '-c', '-r', '-nu', '-nh', __SSSS, '-f', '-di', '-dt', 'source' , ___x, ___x ],
         parse_suites: [ '-d', __SS, ___x, ___x, ___x, ____x, ____x, _____x, ___x, ____x, ____x,  _______x, '-v', ___x ],
         parse_show:   [ '-d', '-s', '-a', '-c', '-r', '-nu', ____x, __SSSS, ___x, '-di', '-dt', 'package', ___x, ___x ],
         parse_dsc:    [ '-d', __SS, ___x, '-c', ___x, '-nu', ____x, _____x, ___x, ____x, ____x, 'source' , ___x, '-1' ],
@@ -184,6 +184,11 @@ def createArgparsers():
                         Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
                         The default value is ':' (all suites).""")
 
+    # special variant for subcommand source
+    parse_src.add_argument("-col", "--columns", type=str, required=False, default='CvsaS', help="""
+                        Specify the columns that should be printed. Default is 'sR'.
+                        Possible characters are: """ + fieldChars)
+
     # special variant for subcommand show
     parse_show.add_argument("-col", "--columns", type=str, required=False, default='sR', help="""
                         Specify the columns that should be printed. Default is 'sR'.
@@ -240,7 +245,7 @@ def show(args):
     '''
        subcommand show: print details about packages similar to what apt-cache show does
     '''
-    (result, requestFields) = queryPackages(args)
+    (result, requestFields) = queryPackages(args.suite, args.package, args.regex, args.architecture, args.component, args.columns, args.no_update)
 
     formatter = singleLines_formatter
 
@@ -252,10 +257,21 @@ def show(args):
 
 def ls(args, querySources = False):
     '''
-       subcommand ls: search and print a list of binary packages
+       subcommand list: search and print a list of binary packages
     '''
-    (result, requestFields) = queryPackages(args, querySources)
-    
+    (result, requestFields) = queryPackages(args.suite, args.package, args.regex, args.architecture, args.component, args.columns, args.no_update)
+    formatListResult(args, result, requestFields)
+
+
+def src(args):
+    '''
+       subcommand source: search and print a list of source packages
+    '''
+    (result, requestFields) = queryPackages(args.suite, args.source, args.regex, None, args.component, args.columns, args.no_update, True)
+    formatListResult(args, result, requestFields)
+
+
+def formatListResult(args, result, requestFields):    
     if args.format == 'table':
         formatter = table_formatter
     elif args.format == 'list':
@@ -265,13 +281,6 @@ def ls(args, querySources = False):
         diff_formatter(result, requestFields, args.diff, args.diff_tool, args.no_header, list_formatter)            
     else:
         formatter(result, requestFields, args.no_header, sys.stdout)
-
-
-def src(args):
-    '''
-       subcommand source: search and print a list of source packages
-    '''
-    ls(args, True)
 
 
 def dsc(args):
@@ -463,30 +472,29 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
         os.remove(tmp)
 
 
-def queryPackages(args, querySources=False):
+def queryPackages(suiteStr, requestPackages, regexStr, archStr, componentStr, fieldStr, noUpdate=False, querySources=False):
     '''
        queries Packages by the args provided on the command line and returns a
        tuple of (queryResults, requestFields)
     '''
-    suites = apt_repos.getSuites(args.suite.split(','))
-    requestPackages = { p for p in args.package }
-    requestArchs = { a for a in args.architecture.split(',') } if args.architecture else {}
-    requestComponents = { c for c in args.component.split(',') } if args.component else {}
-    requestFields = PackageField.getByFieldsString(args.columns)
+    suites = apt_repos.getSuites(suiteStr.split(','))
+    requestArchs = { a for a in archStr.split(',') } if archStr else {}
+    requestComponents = { c for c in componentStr.split(',') } if componentStr else {}
+    requestFields = PackageField.getByFieldsString(fieldStr)
 
     result = set()
     showProgress = True
     pp(showProgress, "{}querying packages lists for {} suites".format(
-        "updating (use --no-update to skip) and " if not args.no_update else "", len(suites)))
+        "updating (use --no-update to skip) and " if not noUpdate else "", len(suites)))
     for x, suite in enumerate(suites):
         pp(showProgress, '.')
         try:
-            suite.scan(not args.no_update)
+            suite.scan(not noUpdate)
             pp(showProgress, x+1)
             if not querySources:
-                result = result.union(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+                result = result.union(suite.queryPackages(requestPackages, regexStr, requestArchs, requestComponents, requestFields))
             else:
-                result = result.union(suite.querySources(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+                result = result.union(suite.querySources(requestPackages, regexStr, requestArchs, requestComponents, requestFields))
         except SystemError as e:
             logger.warn("Could not retrieve {} for suite {}:\n{}".format("sources" if querySources else "packages", suite.getSuiteName(), e))
     pp(showProgress, '\n')

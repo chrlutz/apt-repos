@@ -4,7 +4,7 @@ usage: apt-repos list [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT]
                       [-di DIFF] [-dt DIFF_TOOL]
                       package [package ...]
 
-subcommand ls: search and print a list of binary packages
+subcommand list: search and print a list of binary packages
 
 positional arguments:
   package               Name of a binary PACKAGE or source-package name

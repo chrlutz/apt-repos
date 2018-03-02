@@ -1,6 +1,6 @@
-.TH apt-repos 1 2018\-02\-06
+.TH apt-repos 1 2018\-03\-02
 .SH SYNOPSIS
- \fBapt\-repos\fR [-h] [-b BASEDIR] {list,ls,suites,show,dsc} ...
+ \fBapt\-repos\fR [-h] [-b BASEDIR] {list,ls,sources,src,source,suites,show,dsc} ...
 
 
 .SH DESCRIPTION
@@ -14,9 +14,11 @@ Display information about binary PACKAGE(s) in diverse apt\-repositories and sui
 .br
    known from apt\-cache which lives in /var/lib/apt/lists.
 .SH OPTIONS
-  {list,ls,suites,show,dsc}
+  {list,ls,sources,src,source,suites,show,dsc}
                         choose one of these subcommands
-    list (ls)           search and list binary and source packages
+    list (ls)           query and list binary packages and their properties
+    sources (src, source)
+                        query and list source packages and their properties
     suites              list configured suites
     show                show details about packages similar to apt-cache show
     dsc                 list urls of dsc-files for particular source-packages.

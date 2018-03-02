@@ -1,5 +1,6 @@
 INFO[apt_repos]: Using basedir '.'
-usage: apt-repos [-h] [-b BASEDIR] {list,ls,sources,src,suites,show,dsc} ...
+usage: apt-repos [-h] [-b BASEDIR]
+                 {list,ls,sources,src,source,suites,show,dsc} ...
 
 Display information about binary PACKAGE(s) in diverse apt-repositories and
 suites. This tool uses apt-mechanisms to scan for repositories/suites that are
@@ -8,10 +9,11 @@ caching folder is created in which downloaded Packages files are stored,
 similar to the cache known from apt-cache which lives in /var/lib/apt/lists.
 
 positional arguments:
-  {list,ls,sources,src,suites,show,dsc}
+  {list,ls,sources,src,source,suites,show,dsc}
                         choose one of these subcommands
     list (ls)           query and list binary packages and their properties
-    sources (src)       query and list source packages and their properties
+    sources (src, source)
+                        query and list source packages and their properties
     suites              list configured suites
     show                show details about packages similar to apt-cache show
     dsc                 list urls of dsc-files for particular source-packages.

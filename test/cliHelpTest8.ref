@@ -1,15 +1,15 @@
-.TH apt-repos-show 1 2018\-03\-02
-.SH SYNOPSIS
- \fBapt\-repos show\fR [-h] [-d] [-s SUITE] [-c COMPONENT] [-r] [-nu] [-nh]
-               [-f {table,list}] [-di DIFF] [-dt DIFF_TOOL] [-col COLUMNS]
-               source [source ...]
+INFO[apt_repos]: Using basedir '.'
+usage: apt-repos sources [-h] [-d] [-s SUITE] [-c COMPONENT] [-r] [-nu] [-nh]
+                         [-f {table,list}] [-di DIFF] [-dt DIFF_TOOL]
+                         [-col COLUMNS]
+                         source [source ...]
 
+subcommand source: search and print a list of source packages
 
-.SH DESCRIPTION
-subcommand show: print details about packages similar to what apt\-cache show does
-.SH OPTIONS
+positional arguments:
   source                Name of a source package
 
+optional arguments:
   -h, --help            show this help message and exit
   -d, --debug           Switch on debugging message printed to stderr.
   -s SUITE, --suite SUITE
@@ -69,10 +69,3 @@ subcommand show: print details about packages similar to what apt\-cache show do
                         (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
                         (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
                         Record, (B)=Base-Url, (F)=File-Url
-.SH AUTHORS
- apt-repos is written and maintained by Christoph Lutz <chrlutz@gmail.com>
- with contributions from the Landeshauptstadt München.
- Other contributors are welcome.
-.SH DISTRIBUTION
- provided as debian-Packages created from the sources on github:
- https://github.com/chrlutz/apt-repos
