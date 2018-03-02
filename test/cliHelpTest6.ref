@@ -1,6 +1,6 @@
 INFO[apt_repos]: Using basedir '.'
 usage: apt-repos show [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT]
-                      [-r] [-col COLUMNS] [-di DIFF] [-dt DIFF_TOOL] [-nu]
+                      [-r] [-nu] [-di DIFF] [-dt DIFF_TOOL] [-col COLUMNS]
                       package [package ...]
 
 subcommand show: print details about packages similar to what apt-cache show
@@ -37,12 +37,7 @@ optional arguments:
                         starting with 'pkg'. Use regex '^src:source' to show
                         packages that were built from a source starting with
                         'source'.
-  -col COLUMNS, --columns COLUMNS
-                        Specify the columns that should be printed. Default is
-                        'sR'. Possible characters are: (p)=Package,
-                        (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
-                        (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
-                        Record, (B)=Base-Url, (F)=File-Url
+  -nu, --no-update      Skip downloading of packages list.
   -di DIFF, --diff DIFF
                         Specify the character of a colunm over which we should
                         compare two different results. The character needs to
@@ -65,4 +60,9 @@ optional arguments:
                         --diff. Default is 'diff,--side-by-side,--suppress-
                         common-lines,--width=<ttyWidth>'. Use , (instead of
                         spaces) to provide arguments for the difftool.
-  -nu, --no-update      Skip downloading of packages list.
+  -col COLUMNS, --columns COLUMNS
+                        Specify the columns that should be printed. Default is
+                        'sR'. Possible characters are: (p)=Package,
+                        (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
+                        (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
+                        Record, (B)=Base-Url, (F)=File-Url

@@ -91,6 +91,7 @@ def createArgparsers():
         ttyWidth = 80
     diffToolDefault = "diff,--side-by-side,--suppress-common-lines,--width={}"
 
+    # main parser
     parser = argparse.ArgumentParser(description=__doc__, prog="apt-repos", add_help=False)
     parser.add_argument("-h", "--help", action="store_true", help="""
                         Show a (subcommand specific) help message""")
@@ -102,124 +103,111 @@ def createArgparsers():
     subparsers = parser.add_subparsers(help='choose one of these subcommands')
     parser.set_defaults(debug=False)
     
-    # args for subcommand list
-    parse_ls = subparsers.add_parser('list', aliases=['ls'], help='search and list binary and source packages', description=ls.__doc__)
-    parse_ls.add_argument("-d", "--debug", action="store_true", help="""
-                          Switch on debugging message printed to stderr.""")
-    parse_ls.add_argument("-s", "--suite", default='default:', help="""
-                          Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                          The default value is 'default:'.""")
-    parse_ls.add_argument("-a", "--architecture", help="""
-                          Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
-    parse_ls.add_argument("-c", "--component", help="""
-                          Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
-                          Note: component and section fields are not exactly the same. A component is only the first part
-                          of a section (everything before the '/'). There is also a special treatment for sections
-                          in the component 'main', in which case 'main/' is typically not named in a section-field.
-                          For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
-    parse_ls.add_argument("-r", "--regex", action="store_true", help="""
-                          Treat PACKAGE as a regex. Searches for binary package-names or
-                          binary packages that were built from a source prefixed with 'src:'.
-                          Examples:
-                          Use regex '.' to show all packages.
-                          Use regex '^pkg' to show all packages starting with 'pkg'.
-                          Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
-    parse_ls.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
-    parse_ls.add_argument("-nh", "--no-header", action="store_true", default=False, help="Don't print the column header.")
-    parse_ls.add_argument("-col", "--columns", type=str, required=False, default='pvsaSC', help="""
-                          Specify the columns that should be printed. Default is 'pvsaSC'.
-                          Possible characters are: """ + fieldChars)
-    parse_ls.add_argument("-f", "--format", type=str, choices=['table', 'list'], required=False, default='table', help="""
-                          Specifies the output-format of the package list. Default is 'table'.
-                          Possible values: 'table' to pretty print a nice table; 'list' to print a
-                          space separated list of columns that can easily be processed with bash tools.""")
-    diff_help = """
-                          Specify the character of a colunm over which we should compare two different results.
-                          The character needs to be one of the characters described for the --columns switch.
-                          Typical useful comparisons are e.g. comparing the results for two different 
-                          architectures i386/amd64 (a) or comparing two different suites (s).
-                          Since we can just compare two different results, please ensure that the result set of your
-                          query returns exactly two different values for the specified column. It could be
-                          necessary to ignore some results. E.g if '--diff a' is specified and our query returns 3 results
-                          for the architectures 'amd64', 'i386' and 'all', we might want to ignore architecture 'all'
-                          packages. This can be done using the argument '--diff a^all' which would ignore the 
-                          architecture 'all' packages and just compare 'amd64' and 'i386' packages."""
-    parse_ls.add_argument("-di", "--diff", type=str, required=False, help=diff_help)
-    diff_tool_help = """
-                          Diff-Tool used to compare the separated results from --diff.
-                          Default is '{}'.
-                          Use , (instead of spaces) to provide arguments for the difftool.""".format(diffToolDefault.format("<ttyWidth>"))
-    parse_ls.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help=diff_tool_help)
-    parse_ls.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
-    parse_ls.set_defaults(sub_function=ls, sub_parser=parse_ls)
-
-    # args for subcommand suites
+    # subcommand parsers
+    parse_ls = subparsers.add_parser('list', aliases=['ls'], help='query and list binary packages and their properties', description=ls.__doc__)
+    parse_src = subparsers.add_parser('sources', aliases=['src'], help='query and list source packages and their properties', description=src.__doc__)
     parse_suites = subparsers.add_parser('suites', help='list configured suites', description=suites.__doc__)
-    parse_suites.add_argument("-d", "--debug", action="store_true", help="""
-                              Switch on debugging message printed to stderr.""")
-    parse_suites.add_argument("-s", "--suite", default=':', help="""
-                              Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                              The default value is ':' (all suites).""")
-    parse_suites.add_argument("-v", "--verbose", action="store_true", help="""
-                              also print corresponding sources.list-entries for each suite""")
-    parse_suites.set_defaults(sub_function=suites, sub_parser=parse_suites)
-
-    # args for subcommand show
     parse_show = subparsers.add_parser('show', help='show details about packages similar to apt-cache show', description=show.__doc__)
-    parse_show.add_argument("-d", "--debug", action="store_true", help="""
-                              Switch on debugging message printed to stderr.""")
-    parse_show.add_argument("-s", "--suite", default='default:', help="""
-                              Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                              The default value is 'default:'.""")
-    parse_show.add_argument("-a", "--architecture", help="""
-                              Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
-    parse_show.add_argument("-c", "--component", help="""
-                              Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
-                              Note: component and section fields are not exactly the same. A component is only the first part
-                              of a section (everything before the '/'). There is also a special treatment for sections
-                              in the component 'main', in which case 'main/' is typically not named in a section-field.
-                              For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
-    parse_show.add_argument("-r", "--regex", action="store_true", help="""
-                              Treat PACKAGE as a regex. Searches for binary package-names or
-                              binary packages that were built from a source prefixed with 'src:'.
-                              Examples:
-                              Use regex '.' to show all packages.
-                              Use regex '^pkg' to show all packages starting with 'pkg'.
-                              Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
-    parse_show.add_argument("-col", "--columns", type=str, required=False, default='sR', help="""
-                              Specify the columns that should be printed. Default is 'sR'.
-                              Possible characters are: """ + fieldChars)
-    parse_show.add_argument("-di", "--diff", type=str, required=False, help=diff_help)
-    parse_show.add_argument("-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help=diff_tool_help)
-    parse_show.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
-    parse_show.add_argument('package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
-    parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
-
-    # args for subcommand dsc
     parse_dsc = subparsers.add_parser('dsc', help='list urls of dsc-files for particular source-packages.', description=dsc.__doc__)
-    parse_dsc.add_argument("-d", "--debug", action="store_true", help="""
-                              Switch on debugging message printed to stderr.""")
-    parse_dsc.add_argument("-s", "--suite", default='default:', help="""
-                              Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
-                              The list of suites is scanned in the specified order. If the list contains a tag
-                              or a selector that matches multiple suites (e.g. default:), these suites are scanned
-                              in reverse order as specified in the corresponding *.suites-file.
-                              This specific ordering is in particular interesting together with --first.
-                              The default value is 'default:'.""")
-    parse_dsc.add_argument("-c", "--component", help="""
-                              Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
-                              Note: component and section fields are not exactly the same. A component is only the first part
-                              of a section (everything before the '/'). There is also a special treatment for sections
-                              in the component 'main', in which case 'main/' is typically not named in a section-field.
-                              For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
-    parse_dsc.add_argument("-1", "--first", action="store_true", default=False, help="""
-                              Query only for the first matching dsc file for a source package, then skip the others sources
-                              for this package.""")
-    parse_dsc.add_argument("-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
-    parse_dsc.add_argument('package', nargs='+', help='Name of a source PACKAGE')
+
+    parse_ls.set_defaults(sub_function=ls, sub_parser=parse_ls)
+    parse_src.set_defaults(sub_function=src, sub_parser=parse_src)
+    parse_suites.set_defaults(sub_function=suites, sub_parser=parse_suites)
+    parse_show.set_defaults(sub_function=show, sub_parser=parse_show)
     parse_dsc.set_defaults(sub_function=dsc, sub_parser=parse_dsc)
 
-    return (parser, parse_ls, parse_show, parse_suites, parse_dsc)
+    # mapping of common arguments:
+    ___x = ____x = _____x = _______x = 0 # undefined for this subcommand
+    __SS = __SSSS = 1                    # argument exists in a special variant
+    commonArguments = {
+        parse_ls:     [ '-d', '-s', '-a', '-c', '-r', '-nu', '-nh', '-col', '-f', '-di', '-dt', 'package', ___x, ___x ],
+        parse_src:    [ '-d', '-s', '-a', '-c', '-r', '-nu', '-nh', '-col', '-f', '-di', '-dt', 'source' , ___x, ___x ],
+        parse_suites: [ '-d', __SS, ___x, ___x, ___x, ____x, ____x, _____x, ___x, ____x, ____x,  _______x, '-v', ___x ],
+        parse_show:   [ '-d', '-s', '-a', '-c', '-r', '-nu', ____x, __SSSS, ___x, '-di', '-dt', 'package', ___x, ___x ],
+        parse_dsc:    [ '-d', __SS, ___x, '-c', ___x, '-nu', ____x, _____x, ___x, ____x, ____x, 'source' , ___x, '-1' ],
+    }
+
+    # add common arguments (if argument is defined in the above map)
+    for pars, o in commonArguments.items():
+        addArg(pars, o, "-d", "--debug", action="store_true", help="""
+                        Switch on debugging message printed to stderr.""")
+        addArg(pars, o, "-s", "--suite", default='default:', help="""
+                        Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                        The default value is 'default:'.""")
+        addArg(pars, o, "-a", "--architecture", help="""
+                        Only show info for ARCH(s). The list of ARCHs is specified comma-separated.""")
+        addArg(pars, o, "-c", "--component", help="""
+                        Only show info for COMPONENT(s). The list of COMPONENTs is specified comma-separated.
+                        Note: component and section fields are not exactly the same. A component is only the first part
+                        of a section (everything before the '/'). There is also a special treatment for sections
+                        in the component 'main', in which case 'main/' is typically not named in a section-field.
+                        For this switch -c we have to specify 'main' to see packages from the component 'main'.""")
+        addArg(pars, o, "-r", "--regex", action="store_true", help="""
+                        Treat PACKAGE as a regex. Searches for binary package-names or
+                        binary packages that were built from a source prefixed with 'src:'.
+                        Examples:
+                        Use regex '.' to show all packages.
+                        Use regex '^pkg' to show all packages starting with 'pkg'.
+                        Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
+        addArg(pars, o, "-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
+        addArg(pars, o, "-nh", "--no-header", action="store_true", default=False, help="Don't print the column header.")
+        addArg(pars, o, "-col", "--columns", type=str, required=False, default='pvsaSC', help="""
+                        Specify the columns that should be printed. Default is 'pvsaSC'.
+                        Possible characters are: """ + fieldChars)
+        addArg(pars, o, "-f", "--format", type=str, choices=['table', 'list'], required=False, default='table', help="""
+                        Specifies the output-format of the package list. Default is 'table'.
+                        Possible values: 'table' to pretty print a nice table; 'list' to print a
+                        space separated list of columns that can easily be processed with bash tools.""")
+        addArg(pars, o, "-di", "--diff", type=str, required=False, help="""
+                        Specify the character of a colunm over which we should compare two different results.
+                        The character needs to be one of the characters described for the --columns switch.
+                        Typical useful comparisons are e.g. comparing the results for two different 
+                        architectures i386/amd64 (a) or comparing two different suites (s).
+                        Since we can just compare two different results, please ensure that the result set of your
+                        query returns exactly two different values for the specified column. It could be
+                        necessary to ignore some results. E.g if '--diff a' is specified and our query returns 3 results
+                        for the architectures 'amd64', 'i386' and 'all', we might want to ignore architecture 'all'
+                        packages. This can be done using the argument '--diff a^all' which would ignore the 
+                        architecture 'all' packages and just compare 'amd64' and 'i386' packages.""")
+        addArg(pars, o, "-dt", "--diff-tool", type=str, default=diffToolDefault.format(ttyWidth), required=False, help="""
+                        Diff-Tool used to compare the separated results from --diff.
+                        Default is '{}'.
+                        Use , (instead of spaces) to provide arguments for the difftool.""".format(diffToolDefault.format("<ttyWidth>")))
+        addArg(pars, o, "-v", "--verbose", action="store_true", help="""
+                        also print corresponding sources.list-entries for each suite""")
+        addArg(pars, o, "-1", "--first", action="store_true", default=False, help="""
+                        Query only for the first matching dsc file for a source package, then skip the others sources
+                        for this package.""")
+
+    # special variant for subcommand suites
+    parse_suites.add_argument("-s", "--suite", default=':', help="""
+                        Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                        The default value is ':' (all suites).""")
+
+    # special variant for subcommand show
+    parse_show.add_argument("-col", "--columns", type=str, required=False, default='sR', help="""
+                        Specify the columns that should be printed. Default is 'sR'.
+                        Possible characters are: """ + fieldChars)
+
+    # special variant for subcommand dsc
+    parse_dsc.add_argument("-s", "--suite", default='default:', help="""
+                        Only show info for these SUITE(s). The list of SUITEs is specified comma-separated.
+                        The list of suites is scanned in the specified order. If the list contains a tag
+                        or a selector that matches multiple suites (e.g. default:), these suites are scanned
+                        in reverse order as specified in the corresponding *.suites-file.
+                        This specific ordering is in particular interesting together with --first.
+                        The default value is 'default:'.""")
+
+    for pars, o in commonArguments.items():
+        addArg(pars, o, 'package', nargs='+', help='Name of a binary PACKAGE or source-package name prefixed as src:SOURCENAME')
+        addArg(pars, o, 'source', nargs='+', help='Name of a source package')
+
+    return (parser, parse_ls, parse_src, parse_show, parse_suites, parse_dsc)
+
+
+def addArg(parser, options, *args, **kwargs):
+    if args[0] in options:
+            parser.add_argument(*args, **kwargs)
 
 
 def setupLogging(loglevel):
@@ -262,11 +250,11 @@ def show(args):
         formatter(result, requestFields, False, sys.stdout)
 
 
-def ls(args):
+def ls(args, querySources = False):
     '''
-       subcommand ls: search and print a list of packages
+       subcommand ls: search and print a list of binary packages
     '''
-    (result, requestFields) = queryPackages(args)
+    (result, requestFields) = queryPackages(args, querySources)
     
     if args.format == 'table':
         formatter = table_formatter
@@ -279,6 +267,13 @@ def ls(args):
         formatter(result, requestFields, args.no_header, sys.stdout)
 
 
+def src(args):
+    '''
+       subcommand source: search and print a list of source packages
+    '''
+    ls(args, True)
+
+
 def dsc(args):
     '''
        subcommand dsc: list urls of dsc-files available for source-packages.
@@ -288,7 +283,7 @@ def dsc(args):
     for selector in args.suite.split(','):
         suites.extend(sorted(apt_repos.getSuites([selector]), reverse=True))
     
-    requestPackages = { p for p in args.package }
+    requestPackages = { p for p in args.source }
     requestComponents = { c for c in args.component.split(',') } if args.component else {}
 
     showProgress = True
@@ -468,7 +463,7 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
         os.remove(tmp)
 
 
-def queryPackages(args):
+def queryPackages(args, querySources=False):
     '''
        queries Packages by the args provided on the command line and returns a
        tuple of (queryResults, requestFields)
@@ -488,9 +483,12 @@ def queryPackages(args):
         try:
             suite.scan(not args.no_update)
             pp(showProgress, x+1)
-            result = result.union(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+            if not querySources:
+                result = result.union(suite.queryPackages(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
+            else:
+                result = result.union(suite.querySources(requestPackages, args.regex, requestArchs, requestComponents, requestFields))
         except SystemError as e:
-            logger.warn("Could not retrieve packages for suite {}:\n{}".format(suite.getSuiteName(), e))
+            logger.warn("Could not retrieve {} for suite {}:\n{}".format("sources" if querySources else "packages", suite.getSuiteName(), e))
     pp(showProgress, '\n')
     return (result, requestFields)
 

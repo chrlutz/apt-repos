@@ -1,14 +1,14 @@
 INFO[apt_repos]: Using basedir '.'
-usage: apt-repos suites [-h] [-d] [-s SUITE] [-v]
+usage: apt-repos suites [-h] [-d] [-v] [-s SUITE]
 
 subcommand suites: print a list of registered suites
 
 optional arguments:
   -h, --help            show this help message and exit
   -d, --debug           Switch on debugging message printed to stderr.
+  -v, --verbose         also print corresponding sources.list-entries for each
+                        suite
   -s SUITE, --suite SUITE
                         Only show info for these SUITE(s). The list of SUITEs
                         is specified comma-separated. The default value is ':'
                         (all suites).
-  -v, --verbose         also print corresponding sources.list-entries for each
-                        suite
