@@ -77,6 +77,8 @@ class QueryResult:
                     the exact source name directly).
         '''
         data = list()        
+        if type(requestedFields) == str:
+            requestedFields = PackageField.getByFieldsString(requestedFields)
         for field in requestedFields:
             if field == PackageField.BINARY_PACKAGE_NAME:
                 data.append(pkg.name)
@@ -121,6 +123,8 @@ class QueryResult:
             suite: The RepoSuite object
         '''
         data = list()
+        if type(requestedFields) == str:
+            requestedFields = PackageField.getByFieldsString(requestedFields)
         for field in requestedFields:
             if field == PackageField.SOURCE_PACKAGE_NAME:
                 data.append(source['Package'])
