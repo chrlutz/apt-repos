@@ -1,3 +1,9 @@
+apt-repos (1.46.1) bionic; urgency=medium
+
+  * fix missing manpage for apt-repos src
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Fri, 02 Mar 2018 18:37:54 +0100
+
 apt-repos (1.46.0) bionic; urgency=medium
 
   * NEW FEATURES:
