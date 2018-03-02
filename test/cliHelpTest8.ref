@@ -1,7 +1,7 @@
 INFO[apt_repos]: Using basedir '.'
 usage: apt-repos sources [-h] [-d] [-s SUITE] [-c COMPONENT] [-r] [-nu] [-nh]
-                         [-f {table,list}] [-di DIFF] [-dt DIFF_TOOL]
-                         [-col COLUMNS]
+                         [-f {table,list,grouped_list}] [-di DIFF]
+                         [-dt DIFF_TOOL] [-col COLUMNS]
                          source [source ...]
 
 subcommand source: search and print a list of source packages
@@ -35,12 +35,15 @@ optional arguments:
                         'source'.
   -nu, --no-update      Skip downloading of packages list.
   -nh, --no-header      Don't print the column header.
-  -f {table,list}, --format {table,list}
+  -f {table,list,grouped_list}, --format {table,list,grouped_list}
                         Specifies the output-format of the package list.
                         Default is 'table'. Possible values: 'table' to pretty
                         print a nice table; 'list' to print a space separated
                         list of columns that can easily be processed with bash
-                        tools.
+                        tools; Use 'grouped_list' to do nearly the same as
+                        'list' but add a newline for each new value in the
+                        first column (which means we group over identical
+                        values in the first column).
   -di DIFF, --diff DIFF
                         Specify the character of a colunm over which we should
                         compare two different results. The character needs to

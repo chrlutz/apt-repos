@@ -1,7 +1,8 @@
 INFO[apt_repos]: Using basedir '.'
 usage: apt-repos list [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT]
-                      [-r] [-nu] [-nh] [-col COLUMNS] [-f {table,list}]
-                      [-di DIFF] [-dt DIFF_TOOL]
+                      [-r] [-nu] [-nh] [-col COLUMNS]
+                      [-f {table,list,grouped_list}] [-di DIFF]
+                      [-dt DIFF_TOOL]
                       package [package ...]
 
 subcommand list: search and print a list of binary packages
@@ -45,12 +46,15 @@ optional arguments:
                         (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
                         (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
                         Record, (B)=Base-Url, (F)=File-Url
-  -f {table,list}, --format {table,list}
+  -f {table,list,grouped_list}, --format {table,list,grouped_list}
                         Specifies the output-format of the package list.
                         Default is 'table'. Possible values: 'table' to pretty
                         print a nice table; 'list' to print a space separated
                         list of columns that can easily be processed with bash
-                        tools.
+                        tools; Use 'grouped_list' to do nearly the same as
+                        'list' but add a newline for each new value in the
+                        first column (which means we group over identical
+                        values in the first column).
   -di DIFF, --diff DIFF
                         Specify the character of a colunm over which we should
                         compare two different results. The character needs to

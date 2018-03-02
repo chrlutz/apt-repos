@@ -154,10 +154,13 @@ def createArgparsers():
         addArg(pars, o, "-col", "--columns", type=str, required=False, default='pvsaSC', help="""
                         Specify the columns that should be printed. Default is 'pvsaSC'.
                         Possible characters are: """ + fieldChars)
-        addArg(pars, o, "-f", "--format", type=str, choices=['table', 'list'], required=False, default='table', help="""
+        addArg(pars, o, "-f", "--format", type=str, choices=['table', 'list', 'grouped_list'], required=False, default='table', help="""
                         Specifies the output-format of the package list. Default is 'table'.
                         Possible values: 'table' to pretty print a nice table; 'list' to print a
-                        space separated list of columns that can easily be processed with bash tools.""")
+                        space separated list of columns that can easily be processed with bash tools;
+                        Use 'grouped_list' to do nearly the same as 'list' but add a newline for each
+                        new value in the first column (which means we group over identical values in the
+                        first column).""")
         addArg(pars, o, "-di", "--diff", type=str, required=False, help="""
                         Specify the character of a colunm over which we should compare two different results.
                         The character needs to be one of the characters described for the --columns switch.
@@ -271,18 +274,6 @@ def src(args):
     formatListResult(args, result, requestFields)
 
 
-def formatListResult(args, result, requestFields):    
-    if args.format == 'table':
-        formatter = table_formatter
-    elif args.format == 'list':
-        formatter = list_formatter
-
-    if args.diff:
-        diff_formatter(result, requestFields, args.diff, args.diff_tool, args.no_header, list_formatter)            
-    else:
-        formatter(result, requestFields, args.no_header, sys.stdout)
-
-
 def dsc(args):
     '''
        subcommand dsc: list urls of dsc-files available for source-packages.
@@ -377,6 +368,20 @@ def gotAllFirsts(results):
     return True
 
 
+def formatListResult(args, result, requestFields):
+    if args.format == 'table':
+        formatter = table_formatter
+    elif args.format == 'list':
+        formatter = list_formatter
+    elif args.format == 'grouped_list':
+        formatter = grouped_list_formatter
+
+    if args.diff:
+        diff_formatter(result, requestFields, args.diff, args.diff_tool, args.no_header, list_formatter)
+    else:
+        formatter(result, requestFields, args.no_header, sys.stdout)
+
+
 def table_formatter(result, requestFields, no_header, outfile):
     header = [f.getHeader() for f in requestFields]    
     resultList = sorted(result)
@@ -393,14 +398,27 @@ def table_formatter(result, requestFields, no_header, outfile):
         print (" | ".join("{!s:{}}".format(d, w) for d, w in zip(r.getData(), col_width)), file=outfile)
 
 
-def list_formatter(result, requestFields, no_header, outfile):
+def list_formatter(result, requestFields, no_header, outfile, separateGroups=False):
     header = [f.getHeader() for f in requestFields]    
     resultList = sorted(result)
 
+    k = None
     if not no_header:
         print (" ".join(header), file=outfile)
+        k = "__header__"
+
     for r in resultList:
+        # separate Blocks with newlines
+        nk = r.getData()[0] if len(r.getData()) > 0 else None
+        if separateGroups and k and k != nk:
+            print(file=outfile)
+        k = nk
+
         print (" ".join([str(d) for d in r.getData()]), file=outfile)
+
+
+def grouped_list_formatter(result, requestFields, no_header, outfile):
+    list_formatter(result, requestFields, no_header, outfile, True)
 
 
 def singleLines_formatter(result, requestFields, no_header, outfile):

@@ -1,4 +1,5 @@
 EXP_OK := || exit 1
+#EXP_OK := || true
 EXP_FAIL := && exit 1 || true
 CLI := PYTHONPATH=".." ../bin/apt-repos -b $(realpath .)
 FINISHED_TEST = @echo "SUCCESSFULLY FINISHED TEST $@"; echo ""; echo "========================================================="
@@ -17,7 +18,7 @@ UNIT_TESTCASES = testPrintHelloWorld \
 
 test: unittests clitests
 
-clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow _cliTestDsc
+clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow _cliTestDsc _cliTestSource
 
 unittests: clean 
 	$(STARTING_TEST)
@@ -148,4 +149,7 @@ _cliTestSource:
 	
 	$(CLI) src git -col CvsaSF >cliTestSource2.res 2>&1 $(EXP_OK)
 	diff -u cliTestSource2.ref cliTestSource2.res $(EXP_OK)	
+
+	$(CLI) src git reprepro -col CvsaSF -f grouped_list >cliTestSource3.res 2>&1 $(EXP_OK)
+	diff -u cliTestSource3.ref cliTestSource3.res $(EXP_OK)	
 	$(FINISHED_TEST)

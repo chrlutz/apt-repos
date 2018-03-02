@@ -20,7 +20,7 @@ def main():
                                 "https://github.com/chrlutz/apt-repos")
     }
 
-    (parser, parser_ls, parser_show, parser_suites, parser_dsc, parser_src) = createArgparsers()
+    (parser, parser_ls, parser_src, parser_show, parser_suites, parser_dsc) = createArgparsers()
 
     createManpage(parser, 'apt-repos', __doc__.strip(), sections)
     createManpage(parser_ls, 'apt-repos ls', ls.__doc__.strip(), sections)

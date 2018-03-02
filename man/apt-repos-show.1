@@ -1,14 +1,15 @@
 .TH apt-repos-show 1 2018\-03\-02
 .SH SYNOPSIS
- \fBapt\-repos show\fR [-h] [-d] [-s SUITE] [-c COMPONENT] [-r] [-nu] [-nh]
-               [-f {table,list}] [-di DIFF] [-dt DIFF_TOOL] [-col COLUMNS]
-               source [source ...]
+ \fBapt\-repos show\fR [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT] [-r]
+               [-nu] [-di DIFF] [-dt DIFF_TOOL] [-col COLUMNS]
+               package [package ...]
 
 
 .SH DESCRIPTION
 subcommand show: print details about packages similar to what apt\-cache show does
 .SH OPTIONS
-  source                Name of a source package
+  package               Name of a binary PACKAGE or source-package name
+                        prefixed as src:SOURCENAME
 
   -h, --help            show this help message and exit
   -d, --debug           Switch on debugging message printed to stderr.
@@ -16,6 +17,9 @@ subcommand show: print details about packages similar to what apt\-cache show do
                         Only show info for these SUITE(s). The list of SUITEs
                         is specified comma-separated. The default value is
                         'default:'.
+  -a ARCHITECTURE, --architecture ARCHITECTURE
+                        Only show info for ARCH(s). The list of ARCHs is
+                        specified comma-separated.
   -c COMPONENT, --component COMPONENT
                         Only show info for COMPONENT(s). The list of
                         COMPONENTs is specified comma-separated. Note:
@@ -34,13 +38,6 @@ subcommand show: print details about packages similar to what apt\-cache show do
                         packages that were built from a source starting with
                         'source'.
   -nu, --no-update      Skip downloading of packages list.
-  -nh, --no-header      Don't print the column header.
-  -f {table,list}, --format {table,list}
-                        Specifies the output-format of the package list.
-                        Default is 'table'. Possible values: 'table' to pretty
-                        print a nice table; 'list' to print a space separated
-                        list of columns that can easily be processed with bash
-                        tools.
   -di DIFF, --diff DIFF
                         Specify the character of a colunm over which we should
                         compare two different results. The character needs to

@@ -1,19 +1,40 @@
 .TH apt-repos-dsc 1 2018\-03\-02
 .SH SYNOPSIS
- \fBapt\-repos dsc\fR [-h] [-d] [-v] [-s SUITE]
+ \fBapt\-repos dsc\fR [-h] [-d] [-c COMPONENT] [-nu] [-1] [-s SUITE]
+              source [source ...]
 
 
 .SH DESCRIPTION
 subcommand dsc: list urls of dsc\-files available for source\-packages.
 .SH OPTIONS
+  source                Name of a source package
+
   -h, --help            show this help message and exit
   -d, --debug           Switch on debugging message printed to stderr.
-  -v, --verbose         also print corresponding sources.list-entries for each
-                        suite
+  -c COMPONENT, --component COMPONENT
+                        Only show info for COMPONENT(s). The list of
+                        COMPONENTs is specified comma-separated. Note:
+                        component and section fields are not exactly the same.
+                        A component is only the first part of a section
+                        (everything before the '/'). There is also a special
+                        treatment for sections in the component 'main', in
+                        which case 'main/' is typically not named in a
+                        section-field. For this switch -c we have to specify
+                        'main' to see packages from the component 'main'.
+  -nu, --no-update      Skip downloading of packages list.
+  -1, --first           Query only for the first matching dsc file for a
+                        source package, then skip the others sources for this
+                        package.
   -s SUITE, --suite SUITE
                         Only show info for these SUITE(s). The list of SUITEs
-                        is specified comma-separated. The default value is ':'
-                        (all suites).
+                        is specified comma-separated. The list of suites is
+                        scanned in the specified order. If the list contains a
+                        tag or a selector that matches multiple suites (e.g.
+                        default:), these suites are scanned in reverse order
+                        as specified in the corresponding *.suites-file. This
+                        specific ordering is in particular interesting
+                        together with --first. The default value is
+                        'default:'.
 .SH AUTHORS
  apt-repos is written and maintained by Christoph Lutz <chrlutz@gmail.com>
  with contributions from the Landeshauptstadt München.

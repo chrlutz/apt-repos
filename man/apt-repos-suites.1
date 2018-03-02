@@ -1,71 +1,19 @@
 .TH apt-repos-suites 1 2018\-03\-02
 .SH SYNOPSIS
- \fBapt\-repos suites\fR [-h] [-d] [-s SUITE] [-a ARCHITECTURE] [-c COMPONENT] [-r]
-                 [-nu] [-di DIFF] [-dt DIFF_TOOL] [-col COLUMNS]
-                 package [package ...]
+ \fBapt\-repos suites\fR [-h] [-d] [-v] [-s SUITE]
 
 
 .SH DESCRIPTION
 subcommand suites: print a list of registered suites
 .SH OPTIONS
-  package               Name of a binary PACKAGE or source-package name
-                        prefixed as src:SOURCENAME
-
   -h, --help            show this help message and exit
   -d, --debug           Switch on debugging message printed to stderr.
+  -v, --verbose         also print corresponding sources.list-entries for each
+                        suite
   -s SUITE, --suite SUITE
                         Only show info for these SUITE(s). The list of SUITEs
-                        is specified comma-separated. The default value is
-                        'default:'.
-  -a ARCHITECTURE, --architecture ARCHITECTURE
-                        Only show info for ARCH(s). The list of ARCHs is
-                        specified comma-separated.
-  -c COMPONENT, --component COMPONENT
-                        Only show info for COMPONENT(s). The list of
-                        COMPONENTs is specified comma-separated. Note:
-                        component and section fields are not exactly the same.
-                        A component is only the first part of a section
-                        (everything before the '/'). There is also a special
-                        treatment for sections in the component 'main', in
-                        which case 'main/' is typically not named in a
-                        section-field. For this switch -c we have to specify
-                        'main' to see packages from the component 'main'.
-  -r, --regex           Treat PACKAGE as a regex. Searches for binary package-
-                        names or binary packages that were built from a source
-                        prefixed with 'src:'. Examples: Use regex '.' to show
-                        all packages. Use regex '^pkg' to show all packages
-                        starting with 'pkg'. Use regex '^src:source' to show
-                        packages that were built from a source starting with
-                        'source'.
-  -nu, --no-update      Skip downloading of packages list.
-  -di DIFF, --diff DIFF
-                        Specify the character of a colunm over which we should
-                        compare two different results. The character needs to
-                        be one of the characters described for the --columns
-                        switch. Typical useful comparisons are e.g. comparing
-                        the results for two different architectures i386/amd64
-                        (a) or comparing two different suites (s). Since we
-                        can just compare two different results, please ensure
-                        that the result set of your query returns exactly two
-                        different values for the specified column. It could be
-                        necessary to ignore some results. E.g if '--diff a' is
-                        specified and our query returns 3 results for the
-                        architectures 'amd64', 'i386' and 'all', we might want
-                        to ignore architecture 'all' packages. This can be
-                        done using the argument '--diff a^all' which would
-                        ignore the architecture 'all' packages and just
-                        compare 'amd64' and 'i386' packages.
-  -dt DIFF_TOOL, --diff-tool DIFF_TOOL
-                        Diff-Tool used to compare the separated results from
-                        --diff. Default is 'diff,--side-by-side,--suppress-
-                        common-lines,--width=<ttyWidth>'. Use , (instead of
-                        spaces) to provide arguments for the difftool.
-  -col COLUMNS, --columns COLUMNS
-                        Specify the columns that should be printed. Default is
-                        'sR'. Possible characters are: (p)=Package,
-                        (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
-                        (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
-                        Record, (B)=Base-Url, (F)=File-Url
+                        is specified comma-separated. The default value is ':'
+                        (all suites).
 .SH AUTHORS
  apt-repos is written and maintained by Christoph Lutz <chrlutz@gmail.com>
  with contributions from the Landeshauptstadt München.
