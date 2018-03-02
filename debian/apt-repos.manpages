@@ -1,5 +1,1 @@
-man/apt-repos.1
-man/apt-repos-ls.1
-man/apt-repos-suites.1
-man/apt-repos-dsc.1
-man/apt-repos-show.1
+man/*.1
