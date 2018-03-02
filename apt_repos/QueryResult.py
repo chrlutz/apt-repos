@@ -135,7 +135,7 @@ class QueryResult:
             elif field == PackageField.PRIORITY:
                 data.append(Priority.getByName(source['Priority']))
             elif field == PackageField.ARCHITECTURE: # not a final solution!
-                data.append(source['Architecture'])
+                data.append(",".join(sorted(source['Architecture'].split(" "))))
             elif field == PackageField.SUITE:
                 data.append(suite)
             elif field == PackageField.RECORD:
