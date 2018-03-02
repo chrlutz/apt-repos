@@ -4,3 +4,5 @@ Source Version Suite Arch Section File-Url
 
 git 1:2.7.4-0ubuntu1 ubuntu:xenial all,any vcs http://de.archive.ubuntu.com/ubuntu/pool/main/g/git/git_2.7.4-0ubuntu1.dsc
 git 1:2.7.4-0ubuntu1.3 ubuntu:xenial-security all,any vcs http://security.ubuntu.com/ubuntu/pool/main/g/git/git_2.7.4-0ubuntu1.3.dsc
+
+reprepro 4.17.0-1 ubuntu:xenial any universe/utils http://de.archive.ubuntu.com/ubuntu/pool/universe/r/reprepro/reprepro_4.17.0-1.dsc
