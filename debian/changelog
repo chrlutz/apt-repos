@@ -1,3 +1,21 @@
+apt-repos (1.46.0) bionic; urgency=medium
+
+  * NEW FEATURES:
+    * implemented 'apt-repos sources' + Tests and updated manpages
+    * added 'grouped_list' formatter for subcommands ls and sources
+    * allow requestedFields-Parameter to be a string that is automatically converted
+      to PackageFields
+  * Fixes:
+    * fixed man page creation
+    * added missing imports in Priority and QueryResult
+  * Misc:
+    * added conf/.gitignore allowing it to be used as a basedir for apt-repos
+    * more compact logging format
+    * simplified arg parser creation and added parser for subcommand src
+    * comma separate architecture output for sources and ensure a defined order
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Fri, 02 Mar 2018 18:25:01 +0100
+
 apt-repos (1.45.1) bionic; urgency=medium
 
   * exclude __pycache__ from packaging
