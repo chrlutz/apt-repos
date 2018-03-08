@@ -57,6 +57,11 @@ __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
 
 
 def setAptReposBaseDir(dir):
+    '''
+       Use the specified dir as a sole directory for reading *.suites and *.repos
+       files and for the apt-repos cache that will be created in this directory
+       named <dir>/.apt-repos_cache.
+    '''
     global __baseDirs
     global __cacheDir
     if(os.path.isdir(dir)):
@@ -68,6 +73,10 @@ def setAptReposBaseDir(dir):
 
 
 def getSuites(selectors=None):
+    '''
+       This method returns a set of suites matched by selectors, where
+       selectors is an array of selector-Strings.
+    '''
     suitesData = dict() # map of filename --> (jsonData, basedir)
     reposData = dict() # map of filename --> (jsonData, basedir)
     configSectionsCount = 0
