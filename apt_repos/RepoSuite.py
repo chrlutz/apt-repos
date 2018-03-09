@@ -155,7 +155,7 @@ class RepoSuite:
         '''
             Returns the fullqualified path of the TrustedGPG-File or None, of it is not set
         '''
-        return os.path.join(self.basedir, self.trustedGPGFile) if self.getTrustedGPGFile() else None
+        return os.path.join(self.basedir, self.trustedGPGFile) if self.trustedGPGFile else None
         
 
     def hasSources(self):
