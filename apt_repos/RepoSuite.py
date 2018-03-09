@@ -141,10 +141,21 @@ class RepoSuite:
 
 
     def getTrustedGPG(self):
-        if self.trustedGPGFile:
-            with open(os.path.join(self.basedir, self.trustedGPGFile), "rb") as fh:
+        '''
+            Returns the content of the trustedGPG-File as a string if it is set, otherwise None
+        '''
+        gpgFile = self.getTrustedGPGFile()
+        if gpgFile:
+            with open(gpgFile, "rb") as fh:
                 return fh.read()
         return None
+        
+
+    def getTrustedGPGFile(self):
+        '''
+            Returns the fullqualified path of the TrustedGPG-File or None, of it is not set
+        '''
+        return os.path.join(self.basedir, self.trustedGPGFile) if self.getTrustedGPGFile() else None
         
 
     def hasSources(self):
