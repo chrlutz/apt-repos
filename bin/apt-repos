@@ -1,10 +1,17 @@
 #!/bin/bash
 #
 # wrapper for calling ./apt_repos_cli.py with the following tasks:
+# - set correct PYTHONPATH if this wrapper is called via
+#   bin/apt-repos in this source folder
 # - suppress some unwanted stdout-output created by underlying
 #   apt-libs
 #
-exec python3 $(dirname $(realpath $0))/apt_repos_cli.py $@ \
+HERE=$(dirname $(realpath $0))
+if [ -d $HERE/../apt_repos ]; then
+  export PYTHONPATH="$(realpath $HERE/..)"
+fi
+
+exec python3 $HERE/apt_repos_cli.py $@ \
     | grep -v "Reading package lists..." \
     | grep -v "Building dependency tree..." \
     | grep -v "Abhängigkeitsbaum wird aufgebaut..." \

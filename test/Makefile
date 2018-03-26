@@ -1,7 +1,7 @@
 EXP_OK := || exit 1
 #EXP_OK := || true
 EXP_FAIL := && exit 1 || true
-CLI := PYTHONPATH=".." ../bin/apt-repos -b $(realpath .)
+CLI := ../bin/apt-repos -b $(realpath .)
 FINISHED_TEST = @echo "SUCCESSFULLY FINISHED TEST $@"; echo ""; echo "========================================================="
 STARTING_TEST = @echo "STARTING TEST $@"
 
