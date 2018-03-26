@@ -39,6 +39,7 @@ class PackageField(Enum):
     ARCHITECTURE = ('a', 'Arch')
     SECTION = ('S', 'Section')
     PRIORITY = ('P', 'Priority')
+    SIZE = ('z', 'Size')
     SOURCE_PACKAGE_NAME = ('C', 'Source')
     LONG_DESC = ('L', 'Long-Desc')
     RECORD = ('R', 'Full-Record')
