@@ -388,3 +388,42 @@ x<y = False
 y<x = False
 x==y = True
 sameHash = True
+
+==========================
+FieldsStr 'pz'
+==========================
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', SIZE:'10')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', SIZE:'10')
+x<y = False
+y<x = False
+x==y = True
+sameHash = True
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', SIZE:'10')
+y = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', SIZE:'20')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'a-pkg', SIZE:'10')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', SIZE:'30')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', SIZE:'30')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', SIZE:'40')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False
+
+x = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', SIZE:'30')
+y = QueryResult(BINARY_PACKAGE_NAME:'b-pkg', SIZE:'50')
+x<y = True
+y<x = False
+x==y = False
+sameHash = False

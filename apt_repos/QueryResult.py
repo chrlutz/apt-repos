@@ -136,8 +136,6 @@ class QueryResult:
                 data.append(source['Section'])
             elif field == PackageField.PRIORITY:
                 data.append(Priority.getByName(source['Priority']))
-            elif field == PackageField.Size:
-                data.append(source['Size'])
             elif field == PackageField.ARCHITECTURE: # not a final solution!
                 data.append(",".join(sorted(source['Architecture'].split(" "))))
             elif field == PackageField.SUITE:

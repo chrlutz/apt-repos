@@ -67,7 +67,7 @@ def dumpSelectedSuites(suites, selectors):
 
 
 def testGetPackageFields():
-    for fieldsStr in [ '', 'pvsaSC', 'CSasvp', 'p', 'v', 's', 'a', 'S', 'C', 'X', 'XYZ' ]:
+    for fieldsStr in [ '', 'pvsaSC', 'CSasvp', 'p', 'v', 's', 'a', 'S', 'C', 'X', 'XYZ', 'z' ]:
         print("FieldsStr '" + fieldsStr + "'")
         try:
             print("[" + (", ".join([str(f) for f in PackageField.getByFieldsString(fieldsStr)])) + "]")
@@ -82,13 +82,13 @@ class PVRMock:
 
 
 def testQueryResult():
-    a1 = PVRMock({ "name" : "a-pkg", "ver_str" : "1.2~6deb2", "arch" : "i386", "section" : "main", "source_pkg" : "a" })
-    a2 = PVRMock({ "name" : "a-pkg", "ver_str" : "1.2~55deb2", "arch" : "i386", "section" : "main", "source_pkg" : "a" })
-    b1 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "i386", "section" : "main", "source_pkg" : "b" })
-    b2 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "amd64", "section" : "main", "source_pkg" : "b" })
-    b3 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "amd64", "section" : "universe", "source_pkg" : "b" })
+    a1 = PVRMock({ "name" : "a-pkg", "ver_str" : "1.2~6deb2", "arch" : "i386", "section" : "main", "source_pkg" : "a", "size" : 10 })
+    a2 = PVRMock({ "name" : "a-pkg", "ver_str" : "1.2~55deb2", "arch" : "i386", "section" : "main", "source_pkg" : "a", "size" : 20 })
+    b1 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "i386", "section" : "main", "source_pkg" : "b", "size" : 30 })
+    b2 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "amd64", "section" : "main", "source_pkg" : "b", "size" : 40 })
+    b3 = PVRMock({ "name" : "b-pkg", "ver_str" : "1.2~55deb2", "arch" : "amd64", "section" : "universe", "source_pkg" : "b", "size" : 50 })
 
-    for fieldsStr in [ 'pv', 'saSC', 'pvsaSC', 'CSasvp', 'p', 'v', 's', 'a', 'S', 'C' ]:
+    for fieldsStr in [ 'pv', 'saSC', 'pvsaSC', 'CSasvp', 'p', 'v', 's', 'a', 'S', 'C', 'pz' ]:
         print()
         print("==========================")
         print("FieldsStr '" + fieldsStr + "'")

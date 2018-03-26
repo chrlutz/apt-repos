@@ -20,3 +20,5 @@ FieldsStr 'X'
 Unknown format-character 'X'
 FieldsStr 'XYZ'
 Unknown format-character 'X'
+FieldsStr 'z'
+[<PackageField.SIZE>]

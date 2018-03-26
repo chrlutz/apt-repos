@@ -44,8 +44,8 @@ optional arguments:
                         Specify the columns that should be printed. Default is
                         'pvsaSC'. Possible characters are: (p)=Package,
                         (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
-                        (P)=Priority, (C)=Source, (L)=Long-Desc, (R)=Full-
-                        Record, (B)=Base-Url, (F)=File-Url
+                        (P)=Priority, (z)=Size, (C)=Source, (L)=Long-Desc,
+                        (R)=Full-Record, (B)=Base-Url, (F)=File-Url
   -f {table,list,grouped_list}, --format {table,list,grouped_list}
                         Specifies the output-format of the package list.
                         Default is 'table'. Possible values: 'table' to pretty
