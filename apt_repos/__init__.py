@@ -121,7 +121,7 @@ def getSuites(selectors=None):
             srepo, ssuiteName = parts
         
         count = 0
-        for key, (suiteDescs, basedir) in suitesData.items():
+        for unused_key, (suiteDescs, basedir) in suitesData.items():
             for suiteDesc in suiteDescs:
                 count+=1
                 tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
@@ -136,7 +136,7 @@ def getSuites(selectors=None):
                    (suiteName == ssuiteName or ssuiteName == ""):
                     selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
 
-        for key, (repoDescs, basedir) in reposData.items():
+        for unused_key, (repoDescs, basedir) in reposData.items():
             for repoDesc in repoDescs:                
                 if not type(repoDesc) is dict:
                     continue

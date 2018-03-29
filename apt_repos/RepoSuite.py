@@ -172,7 +172,7 @@ class RepoSuite:
         '''
             Returns the Repository-Url
         '''
-        (mod, url, suite, components) = self._parsedSourceListEntry()
+        (unused_mod, url, unused_suite, unused_components) = self._parsedSourceListEntry()
         return url
 
 
@@ -180,7 +180,7 @@ class RepoSuite:
         '''
             Returns an Url to the dists-folder for the suite in the form <REPO_URL>/dists/<SUITENAME>
         '''
-        (mod, url, suite, components) = self._parsedSourceListEntry()
+        (unused_mod, url, suite, unused_components) = self._parsedSourceListEntry()
         return "{}/dists/{}".format(url.rstrip('/'), suite)
 
 
@@ -188,7 +188,7 @@ class RepoSuite:
         '''
             Returns the suite set in the apt.conf line
         '''
-        (mod, url, suite, components) = self._parsedSourceListEntry()
+        (unused_mod, unused_url, suite, unused_components) = self._parsedSourceListEntry()
         return suite
 
 
@@ -196,7 +196,7 @@ class RepoSuite:
         '''
             Returns the suite set in the apt.conf line
         '''
-        (mod, url, suite, components) = self._parsedSourceListEntry()
+        (unused_mod, unused_url, unused_suite, components) = self._parsedSourceListEntry()
         return components
 
 
@@ -324,9 +324,9 @@ class RepoSuite:
         
                     parts = v.section.split("/", 1)
                     if len(parts) == 1:
-                        component, section = "main", parts[0]
+                        component, unused_section = "main", parts[0]
                     else:
-                        component, section = parts
+                        component, unused_section = parts
                     if (requestComponents) and (not component in requestComponents):
                         continue
     
@@ -370,7 +370,8 @@ class RepoSuite:
             # TODO: this is too much implementation specific to the apt_pkg lib... improve if possible
             m = re.search("^.*_([^_]+)_source_Sources$", sourcesFile)
             if not m:
-                raise AnError("Sorry, I can't extract a component name from the sources file name {}".format(sourcesFile))
+                logger.warning("Sorry, I can't extract a component name from the sources file name {}".format(sourcesFile))
+                continue
             component = m.group(1)
             if requestComponents and len(requestComponents) > 0 and not component in requestComponents:
                 logger.debug("skipping component {} as not requested in --component".format(component))
@@ -398,9 +399,9 @@ class RepoSuite:
 
                             parts = source['Section'].split("/", 1)
                             if len(parts) == 1:
-                                component, section = "main", parts[0]
+                                component, unused_section = "main", parts[0]
                             else:
-                                component, section = parts
+                                component, unused_section = parts
                             if (requestComponents) and (not component in requestComponents):
                                 continue
 
