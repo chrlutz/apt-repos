@@ -1,6 +1,11 @@
-EXP_OK := || exit 1
-#EXP_OK := || true
+IS_GIT_TREE := git ls-files --error-unmatch >/dev/null 2>&1
+
 EXP_FAIL := && exit 1 || true
+EXP_OK := || true
+ifeq (no,$(shell $(IS_GIT_TREE) || echo no))
+  EXP_OK := || exit 1
+endif
+
 CLI := ../bin/apt-repos -b $(realpath .)
 FINISHED_TEST = @echo "SUCCESSFULLY FINISHED TEST $@"; echo ""; echo "========================================================="
 STARTING_TEST = @echo "STARTING TEST $@"
@@ -16,7 +21,7 @@ UNIT_TESTCASES = testPrintHelloWorld \
             testRepository
 #UNIT_TESTCASES = testRepository
 
-test: unittests clitests
+test: unittests clitests git_diff_results
 
 clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow _cliTestDsc _cliTestSource
 
@@ -35,6 +40,14 @@ unittests: clean
 		echo "OK"; \
 	done
 	$(FINISHED_TEST)
+
+git_diff_results:
+	$(IS_GIT_TREE) || exit 0
+	# copy results to references
+	bash -c 'for i in *.res; do \
+		cp $$i $${i/.res/.ref}; \
+	done'
+	git diff --quiet --exit-code *.ref
 
 clean:
 	rm -Rf *.res .apt-repos_cache
