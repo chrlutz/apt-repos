@@ -90,17 +90,20 @@ def getSuites(selectors=None):
                 continue
             filename = basedir + "/" + f
             if os.path.isfile(filename):
-                if str(filename).endswith(".suites"):
-                    logger.debug("reading suites file " + filename)
-                    with open(filename, 'r') as file:
-                        jsonData = json.load(file)
-                        suitesData[f] = (jsonData, basedir)
-                        configSectionsCount += len(jsonData)
-                elif str(filename).endswith(".repos"):
-                    with open(filename, 'r') as file:
-                        jsonData = json.load(file)
-                        reposData[f] = (jsonData, basedir)
-                        configSectionsCount += len(jsonData)
+                try:
+                    if str(filename).endswith(".suites"):
+                        logger.debug("reading suites file " + filename)
+                        with open(filename, 'r') as file:
+                            jsonData = json.load(file)
+                            suitesData[f] = (jsonData, basedir)
+                            configSectionsCount += len(jsonData)
+                    elif str(filename).endswith(".repos"):
+                        with open(filename, 'r') as file:
+                            jsonData = json.load(file)
+                            reposData[f] = (jsonData, basedir)
+                            configSectionsCount += len(jsonData)
+                except json.decoder.JSONDecodeError as ex:
+                    logger.warning("Skipping unreadable json file {}: {}".format(filename, ex))
                     
     if configSectionsCount == 0:
         logger.warning("No *.suites- or *.repos-files found in the directories '" + "', '".join(__baseDirs) + "'")

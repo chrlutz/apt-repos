@@ -146,8 +146,11 @@ class RepoSuite:
         '''
         gpgFile = self.getTrustedGPGFile()
         if gpgFile:
-            with open(gpgFile, "rb") as fh:
-                return fh.read()
+            try:
+                with open(gpgFile, "rb") as fh:
+                    return fh.read()
+            except FileNotFoundError:
+                logger.warning("Ignoring not existent GPG-File {}!".format(gpgFile))
         return None
         
 
