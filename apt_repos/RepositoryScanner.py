@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 
 
 def scanRepository(url, suites=None):
-    logger.info("Scanning repository {} {}".format(url, " ".join(suites) if suites else ""))
+    logger.debug("scanRepository('{}', {})".format(url, suites))
     res = list()
     if suites:
         for s in suites:
@@ -60,6 +60,7 @@ def scanReleases(url, recursive=True):
     '''
        return suites found at url and all it's relevant subfolders if recursive==True
     '''
+    logger.debug("scanReleases('{}', {})".format(url, recursive))
     suites = list()
     ignoreFolders = list(['by-hash'])
     index = HtmlIndexParser(url)
@@ -79,6 +80,7 @@ def scanReleases(url, recursive=True):
 
 
 def scanReleaseFile(url):
+    logger.debug("scanReleaseFile('{}')".format(url))
     http = urllib3.PoolManager()
     data = getHttp(url)
     with tempfile.TemporaryFile() as fp:

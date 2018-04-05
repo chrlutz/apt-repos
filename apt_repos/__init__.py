@@ -140,6 +140,7 @@ def getSuites(selectors=None):
             for repoDesc in repoDescs:                
                 if not type(repoDesc) is dict:
                     continue
+                logger.info("Scanning repository {}".format(repoDesc['Url']))
                 for suiteDesc in Repository(repoDesc).querySuiteDescs(srepo, ssuiteName):
                     count+=1
                     #tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
