@@ -1,5 +1,7 @@
 INFO[apt_repos]: Using basedir '.'
-INFO[apt_repos.RepositoryScanner]: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
+INFO[apt_repos]: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO[apt_repos]: Scanning repository http://deb.debian.org/debian/
+INFO[apt_repos]: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 # ubuntu:de-bionic
 deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse

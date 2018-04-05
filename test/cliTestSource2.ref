@@ -1,4 +1,7 @@
 INFO[apt_repos]: Using basedir '.'
+INFO[apt_repos]: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO[apt_repos]: Scanning repository http://deb.debian.org/debian/
+INFO[apt_repos]: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
 Source | Version            | Suite                  | Arch    | Section | File-Url                                                                  
 ====== | ================== | ====================== | ======= | ======= | ==========================================================================

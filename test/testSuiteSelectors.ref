@@ -1,14 +1,15 @@
 INFO     apt_repos: Using basedir '.'
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: None
 ubuntu:xenial
 ubuntu:xenial-security
-INFO     apt_repos.RepositoryScanner: Scanning repository http://wirzelprimpft.de/apt/repos/ 
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
 WARNING  apt_repos.RepositoryScanner: Could not resolve repository http://wirzelprimpft.de/apt/repos/
-INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch
-INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-backports
-INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-updates
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: :
 ubuntu:trusty
@@ -19,21 +20,34 @@ debian:stretch
 debian:stretch-backports
 debian:stretch-updates
 ubuntu:de-bionic
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: default:
 ubuntu:xenial
 ubuntu:xenial-security
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: ubuntu:xenial
 ubuntu:xenial
-INFO     apt_repos.RepositoryScanner: Scanning repository http://wirzelprimpft.de/apt/repos/ xenial
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
 WARNING  apt_repos.RepositoryScanner: Could not resolve suite xenial of repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: xenial
 ubuntu:xenial
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: ub:trusty
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: ubuntu:
 ubuntu:trusty
@@ -41,10 +55,22 @@ ubuntu:trusty-security
 ubuntu:xenial
 ubuntu:xenial-security
 ubuntu:de-bionic
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: u:
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: u:trusty
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 
 Selected suites for selectors: ubuntu:trusty-security, ubuntu:xenial-security
 ubuntu:trusty-security

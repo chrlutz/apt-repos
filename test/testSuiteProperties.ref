@@ -1,10 +1,8 @@
 INFO     apt_repos: Using basedir '.'
-INFO     apt_repos.RepositoryScanner: Scanning repository http://wirzelprimpft.de/apt/repos/ 
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
 WARNING  apt_repos.RepositoryScanner: Could not resolve repository http://wirzelprimpft.de/apt/repos/
-INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch
-INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-backports
-INFO     apt_repos.RepositoryScanner: Scanning repository http://deb.debian.org/debian/ stretch-updates
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 ubuntu:trusty
 trusty
 http://de.archive.ubuntu.com/ubuntu/

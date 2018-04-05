@@ -1,7 +1,6 @@
 
 Repository: Testing Basics (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
@@ -11,15 +10,12 @@ INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.
   Results for 'ubuntu', 'noexist':
   Results for '', 'noexist':
   Results for '', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu', '':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ xenial
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
@@ -35,7 +31,6 @@ INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.
 
 Repository: Testing different Prefix (http://de.archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'de-bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
@@ -44,15 +39,12 @@ INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubun
   Results for 'u', 'de-bionic':
   Results for '', 'de-noexist':
   Results for '', 'de-bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:de-bionic
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu', '':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ xenial
-INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
@@ -68,24 +60,20 @@ INFO     apt_repos.RepositoryScanner: Scanning repository http://de.archive.ubun
 
 Repository: Testing Option Scan==True (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for '', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for '', 'noexist':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ noexist
 WARNING  apt_repos.RepositoryScanner: Could not resolve suite noexist of repository http://archive.ubuntu.com/ubuntu/
   Results for 'ubuntu', '':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ 
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ artful main restricted universe multiverse
@@ -237,15 +225,12 @@ INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.
     Suite: ubuntu:xenial-updates
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu:de-', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ de-:bionic
 WARNING  apt_repos.RepositoryScanner: Could not resolve suite de-:bionic of repository http://archive.ubuntu.com/ubuntu/
   Results for 'ubuntu:', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ :bionic
 WARNING  apt_repos.RepositoryScanner: Could not resolve suite :bionic of repository http://archive.ubuntu.com/ubuntu/
 
 Repository: Testing Option ExtractSuiteFromReleaseUrl==True (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
@@ -254,7 +239,6 @@ INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.
 
 Repository: Testing Option Trusted==True (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
@@ -263,7 +247,6 @@ INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.
 
 Repository: Testing Option DebSrc==True (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
-INFO     apt_repos.RepositoryScanner: Scanning repository http://archive.ubuntu.com/ubuntu/ bionic
     Architectures: ['i386', 'amd64']
     DebSrc: False
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse

@@ -1,2 +1,5 @@
 INFO     apt_repos: Using basedir '.'
+INFO     apt_repos: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO     apt_repos: Scanning repository http://deb.debian.org/debian/
+INFO     apt_repos: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 QueryResult(SOURCE_PACKAGE_NAME:'git', VERSION:'1:1.9.1-1', SUITE:'ubuntu:trusty', ARCHITECTURE:'all,any', SECTION:'vcs', FILENAME:'http://de.archive.ubuntu.com/ubuntu/pool/main/g/git/git_1.9.1-1.dsc', BASE_URL:'http://de.archive.ubuntu.com/ubuntu/')
