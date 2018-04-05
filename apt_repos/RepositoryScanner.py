@@ -46,12 +46,12 @@ def scanRepository(url, suites=None):
         for s in suites:
             try:
                 res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release'))))
-            except Exception as ex:
+            except Exception:
                 logger.warn("Could not resolve suite {} of repository {}".format(s, url))
     else:
         try:
             res.extend(scanReleases(urljoin(url, "dists/")))
-        except Exception as ex:
+        except Exception:
             logger.warn("Could not resolve repository {}".format(url))
     return res
 
@@ -81,7 +81,6 @@ def scanReleases(url, recursive=True):
 
 def scanReleaseFile(url):
     logger.debug("scanReleaseFile('{}')".format(url))
-    http = urllib3.PoolManager()
     data = getHttp(url)
     with tempfile.TemporaryFile() as fp:
         fp.write(data)
@@ -105,7 +104,7 @@ def scanReleaseFile(url):
                             'url':url
                             #'files':files
                         }
-            except SystemError as s:
+            except SystemError:
                 raise Exception("invalid release file or no suite found at {}".format(url))
 
 
@@ -157,8 +156,3 @@ def getHttp(url):
         return req.data
     except MaxRetryError as e:
         raise Exception("http-request to url {} failed".format(url), e)
-    
-
-
-if __name__ == "__main__":
-    main()

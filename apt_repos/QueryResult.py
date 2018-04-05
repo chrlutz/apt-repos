@@ -147,7 +147,7 @@ class QueryResult:
             elif field == PackageField.FILENAME:
                 dscFile = None
                 for f in source['Files'].split("\n"):
-                    (md5, size, fname) = f.strip().split(" ")
+                    (unused_md5, unused_size, fname) = f.strip().split(" ")
                     if fname.endswith(".dsc"):
                         dscFile = fname
                         break

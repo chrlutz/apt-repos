@@ -106,7 +106,7 @@ class Repository:
                         archs.append(arch)
             suitename = suite['suite']
             if self.extractSuiteFromReleaseUrl:
-                suitename = re.sub(".*\/dists\/", "", os.path.dirname(urlparse(suite['url']).path))
+                suitename = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
             option = '' if not self.trusted else '[trusted=yes] '
             debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
             res.append({

@@ -39,7 +39,7 @@ class Priority(Enum):
     EXTRA = apt_pkg.PRI_EXTRA
 
     def __str__(self):
-        return self.name.lower()
+        return str(self.name).lower()
 
     def __hash__(self):
         return hash(self.value)

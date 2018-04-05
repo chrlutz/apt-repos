@@ -51,12 +51,14 @@ class PackageField(Enum):
     
     
     def getHeader(self):
-        char, header = self.value
+        # pylint: disable=E0633
+        unused_char, header = self.value
         return header
     
     
     def getChar(self):
-        char, header = self.value
+        # pylint: disable=E0633
+        char, unused_header = self.value
         return char
     
     
@@ -66,7 +68,7 @@ class PackageField(Enum):
         for c in fieldsString:
             found = None
             for f in PackageField:
-                char, header = f.value
+                char, unused_header = f.value
                 if str(c) == str(char):
                     found = f
             if found:
