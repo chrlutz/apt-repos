@@ -62,12 +62,16 @@ class Repository:
         self.url = repoDesc['Url']
         self.scan = repoDesc.get('Scan')
         self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
-        self.suites = repoDesc["Suites"] if repoDesc.get("Suites") else []
+        self.suites = repoDesc["Suites"] if repoDesc.get("Suites") else dict()
+        if type(self.suites) == list: # convert to dict
+            suites = dict()
+            for s in self.suites:
+                suites[s] = dict()
+            self.suites = suites
         self.architectures = repoDesc.get('Architectures')
         self.trustedGPGFile = repoDesc.get('TrustedGPG')
         self.debSrc = repoDesc.get('DebSrc')
         self.trusted = repoDesc.get('Trusted')
-        self.tags = repoDesc["Tags"] if repoDesc.get("Tags") else []        
 
 
     def querySuiteDescs(self, selRepo, selSuite):
@@ -80,10 +84,11 @@ class Repository:
             return res
         suite = selector[len(self.prefix):]
 
-        for ownSuite in self.suites:
+        for ownSuite in sorted(self.suites.keys()):
+            attrib = self.suites[ownSuite]
             if suite == ownSuite or suite=='':
                 found = scanRepository(self.url, [ownSuite])
-                res.extend(self.getSuiteDescs(self.prefix, found))
+                res.extend(self.getSuiteDescs(self.prefix, found, attrib))
         
         if self.scan:
             if len(suite) > 0:
@@ -96,7 +101,7 @@ class Repository:
         return res
 
 
-    def getSuiteDescs(self, prefix, suites):
+    def getSuiteDescs(self, prefix, suites, attrib=dict()):
         res = list()
         for suite in suites:
             archs = list()
@@ -109,8 +114,10 @@ class Repository:
                 suitename = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
             option = '' if not self.trusted else '[trusted=yes] '
             debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
+            tags = attrib.get("Tags", list())
             res.append({
                 "Suite" : prefix + suitename,
+                "Tags" : tags,
                 "SourcesList" : "deb {}{} {} {}".format(option, self.url, suitename, " ".join(suite['components'])),
                 "DebSrc" : debSrc,
                 "Architectures" : archs if self.architectures else suite['architectures'],
@@ -131,13 +138,6 @@ class Repository:
            TODO
         ''' 
         return self.desc
-
-
-    #def getTags(self):
-    #    '''
-    #        Returns the tags that are assigned to the suite.
-    #    '''
-    #    return self.tags
 
 
     def __str__(self):

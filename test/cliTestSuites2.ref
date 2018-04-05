@@ -19,7 +19,7 @@ deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe mul
 deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
 deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
 
-# debian:stretch
+# debian:stretch [stable:, test:]
 deb http://deb.debian.org/debian/ stretch main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch main contrib non-free
 
@@ -27,7 +27,7 @@ deb-src http://deb.debian.org/debian/ stretch main contrib non-free
 deb http://deb.debian.org/debian/ stretch-backports main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch-backports main contrib non-free
 
-# debian:stretch-updates
+# debian:stretch-updates [stable:]
 deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
 

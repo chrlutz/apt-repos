@@ -7,7 +7,7 @@ INFO[apt_repos]: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 # ubuntu:trusty-security
 # ubuntu:xenial [archive:, default:]
 # ubuntu:xenial-security [default:]
-# debian:stretch
+# debian:stretch [stable:, test:]
 # debian:stretch-backports
-# debian:stretch-updates
+# debian:stretch-updates [stable:]
 # ubuntu:de-bionic

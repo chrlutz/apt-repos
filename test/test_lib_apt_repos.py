@@ -237,6 +237,17 @@ def testRepository():
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
+    repo = Repository(mergedict(basisRepoDesc, {
+      "Suites" : { 
+          "trusty" : { "Tags" : [ "old", "older", "oldest" ] },
+          "bionic" : { "Tags" : [ "ene", "mene", "muh" ] } 
+      },
+      "DebSrc" : False,
+    }))
+    print("\n" + str(repo))
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
+    dumpQuerySuiteDescsResult(repo, "ubuntu", "trusty")
+
 
 def mergedict(a, b):
     res = dict(a)
