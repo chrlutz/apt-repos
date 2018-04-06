@@ -1,12 +1,8 @@
 INFO[apt_repos]: Using basedir '.'
-INFO[apt_repos]: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO[apt_repos.Repository]: Scanning Repository 'Unresolvable Repository' (http://wirzelprimpft.de/apt/repos/)
 WARNING[apt_repos.RepositoryScanner]: Could not resolve suite trusty of repository http://wirzelprimpft.de/apt/repos/
-INFO[apt_repos]: Scanning repository http://deb.debian.org/debian/
-INFO[apt_repos]: Scanning repository http://de.archive.ubuntu.com/ubuntu/
-INFO[apt_repos]: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO[apt_repos.Repository]: Scanning Repository 'Unresolvable Repository' (http://wirzelprimpft.de/apt/repos/)
 WARNING[apt_repos.RepositoryScanner]: Could not resolve suite xenial of repository http://wirzelprimpft.de/apt/repos/
-INFO[apt_repos]: Scanning repository http://deb.debian.org/debian/
-INFO[apt_repos]: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
 Results for Suite 'ubuntu:trusty'			      |	Results for Suite 'ubuntu:xenial'
 Installed-Size: 1086					      |	Installed-Size: 1110

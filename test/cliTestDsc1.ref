@@ -1,6 +1,3 @@
 INFO[apt_repos]: Using basedir '.'
-INFO[apt_repos]: Scanning repository http://wirzelprimpft.de/apt/repos/
-INFO[apt_repos]: Scanning repository http://deb.debian.org/debian/
-INFO[apt_repos]: Scanning repository http://de.archive.ubuntu.com/ubuntu/
 updating (use --no-update to skip) and querying sources lists for 2 suites.1.2
 http://de.archive.ubuntu.com/ubuntu/pool/universe/r/reprepro/reprepro_4.17.0-1.dsc

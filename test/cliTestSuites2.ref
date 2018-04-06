@@ -1,8 +1,8 @@
 INFO[apt_repos]: Using basedir '.'
-INFO[apt_repos]: Scanning repository http://wirzelprimpft.de/apt/repos/
+INFO[apt_repos.Repository]: Scanning Repository 'Unresolvable Repository' (http://wirzelprimpft.de/apt/repos/)
 WARNING[apt_repos.RepositoryScanner]: Could not resolve repository http://wirzelprimpft.de/apt/repos/
-INFO[apt_repos]: Scanning repository http://deb.debian.org/debian/
-INFO[apt_repos]: Scanning repository http://de.archive.ubuntu.com/ubuntu/
+INFO[apt_repos.Repository]: Scanning Repository 'Main Debian Repository' (http://deb.debian.org/debian/)
+INFO[apt_repos.Repository]: Scanning Repository 'German Main Ubuntu Repository' (http://de.archive.ubuntu.com/ubuntu/)
 # ubuntu:trusty [archive:]
 deb http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
@@ -23,11 +23,11 @@ deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted univer
 deb http://deb.debian.org/debian/ stretch main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch main contrib non-free
 
-# debian:stretch-backports
+# debian:stretch-backports [stable:]
 deb http://deb.debian.org/debian/ stretch-backports main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch-backports main contrib non-free
 
-# debian:stretch-updates [stable:]
+# debian:stretch-updates [stable:, test2:]
 deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
 
