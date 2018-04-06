@@ -40,7 +40,9 @@ def testSuiteSelectors():
     selectors = [
         None, [":"], ["default:"], ["ubuntu:xenial"], ["xenial"],
         ["ub:trusty"], ["ubuntu:"], ["u:"], ["u:trusty"],
-        ["ubuntu:trusty-security", "ubuntu:xenial-security"]
+        ["ubuntu:trusty-security", "ubuntu:xenial-security"],
+        ["debian:"], ["ubuntu:"], ["ubuntu:de-bionic"], ["ubuntu:nonexistent"],
+        ["stable:"], ["test"], ["stable:stretch"], ["stable:nonexistent"]
     ]
     for selector in selectors:
         dumpSelectedSuites(apt_repos.getSuites(selector), selector)
@@ -61,9 +63,12 @@ def testSuiteProperties():
 
 
 def dumpSelectedSuites(suites, selectors):
-    print("\nSelected suites for selectors: " + (", ".join(selectors) if selectors else str(selectors)))
+    print("Selected suites for selectors: " + (", ".join(selectors) if selectors else str(selectors)))
     for s in sorted(suites):
         print(s.getSuiteName())
+    if len(suites) == 0:
+        print("--NO-SUITES--")
+    print()
 
 
 def testGetPackageFields():
@@ -267,8 +272,9 @@ def mergedict(a, b):
 
 
 def dumpQuerySuiteDescsResult(repo, prefix, suite):
+    res = repo.querySuiteDescs(prefix, suite)
     print("  Results for '{}', '{}':".format(prefix, suite))
-    for suiteDesc in repo.querySuiteDescs(prefix, suite):
+    for suiteDesc in res:
         for key, value in sorted(suiteDesc.items()):
             print("    {}: {}".format(key, value))
 

@@ -1,5 +1,6 @@
 
-Repository: Testing Basics (http://archive.ubuntu.com/ubuntu/)
+Repository 'Testing Basics' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing Basics' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -10,6 +11,7 @@ Repository: Testing Basics (http://archive.ubuntu.com/ubuntu/)
   Results for 'u', 'bionic':
   Results for 'ubuntu', 'noexist':
   Results for '', 'noexist':
+INFO     apt_repos.Repository: Scanning Repository 'Testing Basics' (http://archive.ubuntu.com/ubuntu/)
   Results for '', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -17,6 +19,7 @@ Repository: Testing Basics (http://archive.ubuntu.com/ubuntu/)
     Suite: ubuntu:bionic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
+INFO     apt_repos.Repository: Scanning Repository 'Testing Basics' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -33,7 +36,8 @@ Repository: Testing Basics (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu:test-', 'bionic':
   Results for 'another', 'bionic':
 
-Repository: Testing different Prefix (http://de.archive.ubuntu.com/ubuntu/)
+Repository 'Testing different Prefix' (http://de.archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing different Prefix' (http://de.archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'de-bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -43,6 +47,7 @@ Repository: Testing different Prefix (http://de.archive.ubuntu.com/ubuntu/)
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'u', 'de-bionic':
   Results for '', 'de-noexist':
+INFO     apt_repos.Repository: Scanning Repository 'Testing different Prefix' (http://de.archive.ubuntu.com/ubuntu/)
   Results for '', 'de-bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -50,6 +55,7 @@ Repository: Testing different Prefix (http://de.archive.ubuntu.com/ubuntu/)
     Suite: ubuntu:de-bionic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
+INFO     apt_repos.Repository: Scanning Repository 'Testing different Prefix' (http://de.archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -66,7 +72,8 @@ Repository: Testing different Prefix (http://de.archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu:de-', 'bionic':
   Results for 'ubuntu:', 'bionic':
 
-Repository: Testing Option Scan==True (http://archive.ubuntu.com/ubuntu/)
+Repository 'Testing Option Scan==True' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -74,6 +81,7 @@ Repository: Testing Option Scan==True (http://archive.ubuntu.com/ubuntu/)
     Suite: ubuntu:bionic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (http://archive.ubuntu.com/ubuntu/)
   Results for '', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -81,8 +89,10 @@ Repository: Testing Option Scan==True (http://archive.ubuntu.com/ubuntu/)
     Suite: ubuntu:bionic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
-  Results for '', 'noexist':
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (http://archive.ubuntu.com/ubuntu/)
 WARNING  apt_repos.RepositoryScanner: Could not resolve suite noexist of repository http://archive.ubuntu.com/ubuntu/
+  Results for '', 'noexist':
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -265,11 +275,10 @@ WARNING  apt_repos.RepositoryScanner: Could not resolve suite noexist of reposit
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu:de-', 'bionic':
-WARNING  apt_repos.RepositoryScanner: Could not resolve suite de-:bionic of repository http://archive.ubuntu.com/ubuntu/
   Results for 'ubuntu:', 'bionic':
-WARNING  apt_repos.RepositoryScanner: Could not resolve suite :bionic of repository http://archive.ubuntu.com/ubuntu/
 
-Repository: Testing Option ExtractSuiteFromReleaseUrl==True (http://archive.ubuntu.com/ubuntu/)
+Repository 'Testing Option ExtractSuiteFromReleaseUrl==True' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option ExtractSuiteFromReleaseUrl==True' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -278,7 +287,8 @@ Repository: Testing Option ExtractSuiteFromReleaseUrl==True (http://archive.ubun
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
 
-Repository: Testing Option Trusted==True (http://archive.ubuntu.com/ubuntu/)
+Repository 'Testing Option Trusted==True' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option Trusted==True' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -287,7 +297,8 @@ Repository: Testing Option Trusted==True (http://archive.ubuntu.com/ubuntu/)
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
 
-Repository: Testing Option DebSrc==True (http://archive.ubuntu.com/ubuntu/)
+Repository 'Testing Option DebSrc==True' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option DebSrc==True' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: False
@@ -296,7 +307,8 @@ Repository: Testing Option DebSrc==True (http://archive.ubuntu.com/ubuntu/)
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
 
-Repository: Main Ubuntu Repository (http://archive.ubuntu.com/ubuntu/)
+Repository 'Main Ubuntu Repository' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -304,6 +316,7 @@ Repository: Main Ubuntu Repository (http://archive.ubuntu.com/ubuntu/)
     Suite: ubuntu:bionic
     Tags: ['ene', 'mene', 'muh']
     TrustedGPG: ./gpg/ubuntu.gpg
+INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'trusty':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -312,7 +325,8 @@ Repository: Main Ubuntu Repository (http://archive.ubuntu.com/ubuntu/)
     Tags: ['old', 'older', 'oldest']
     TrustedGPG: ./gpg/ubuntu.gpg
 
-Repository: Main Ubuntu Repository (http://archive.ubuntu.com/ubuntu/)
+Repository 'Main Ubuntu Repository' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
@@ -320,6 +334,7 @@ Repository: Main Ubuntu Repository (http://archive.ubuntu.com/ubuntu/)
     Suite: ubuntu:bionic
     Tags: ['common1', 'ene', 'mene', 'muh', 'z_last']
     TrustedGPG: ./gpg/ubuntu.gpg
+INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'trusty':
     Architectures: ['i386', 'amd64']
     DebSrc: True

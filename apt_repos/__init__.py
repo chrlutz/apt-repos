@@ -124,7 +124,7 @@ def getSuites(selectors=None):
         for unused_key, (suiteDescs, basedir) in suitesData.items():
             for suiteDesc in suiteDescs:
                 count+=1
-                tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
+                tags = suiteDesc.get("Tags", [])
 
                 parts = suiteDesc["Suite"].split(":", 1)
                 if len(parts) == 1:
@@ -140,10 +140,8 @@ def getSuites(selectors=None):
             for repoDesc in repoDescs:                
                 if not type(repoDesc) is dict:
                     continue
-                logger.info("Scanning repository {}".format(repoDesc['Url']))
                 for suiteDesc in Repository(repoDesc).querySuiteDescs(srepo, ssuiteName):
                     count+=1
-                    #tags = suiteDesc.get("Tags") if suiteDesc.get("Tags") else []
                     selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
                 
     return selected

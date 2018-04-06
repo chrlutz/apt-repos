@@ -11,11 +11,12 @@
     {
       "Repository" : "Main Debian Repository",
       "Prefix" : "debian",
+      "Tags" : [ "stable" ],
       "Url" : "http://deb.debian.org/debian/",
       "Suites" : {
-          "stretch": { "Tags" : [ "stable", "test" ] },
+          "stretch": { "Tags" : [ "test" ] },
           "stretch-backports": {},
-          "stretch-updates": { "Tags" : [ "stable" ] }
+          "stretch-updates": { "Tags" : [ "test2" ] }
       },
       "ExtractSuiteFromReleaseUrl": true,
       "Architectures" : [ "i386", "amd64" ],

@@ -70,20 +70,26 @@ class Repository:
 
     def querySuiteDescs(self, selRepo, selSuite):
         res = list()
-        (ownRepo, ownSuitePrefix) = self.prefix.split(":", 1)
-        selRepo = ownRepo if selRepo=='' else selRepo
-        selSuite = ownSuitePrefix if selSuite=='' else selSuite
-        selector = "{}:{}".format(selRepo, selSuite)
-        if not selector.startswith(self.prefix):
-            return res
-        suite = selector[len(self.prefix):]
+        (unused_ownRepo, ownSuitePrefix) = self.prefix.split(":", 1)
 
+        selSuite = ownSuitePrefix if selSuite=='' else selSuite
+        if not selSuite.startswith(ownSuitePrefix):
+            return res
+        suite = selSuite[len(ownSuitePrefix):]
+
+        first = True
         for ownSuite in sorted(self.suites.keys()):
+            if not self._isRepositorySelected(selRepo, ownSuite):
+                continue
             if suite == ownSuite or suite=='':
+                if first:
+                    logger.info("Scanning {}".format(self))
+                    first = False
                 found = scanRepository(self.url, [ownSuite])
                 res.extend(self.getSuiteDescs(self.prefix, found))
         
-        if self.scan:
+        if self.scan and self._isRepositorySelected(selRepo, suite):
+            logger.info("Scanning {}".format(self))
             if len(suite) > 0:
                 found = scanRepository(self.url, [suite])
                 res.extend(self.getSuiteDescs(self.prefix, found))
@@ -92,6 +98,21 @@ class Repository:
                 res.extend(self.getSuiteDescs(self.prefix, found))
                 
         return res
+
+
+    def _isRepositorySelected(self, selRepo, suite=''):
+        '''
+            Returns true if the repository is selected by the repository selector
+            selRepo (which ist the part of the selector before ":", without ":").
+            This method also respects Tags defined in the two levels "repository-
+            common tags" and "suite specific tags". Suite specific tags can only
+            be considered if there's a non empty suite provided.
+        '''
+        (ownRepo, _) = self.prefix.split(":", 1)
+        validRepos = ['', ownRepo]
+        if len(suite) > 0:
+            validRepos.extend(sorted(self.getTags(suite)))
+        return selRepo in validRepos
 
 
     def getSuiteDescs(self, prefix, suites):
@@ -148,4 +169,4 @@ class Repository:
 
 
     def __str__(self):
-        return "Repository: {} ({})".format(self.desc, self.url)
+        return "Repository '{}' ({})".format(self.desc, self.url)
