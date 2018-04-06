@@ -105,13 +105,11 @@ class Repository:
             Returns true if the repository is selected by the repository selector
             selRepo (which ist the part of the selector before ":", without ":").
             This method also respects Tags defined in the two levels "repository-
-            common tags" and "suite specific tags". Suite specific tags can only
-            be considered if there's a non empty suite provided.
+            common tags" and "suite specific tags" (see self.getTags(suite)).
         '''
         (ownRepo, _) = self.prefix.split(":", 1)
         validRepos = ['', ownRepo]
-        if len(suite) > 0:
-            validRepos.extend(sorted(self.getTags(suite)))
+        validRepos.extend(sorted(self.getTags(suite)))
         return selRepo in validRepos
 
 
@@ -155,12 +153,14 @@ class Repository:
         return self.desc
 
 
-    def getTags(self, suite):
+    def getTags(self, suite=''):
         '''
             Returns a set of tags assigned to the suite `suite`.
             This is a union of commonTags (from the "Tags" keyword in
             the repos description) and suite specific Tags (from the
-            "Tags" keyword assigned to a single suite).
+            "Tags" keyword assigned to a single suite). If suite is
+            not given or there is no definition for the given suite,
+            this method just returns the commonTags.
         '''
         tags = set(self.commonTags)
         suiteAttrib = self.suites.get(suite, dict())

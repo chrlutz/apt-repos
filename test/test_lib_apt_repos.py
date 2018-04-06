@@ -42,7 +42,8 @@ def testSuiteSelectors():
         ["ub:trusty"], ["ubuntu:"], ["u:"], ["u:trusty"],
         ["ubuntu:trusty-security", "ubuntu:xenial-security"],
         ["debian:"], ["ubuntu:"], ["ubuntu:de-bionic"], ["ubuntu:nonexistent"],
-        ["stable:"], ["test"], ["stable:stretch"], ["stable:nonexistent"]
+        ["stable:"], ["test"], ["stable:stretch"], ["stable:nonexistent"],
+        ["testscan:"]
     ]
     for selector in selectors:
         dumpSelectedSuites(apt_repos.getSuites(selector), selector)

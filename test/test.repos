@@ -24,6 +24,16 @@
     },
     "--------------------------------------------------------",
     {
+      "Repository" : "Test Dummy File Url",
+      "Prefix" : "dummy",
+      "Tags" : [ "testscan" ],
+      "Url" : "file:///tmp/onDisk/",
+      "Scan" : true,
+      "ExtractSuiteFromReleaseUrl": true,
+      "Architectures" : [ "i386", "amd64" ]
+    },
+    "--------------------------------------------------------",
+    {
       "Repository" : "German Main Ubuntu Repository",
       "Prefix" : "ubuntu:de-",
       "Url" : "http://de.archive.ubuntu.com/ubuntu/",
