@@ -154,7 +154,7 @@ def testGetSourcesFiles():
         # we can't just print the absolute filename which is not diffable, so
         # we print the trailing 4 parts of the path.
         keep = ""
-        for i in range(0, 7):
+        for unused_i in range(0, 7):
             keep = os.path.basename(file) + ("/" if len(keep) > 0 else "") + keep
             file = os.path.dirname(file)    
         print(("<testfolder>/" if len(file) > 0 else "") + keep)
@@ -284,7 +284,7 @@ def main():
         if str(method).startswith('test'):
             globals()[method]()
         else:
-            print("Not a test method: " + test)
+            print("Not a test method: " + method)
 
 
 if __name__ == "__main__":
