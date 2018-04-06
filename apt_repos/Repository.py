@@ -39,30 +39,24 @@ logger = logging.getLogger(__name__)
 
 class Repository:
     '''
-        TODO
-        This class represents a Repository/Suite combination as defined in the current suites-file.
-        The most important features of RepoSuites are: They are comparable/__lt__able and respect
-        the order defined in the suites-file. They can be updated calling scan(True) against the configured
-        apt-repositories/suites and it's possible to query for packages, returning QueryResults       
-    
-        Note: RepoSuite can be used single threaded only! This is because apt_pkg can only
-              be configured to have one root-context at a time. This root-context is set by scan(...)
+        This class represents a Repository as descibed by an element of a .repos config file.
+        A repository is able to scan the apt-repository automatically for it's suites and to
+        dynamically create corresponding .suites-configuration for existing suites.
     '''
 
     def __init__(self, repoDesc):
         '''
-            TODO
-            Initializes the suite and creates the caching structure. 
-            Note: The apt-cache is not scanned and not updated there! 
-                  Always call scan(...) before accessing package metadata!
+            Creates a new Repository Object for the provided Repo Desciption repoDesc
+            which is one entry of a .repos file.
         '''
         self.desc = repoDesc.get('Repository')
         self.prefix = repoDesc['Prefix']
         self.prefix = self.prefix + ('' if ':' in self.prefix else ':')
+        self.commonTags = repoDesc.get('Tags', list())
         self.url = repoDesc['Url']
         self.scan = repoDesc.get('Scan')
         self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
-        self.suites = repoDesc["Suites"] if repoDesc.get("Suites") else dict()
+        self.suites = repoDesc.get("Suites", dict())
         if type(self.suites) == list: # convert to dict
             suites = dict()
             for s in self.suites:
@@ -85,10 +79,9 @@ class Repository:
         suite = selector[len(self.prefix):]
 
         for ownSuite in sorted(self.suites.keys()):
-            attrib = self.suites[ownSuite]
             if suite == ownSuite or suite=='':
                 found = scanRepository(self.url, [ownSuite])
-                res.extend(self.getSuiteDescs(self.prefix, found, attrib))
+                res.extend(self.getSuiteDescs(self.prefix, found))
         
         if self.scan:
             if len(suite) > 0:
@@ -101,7 +94,7 @@ class Repository:
         return res
 
 
-    def getSuiteDescs(self, prefix, suites, attrib=dict()):
+    def getSuiteDescs(self, prefix, suites):
         res = list()
         for suite in suites:
             archs = list()
@@ -114,7 +107,7 @@ class Repository:
                 suitename = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
             option = '' if not self.trusted else '[trusted=yes] '
             debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
-            tags = attrib.get("Tags", list())
+            tags = sorted(self.getTags(suitename))
             res.append({
                 "Suite" : prefix + suitename,
                 "Tags" : tags,
@@ -135,9 +128,23 @@ class Repository:
 
     def getDescription(self):
         '''
-           TODO
+            Returns the description of the Repository which is the content
+            of the "Repository" key in the .repos description.
         ''' 
         return self.desc
+
+
+    def getTags(self, suite):
+        '''
+            Returns a set of tags assigned to the suite `suite`.
+            This is a union of commonTags (from the "Tags" keyword in
+            the repos description) and suite specific Tags (from the
+            "Tags" keyword assigned to a single suite).
+        '''
+        tags = set(self.commonTags)
+        suiteAttrib = self.suites.get(suite, dict())
+        tags = tags.union(set(suiteAttrib.get('Tags', list())))
+        return tags
 
 
     def __str__(self):

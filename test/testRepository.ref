@@ -299,15 +299,31 @@ Repository: Testing Option DebSrc==True (http://archive.ubuntu.com/ubuntu/)
 Repository: Main Ubuntu Repository (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
-    DebSrc: False
+    DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: ['ene', 'mene', 'muh']
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu', 'trusty':
     Architectures: ['i386', 'amd64']
-    DebSrc: False
+    DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
     Suite: ubuntu:trusty
     Tags: ['old', 'older', 'oldest']
+    TrustedGPG: ./gpg/ubuntu.gpg
+
+Repository: Main Ubuntu Repository (http://archive.ubuntu.com/ubuntu/)
+  Results for 'ubuntu', 'bionic':
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:bionic
+    Tags: ['common1', 'ene', 'mene', 'muh', 'z_last']
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'ubuntu', 'trusty':
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+    Suite: ubuntu:trusty
+    Tags: ['common1', 'z_last']
     TrustedGPG: ./gpg/ubuntu.gpg
