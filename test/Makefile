@@ -43,11 +43,13 @@ unittests: clean
 
 git_diff_results:
 	$(IS_GIT_TREE) || exit 0
+	$(STARTING_TEST)
 	# copy results to references
 	bash -c 'for i in *.res; do \
 		cp $$i $${i/.res/.ref}; \
 	done'
 	git diff --quiet --exit-code *.ref
+	$(FINISHED_TEST)
 
 clean:
 	rm -Rf *.res .apt-repos_cache
