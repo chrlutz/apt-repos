@@ -116,7 +116,12 @@ class RepoSuite:
         apt_pkg.init_system()
         self.cache = apt_pkg.Cache()
         if update:
-            self.cache.update(self.__Progress(), self.__sources())
+            try:
+                self.cache.update(self.__Progress(), self.__sources())
+            except SystemError as e:
+                logger.warning("Could not update the cache for suite {} (logging details to DEBUG)".format(self.suite))
+                for msg in re.sub(r" ([WE]:)", "\n\\1", str(e)).split("\n"):
+                    logger.debug(msg)
             self.cache = apt_pkg.Cache()
         self.records = apt_pkg.PackageRecords(self.cache)
         logger.debug("finished scan")
@@ -317,7 +322,7 @@ class RepoSuite:
                         if not (pkg.name == req or ("src:" + source) == req):
                             continue
         
-                    logger.debug("Found package {}".format(pkg.name))
+                    #logger.debug("Found package {}".format(pkg.name))
         
                     if (requestArchs) and (not v.arch in requestArchs):
                         continue
@@ -392,7 +397,7 @@ class RepoSuite:
                                 if not (name == req):
                                     continue
 
-                            logger.debug("Found package {}".format(name))
+                            #logger.debug("Found package {}".format(name))
 
                             #if (requestArchs) and (not v.arch in requestArchs):
                             #    continue
