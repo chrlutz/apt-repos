@@ -119,9 +119,9 @@ class RepoSuite:
             try:
                 self.cache.update(self.__Progress(), self.__sources())
             except SystemError as e:
-                logger.warning("Could not update the cache for suite {} (logging details to DEBUG)".format(self.suite))
+                logger.warning("Could not update the cache for suite {}:".format(self.suite))
                 for msg in re.sub(r" ([WE]:)", "\n\\1", str(e)).split("\n"):
-                    logger.debug(msg)
+                    logger.warning(msg)
             self.cache = apt_pkg.Cache()
         self.records = apt_pkg.PackageRecords(self.cache)
         logger.debug("finished scan")
