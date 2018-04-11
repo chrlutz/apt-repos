@@ -3,6 +3,6 @@ INFO[apt_repos.Repository]: Scanning Repository 'German Main Ubuntu Repository' 
 updating (use --no-update to skip) and querying packages lists for 1 suites.1
 Package | Version           | Suite            | Arch  | Section      | Source
 ======= | ================= | ================ | ===== | ============ | ======
-git     | 1:2.15.1-1ubuntu2 | ubuntu:de-bionic | amd64 | vcs          | git   
-git     | 1:2.15.1-1ubuntu2 | ubuntu:de-bionic | i386  | vcs          | git   
+git     | 1:2.17.0-1ubuntu1 | ubuntu:de-bionic | amd64 | vcs          | git   
+git     | 1:2.17.0-1ubuntu1 | ubuntu:de-bionic | i386  | vcs          | git   
 zim     | 0.68~rc1-2        | ubuntu:de-bionic | all   | universe/x11 | zim   
