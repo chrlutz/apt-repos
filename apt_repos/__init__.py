@@ -56,6 +56,53 @@ __baseDirs = [ expanduser('~') + '/.config/apt-repos', expanduser('~') + '/.apt-
 __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
 
 
+from contextlib import contextmanager
+@contextmanager
+def suppress_unwanted_apt_pkg_messages():
+    '''
+        Using python3-apt and "import apt_pkg" has the disadvantage that native parts of apt_pkg
+        (which is just a wrapper for the native lib-apt) write unwanted messages to stdout everytime
+        apt.cache.Cache.update(...) is called. Such unwanted messages are for example:
+
+        "Reading package lists..."
+        "Building dependency tree..."
+
+        It seems impossible to suppressed this output by just using correct configuration options
+        (at least I didn't find a way to configer apt properly).
+
+        This contextmanager provides an environment in which python code utilizing apt_pkg
+        could be executed without these messages to stdout. Technically it forks the process,
+        closes stdout (channel 1) and redirects sys.stdout to a pipe which directly prints every
+        new content found in the pipe. This works because the native code directly writes to the
+        os level file handle 1 while our python code respects the redirected sys.stdout.
+
+        If you don't want these messages to appear in your own code, it is suggested to wrap your
+        code using this context manager i.e. in the following way:
+
+        if __name__ == "__main__":
+            with apt_repos.suppress_unwanted_apt_pkg_messages():
+                <place your code here>
+
+        This context manager also preserves the sys.exit return code of your code and works fine
+        with pipes and output redirection as usual.
+    '''
+    pipein, pipeout = os.pipe()
+    pid = os.fork()
+    if pid == 0:
+        os.close(pipein)
+        os.close(1)
+        sys.stdout = os.fdopen(pipeout, "w")
+        yield
+    else:
+        os.close(pipeout)
+        pipeinFile = os.fdopen(pipein, "r")
+        for line in pipeinFile.readlines():
+            print(line, end='')
+        (unused_cpid, ret) = os.wait()
+        ret = (ret & 0xff00) >> 8
+        sys.exit(ret)
+
+
 def setAptReposBaseDir(dir):
     '''
        Use the specified dir as a sole directory for reading *.suites and *.repos

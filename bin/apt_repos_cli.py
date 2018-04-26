@@ -533,8 +533,9 @@ class AnError (Exception):
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except (AnError) as e:
-        print("\n" + str(e) + "\n",  file=sys.stderr)
-        sys.exit(1)
+    with apt_repos.suppress_unwanted_apt_pkg_messages():
+        try:
+            main()
+        except (AnError) as e:
+            print("\n" + str(e) + "\n",  file=sys.stderr)
+            sys.exit(1)

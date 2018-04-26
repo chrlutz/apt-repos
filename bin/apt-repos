@@ -11,8 +11,4 @@ if [ -d $HERE/../apt_repos ]; then
   export PYTHONPATH="$(realpath $HERE/..)"
 fi
 
-exec python3 $HERE/apt_repos_cli.py $@ \
-    | grep -v "Reading package lists..." \
-    | grep -v "Building dependency tree..." \
-    | grep -v "Abhängigkeitsbaum wird aufgebaut..." \
-    | grep -v "Paketlisten werden gelesen"
+exec python3 $HERE/apt_repos_cli.py $@
