@@ -485,7 +485,7 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
 
     cmd = diffTool.split(",")
     cmd.extend(tmpFiles)
-    subprocess.call(cmd)
+    subprocess.call(cmd, stdout=sys.stdout)
     for tmp in tmpFiles:
         os.remove(tmp)
 

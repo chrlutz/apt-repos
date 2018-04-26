@@ -1,9 +1,10 @@
 IS_GIT_TREE := git ls-files --error-unmatch >/dev/null 2>&1
 
-EXP_FAIL := && exit 1 || true
 EXP_OK := || true
+EXP_FAIL := || true
 ifeq (no,$(shell $(IS_GIT_TREE) || echo no))
   EXP_OK := || exit 1
+  EXP_FAIL := && exit 1 || true
 endif
 
 CLI := ../bin/apt-repos -b $(realpath .)
