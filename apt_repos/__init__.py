@@ -56,8 +56,8 @@ __baseDirs = [ expanduser('~') + '/.config/apt-repos', expanduser('~') + '/.apt-
 __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
 
 
-from contextlib import contextmanager
-@contextmanager
+import contextlib
+@contextlib.contextmanager
 def suppress_unwanted_apt_pkg_messages():
     '''
         Using python3-apt and "import apt_pkg" has the disadvantage that native parts of apt_pkg
@@ -68,23 +68,35 @@ def suppress_unwanted_apt_pkg_messages():
         "Building dependency tree..."
 
         It seems impossible to suppressed this output by just using correct configuration options
-        (at least I didn't find a way to configer apt properly).
+        (at least I didn't find a way to configer apt accordingly).
 
         This contextmanager provides an environment in which python code utilizing apt_pkg
         could be executed without these messages to stdout. Technically it forks the process,
         closes stdout (channel 1) and redirects sys.stdout to a pipe which directly prints every
-        new content found in the pipe. This works because the native code directly writes to the
-        os level file handle 1 while our python code respects the redirected sys.stdout.
+        new content found into the pipe. This works because the native code directly writes to the
+        os level file handle 1 (which no longer exists as it is closed) while our python code
+        respects the redirected sys.stdout (which exists).
 
         If you don't want these messages to appear in your own code, it is suggested to wrap your
-        code using this context manager i.e. in the following way:
+        code (or just the relevant parts) using this context manager e.g. in the following way:
 
         if __name__ == "__main__":
-            with apt_repos.suppress_unwanted_apt_pkg_messages():
-                <place your code here>
+            with apt_repos.suppress_unwanted_apt_pkg_messages() as forked:
+                if forked:
+                    <place your code here>
 
         This context manager also preserves the sys.exit return code of your code and works fine
         with pipes and output redirection as usual.
+
+        Be careful if you are working with subprocesses inside this context manager:
+        stdout (channel 1) is closed there and you have to explicitely set 'stdout' to
+        a corresponding file object before calling a subprocess that requires stdout.
+        The other channels (stdin and stderr) have no such restriction.
+
+        Please note: since this environment is a fork of the main process, there's no direct way
+        to pass data back from the fork to the main process. This means the fork (your code block)
+        should be a delimited and terminated task that requires no further interaction with the
+        main process.
     '''
     pipein, pipeout = os.pipe()
     pid = os.fork()
@@ -92,7 +104,8 @@ def suppress_unwanted_apt_pkg_messages():
         os.close(pipein)
         os.close(1)
         sys.stdout = os.fdopen(pipeout, "w")
-        yield
+        yield True
+        sys.exit(0)
     else:
         os.close(pipeout)
         pipeinFile = os.fdopen(pipein, "r")
@@ -100,7 +113,9 @@ def suppress_unwanted_apt_pkg_messages():
             print(line, end='')
         (unused_cpid, ret) = os.wait()
         ret = (ret & 0xff00) >> 8
-        sys.exit(ret)
+        if ret:
+            sys.exit(ret)
+        yield False
 
 
 def setAptReposBaseDir(dir):
