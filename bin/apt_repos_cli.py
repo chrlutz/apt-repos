@@ -345,7 +345,7 @@ def queryDscFiles(results, suite, requestComponents, logger, update, first):
                     continue
                 dscFile = None
                 for f in package['Files'].split("\n"):
-                    (md5, size, fname) = f.strip().split(" ")
+                    (unused_md5, unused_size, fname) = f.strip().split(" ")
                     if fname.endswith(".dsc"):
                         dscFile = fname
                 if not dscFile:
@@ -362,7 +362,7 @@ def queryDscFiles(results, suite, requestComponents, logger, update, first):
 def gotAllFirsts(results):
     if not results:
         return True
-    for package, urls in results.items():
+    for unused_package, urls in results.items():
         if len(urls) == 0:
             return False
     return True
