@@ -107,7 +107,9 @@ class RepoSuite:
             This method sets the (global) apt-context to this suite and updates the repository
             metadata in the local cache from the remote apt-repository if update==True.
             Call this method before accessing packages data, e.g. like in queryPackages(...).
-            If update==False, the already cached local metadata are used.
+            If update==False, the already cached local metadata are used. This method
+            returns False if apt-pkg recognized an error during scan (it seems apt-pkg doesn't
+            recognize all error situations, i.e. if a repository server is not available).
         '''  
         logger.debug("scanning repository/suite {} {} update".format(self.suite, 'with' if update else 'without'))
         apt_pkg.read_config_file(apt_pkg.config, self.rootdir + "/etc/apt/apt.conf")                
@@ -115,16 +117,19 @@ class RepoSuite:
         apt_pkg.config.set("Dir::State::status", self.rootdir + "/var/lib/dpkg/status")
         apt_pkg.init_system()
         self.cache = apt_pkg.Cache()
+        ok = True
         if update:
             try:
                 self.cache.update(self.__Progress(), self.__sources())
             except SystemError as e:
                 logger.warning("Could not update the cache for suite {}:".format(self.suite))
-                for msg in re.sub(r" ([WE]:)", "\n\\1", str(e)).split("\n"):
+                for msg in re.sub(r"(\n,)? ([WE]:)", "\n\\2", str(e)).split("\n"):
                     logger.warning(msg)
+                ok = False
             self.cache = apt_pkg.Cache()
         self.records = apt_pkg.PackageRecords(self.cache)
         logger.debug("finished scan")
+        return ok
         
     
     def getSourcesList(self):
