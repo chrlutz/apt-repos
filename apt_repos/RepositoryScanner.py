@@ -51,8 +51,10 @@ def scanRepository(url, suites=None):
     else:
         try:
             res.extend(scanReleases(urljoin(url, "dists/")))
-        except Exception:
-            logger.warn("Could not resolve repository {}".format(url))
+        except Exception as e:
+            msg = "Could not resolve repository {}:\n{}".format(url, e)
+            for l in msg.split("\n"):
+                logger.warn(l)
     return res
 
 
@@ -63,7 +65,12 @@ def scanReleases(url, recursive=True):
     logger.debug("scanReleases('{}', {})".format(url, recursive))
     suites = list()
     ignoreFolders = list(['by-hash'])
-    index = HtmlIndexParser(url)
+
+    p = urlparse(url)
+    if p.scheme == "file":
+        index = LocalFilesystemScanner(url)
+    else:
+        index = HtmlIndexParser(url)
 
     if index.release:
         suite = scanReleaseFile(index.release)
@@ -81,7 +88,7 @@ def scanReleases(url, recursive=True):
 
 def scanReleaseFile(url):
     logger.debug("scanReleaseFile('{}')".format(url))
-    data = getHttp(url)
+    data = getFromURL(url)
     with tempfile.TemporaryFile() as fp:
         fp.write(data)
         fp.seek(0)
@@ -145,6 +152,42 @@ class HtmlIndexParser(HTMLParser):
 
     def getSubfolders(self):
         return self.subfolders
+
+
+class LocalFilesystemScanner():
+    def __init__(self, baseurl):
+        self.release = None
+        self.inRelease = None
+        self.subfolders = dict()
+        dir = urlparse(baseurl).path
+        if not os.path.isdir(dir):
+            return
+        logger.debug("scanning local directory '{}'".format(baseurl))
+        for file in os.listdir(dir):
+            url = urljoin(baseurl + "/", file)
+            if file == 'Release':
+                self.release = url
+            if file == 'InRelease':
+                self.inRelease = url
+            if os.path.isdir(os.path.join(dir, file)):
+                self.subfolders[file] = url
+
+    def getSubfolders(self):
+        return self.subfolders
+
+
+def getFromURL(url):
+    '''
+        encapsulates url access for http:// and file:// urls
+    '''
+    p = urlparse(url)
+    if p.scheme == "file":
+        data = None
+        with open(p.path, "rb") as input:
+            data = input.read()
+        return data
+    if p.scheme == "http":
+        return getHttp(url)
 
 
 def getHttp(url):
