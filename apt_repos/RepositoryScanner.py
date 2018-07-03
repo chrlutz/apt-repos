@@ -52,9 +52,7 @@ def scanRepository(url, suites=None):
         try:
             res.extend(scanReleases(urljoin(url, "dists/")))
         except Exception as e:
-            msg = "Could not resolve repository {}:\n{}".format(url, e)
-            for l in msg.split("\n"):
-                logger.warn(l)
+            logger.warn("Could not resolve repository {}".format(url))
     return res
 
 
@@ -161,7 +159,7 @@ class LocalFilesystemScanner():
         self.subfolders = dict()
         dir = urlparse(baseurl).path
         if not os.path.isdir(dir):
-            return
+            raise IOError("No such directory '{}'".format(dir))
         logger.debug("scanning local directory '{}'".format(baseurl))
         for file in os.listdir(dir):
             url = urljoin(baseurl + "/", file)
