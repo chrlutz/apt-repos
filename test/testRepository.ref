@@ -156,32 +156,62 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
-    Suite: ubuntu:bionic
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic main restricted universe multiverse
+    Suite: ubuntu:cosmic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
-    Suite: ubuntu:bionic-backports
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-backports main restricted universe multiverse
+    Suite: ubuntu:cosmic-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
-    Suite: ubuntu:bionic-proposed
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-proposed main restricted universe multiverse
+    Suite: ubuntu:cosmic-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
-    Suite: ubuntu:bionic-security
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-security main restricted universe multiverse
+    Suite: ubuntu:cosmic-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
-    Suite: ubuntu:bionic-updates
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-updates main restricted universe multiverse
+    Suite: ubuntu:cosmic-updates
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic main restricted universe multiverse
+    Suite: ubuntu:cosmic
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-backports main restricted universe multiverse
+    Suite: ubuntu:cosmic-backports
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-proposed main restricted universe multiverse
+    Suite: ubuntu:cosmic-proposed
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-security main restricted universe multiverse
+    Suite: ubuntu:cosmic-security
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-updates main restricted universe multiverse
+    Suite: ubuntu:cosmic-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
