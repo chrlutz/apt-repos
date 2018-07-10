@@ -82,7 +82,7 @@ We use so called *suite-selectors* to describe in which repository/suite combina
 * Select a single suite by a full qualified **suite-id**: e.g. "ubuntu:xenial" selects exactly one suite as specified in the above suite configuration
 * Select all suites in a repository, specified by the **reporitory-prefix** (which ist the first part of the suite-id including the colon): e.g. "ubuntu:" selects all defined ubuntu-suites --> ubuntu:xenial and ubuntu:xenial-security
 * Select multiple suites by a **suite-name** (the part after the colon, only): e.g. "xenial" would select the suites "ubuntu:xenial" and "kubuntu-backports:xenial"
-* Select multiple suites with the same **tag**: Each Suite can be assigned one or more tags used to group suites that logically belong together. We could for example assign a tag "production" to all three above specified suites and select these suites with the selector "production:". Please see [[docs/Configuration]] on how to set tags.
+* Select multiple suites with the same **tag**: Each Suite can be assigned one or more tags used to group suites that logically belong together. We could for example assign a tag "production" to all three above specified suites and select these suites with the selector "production:". Please see [docs/Configuration](docs/Configuration.md) on how to set tags.
 
 Each time a particular repository/suite combination is scanned, apt-repos checks if there are new Packages-Files available in the repository and downloads the Packages-Files if necessary into a local cache.
 

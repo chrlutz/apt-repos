@@ -11,7 +11,7 @@ The syntax and supported Tags for *.suites*- and *.repos*-files are described in
 Apt-repos searches for configuration files in a fixed order in either a user-specific folder or in a system folder. This allows us to share common configuration files beween users but also to augment or override particular settings for user-specific needs. The following folders are searched for configuration files in the given order:
 
 * **$HOME/.config/apt-repos**: The XDG conform folder for user specific config files. This folder should be preferred for your user specific configuration.
-* **$HOME/.apt-repos: The 'old' folder for user specific config files - support for this folder is deprecated.
+* **$HOME/.apt-repos**: The 'old' folder for user specific config files - support for this folder is deprecated.
 * **/etc/apt-repos**: The folder for the host global (shared) configuration.
 
 Apt-repos interprets all files in these folders ending with ".suites" or ".repos" in alphabetical order. You are free to name the first part (before .suites or .repos) however you want. Once a file with a particular filename is read in a folder, it is ignored in a latter read folder. This way it is possible to override global settings. It is also possible to use the (unchanged) global configuration and to just add custom suites to files specified with disjunct filenames.
