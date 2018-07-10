@@ -9,6 +9,9 @@ run_clitests:
 
 docs: README.html docs/Configuration.html
 
+autoupdate_docs:
+	while true; do sleep 2; make -s docs; done
+
 manpages:
 	tools/build_manpages.py
 
