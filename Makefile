@@ -4,11 +4,13 @@ run_test:
 run_clitests:
 	make -C test clitests
 
-README.html: README.md
-	pandoc -f markdown -t html README.md >README.html
+%.html: %.md
+	sed "s/\.md)/\.html)/g" $< | pandoc -f markdown -t html >$@
+
+docs: README.html docs/Configuration.html
 
 manpages:
 	tools/build_manpages.py
 
 clean:
-	rm -f README.html
+	rm -f README.html docs/*.html
