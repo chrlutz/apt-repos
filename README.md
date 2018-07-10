@@ -41,7 +41,7 @@ The following use-cases are addressed by this project:
 The Solution
 ============
 
-Each repository URI is mapped to a shortname. E.g. 'http://de.archive.ubuntu.com/ubuntu/' to the much more simple form "ubuntu:". We just add the suite-name and are now able to address the above example repository/suite combinations with very short names, e.g. "ubuntu:xenial", "ubuntu:xenial-updates" or "ubuntu:xenial-security". From now on will call such a short name 'suite-id'.
+Each repository URI is mapped to a shortname. E.g. *http://de.archive.ubuntu.com/ubuntu/* to the much more simple form "ubuntu:". We just add the suite-name and are now able to address the above example repository/suite combinations with very short names, e.g. "ubuntu:xenial", "ubuntu:xenial-updates" or "ubuntu:xenial-security". From now on will call such a short name *suite-id*.
 
 One or more apt-repos specific configuration files describe the mappings from suite-id's to SourcesList-entries, such as
 
@@ -67,7 +67,7 @@ One or more apt-repos specific configuration files describe the mappings from su
        
     ]
 
-There are various ways to define single suites or multiple suites from an apt-repository. Apt-repos also has the ability to scan existing apt-repositories to dynamically find and map contained suites to suite-id's. More information about how to configure apt-repos can be found in [[docs/Configuration]]. 
+There are various ways to define single suites or multiple suites from an apt-repository. Apt-repos also has the ability to scan existing apt-repositories to dynamically find and map contained suites to suite-id's. More information about how to configure apt-repos can be found in [docs/Configuration](docs/Configuration.md).
 
 A new command line tool *apt-repos* prints information about the packages in these repositories. Analogue to the nomenclature of *apt-cache*, *apt-repos* it provides various sub commands:
 
@@ -77,7 +77,7 @@ A new command line tool *apt-repos* prints information about the packages in the
 *   **apt-repos suites**: List registered suites and their corresponding 'apt/sources.list' entries that would be generated in the background for particular suite-selectors.
 *   **apt-repos dsc**: Print the URLs of dsc-files for particular source packages. The output could e.g. be combined with the well known 'dget … URL' from the devscripts package
 
-We use the so called 'suite-selectors' to describe in which repository/suite combinations we want to search for a particular query. The following ways of selecting suites are possible:
+We use so called *suite-selectors* to describe in which repository/suite combinations we want to search for a particular query. The following ways of selecting suites are possible:
 
 * Select a single suite by a full qualified **suite-id**: e.g. "ubuntu:xenial" selects exactly one suite as specified in the above suite configuration
 * Select all suites in a repository, specified by the **reporitory-prefix** (which ist the first part of the suite-id including the colon): e.g. "ubuntu:" selects all defined ubuntu-suites --> ubuntu:xenial and ubuntu:xenial-security
@@ -105,7 +105,7 @@ Current State:
 * There's a debian packaging mechanism to create the debian-packages *apt-repos* (the CLI)
   and *pyton3-apt-repo* (the library package)
 * There are manpages for the CLI apt-repos and it's subcommands
-* The tool has already been proven to reliaby support the complex development processes.
+* The tool has already been proven to reliaby support a complex development process.
 
 
 Contributions from interrested people via patches or pull requests are very welcome.
