@@ -148,7 +148,7 @@ def getSuites(selectors=None):
                 logger.debug("Skipping BaseDir {} which doesn't exist".format(basedir))
             continue
         for f in sorted(os.listdir(basedir)):
-            if f in suitesData:
+            if f in suitesData or f in reposData:
                 continue
             filename = basedir + "/" + f
             if os.path.isfile(filename):
@@ -183,7 +183,7 @@ def getSuites(selectors=None):
             srepo, ssuiteName = parts
         
         count = 0
-        for unused_key, (suiteDescs, basedir) in suitesData.items():
+        for unused_key, (suiteDescs, basedir) in sorted(suitesData.items()):
             for suiteDesc in suiteDescs:
                 count+=1
                 tags = suiteDesc.get("Tags", [])
@@ -198,7 +198,7 @@ def getSuites(selectors=None):
                    (suiteName == ssuiteName or ssuiteName == ""):
                     selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
 
-        for unused_key, (repoDescs, basedir) in reposData.items():
+        for unused_key, (repoDescs, basedir) in sorted(reposData.items()):
             for repoDesc in repoDescs:                
                 if not type(repoDesc) is dict:
                     continue
