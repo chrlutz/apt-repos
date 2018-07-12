@@ -14,11 +14,15 @@ Apt-repos searches for configuration files in a fixed order in either a user-spe
 * **$HOME/.apt-repos**: The 'old' folder for user specific config files - support for this folder is deprecated.
 * **/etc/apt-repos**: The folder for the host global (shared) configuration.
 
-Apt-repos interprets all files in these folders ending with ".suites" or ".repos" in alphabetical order. You are free to name the first part (before .suites or .repos) however you want. Once a file with a particular filename is read in a folder, it is ignored in a latter read folder. This way it is possible to override global settings. It is also possible to use the (unchanged) global configuration and to just add custom suites to files specified with disjunct filenames.
+Apt-repos interprets all files combined from these folders and ending with ".suites" or ".repos" in alphabetical order. You are free to name the first part (before .suites or .repos) however you want. Once a file with a particular filename is read in a folder, it is ignored in a latter read folder. This way it is possible to override global settings. It is also possible to use the (unchanged) global configuration and to just add custom suites to files specified with disjunct filenames.
+
+As an alternative, apt-repos could be called with the command line switch **--basedir** that allows us to define a basedir to look for config files. If this basedir is defined, other folders will not be read. This feature is also available within the apt_repos library and called by `apt_repos.setAptReposBaseDir(basedir)`.
+
+Examples for *.suite*- and *.repos*-files can be found in the files [test.suites](../test/test.suites) and [test.repos](../test/test.repos) in the test folder.
 
 ## *.suites-files - Syntax and supported Keywords
 
-A *.suites file consist of a list of suite-descriptions. It's general syntax is:
+A *.suites file consist of a list of *suite_descriptions*. It's general syntax is:
 
     [
         suite_description1,
@@ -28,7 +32,13 @@ A *.suites file consist of a list of suite-descriptions. It's general syntax is:
         suite_descriptionN
     ]
 
-A suite_description is a json object (something between "{ }") or in other words a set of key-value pairs, e.g.
+Each *suite_description* describes the properties of a suite within a repository. 
+
+The **order** in which *suite_descriptions* are defined plays an important role, too: In the apt-repos subcommands **suites**, **list|ls**, **sources|src** this order defines the order in which the list output for the column "Suite" is sorted. Please note that in apt-repos a list output is always sorted in the column-order from left to right. This means that if the default columns (Package, Version, Suite, Arch, Section, Source) are displayed, the list output is in the first place ordered by the Package name, in second place by the Version and in the third place by the suite in the above defined order. The idea behind this is that there is typically a kind of "lifecycle" in which a package of a particular version occurs in different suites. Let's take the example of a distribution maintainer that creates a custom distribution based on an upstream distribution like ubuntu or debian. In this case, a package (in a particular version) might first occur in the upstream repository. Then the package is put into a development or staging repository from the custom distribution maintainer and after successfull tests, the package is put into a deployment or production repository. The lifecycle in this case would be "Upstream -> dev/staging -> deploy/production". It would be helpful to model this logic in the apt-repos list output, too. This could be done by the order of *suite_desctiption*s in the .suites-file: First we define all upstream repositories/suites, then we define the development/staging suites and then the deployment/production suites. For the apt-repos subcommand **dsc** this order is intentionally reversed, because working with dsc-files typically means that custom dsc-files (if available) should be preferred over the dsc-file from upstream sources. 
+
+This order is also inherent for *RepoSuite*-Objects from the *apt_repos* library and e.g. returned by the command `sorted(apt_repos.getSuites(suiteSelector))`.
+
+A *suite_description* is a json object (something between "{ }") or in other words a set of key-value pairs, e.g.
 
     {
         "Suite" : "ubuntu:xenial",
@@ -38,7 +48,9 @@ A suite_description is a json object (something between "{ }") or in other words
         "Architectures" : [ "i386", "amd64" ]
     }
 
-The following Keys are supported. It is possible to use custom keywords not in this list inside a suite_description - they will be simply ignored by apt-repos.
+The following Keys are read bei apt-repos. It is possible to use custom keywords which will be simply ignored.
+
+
 
 ### Suite (mandatory)
 
@@ -74,3 +86,60 @@ The Architectures key expects a list of strings (of architectures) to consider d
 With this key it is possible to specify the path to a file containing the public key for which the Release-File of the suite needs to be signed. This is used to validate the suite and to ensure the suite is not manipulated by a third party. The value needs to be the path to a file on the local machine - either as an absolute path or as a path relative to the folder that contains the *.suites-file. If this key is not specified, the validation is skipped.
 
 ## *.repos-files - Syntax and supported Tags
+
+A *.repos file consist of a list of *repo_descriptions*. It's general syntax is:
+
+    [
+        repo_description1,
+        "---- optional string-argument that works as an optical separator ----",
+        repo_description2,
+        ...,
+        repo_descriptionN
+    ]
+
+Each *repo_description* describes the properties of a repository which might contain multiple suites. *repo_descriptions* are interpreted by apt-repos as a comfort layer to reduce configuration effort. This means that a *repo_description* is used as a kind of template to auto generate *suite_descriptions* in the background.
+
+As in *.suites*-files, the **order** in which *repo_descriptions* are defined is important as well (see above). For suites derived from *repo_description*s, the following rules are applied:
+
+* *repo_descriptions* are scanned in the order as defined in the *.repos* file, but after *.suite*-files (so suites defined in *.repos*-files always have a higher order than suites from *.suites*-files).
+* Suites derived from a *repo_description* are ordered in alphabetical order by their suitename.
+
+A *repo_description* is a json object (something between "{ }") or in other words a set of key-value pairs. The following example shows all available keys, but typically one would only specify the really required keys (the most keys are optional):
+
+    {
+        "Repository" : "Main Debian Repository",
+        "Prefix" : "debian",
+        "Tags" : [ "stable" ],
+        "Url" : "http://deb.debian.org/debian/",
+        "Suites" : {
+            "stretch": { "Tags" : [ "test" ] },
+            "stretch-backports": {},
+            "stretch-updates": { "Tags" : [ "test2" ] }
+        },
+        "Scan" : false,
+        "ExtractSuiteFromReleaseUrl": true,
+        "Architectures" : [ "i386", "amd64" ],
+        "TrustedGPG" : "./gpg/debian.gpg"
+    }
+
+This is the detailed description of the supported Keys (Again it is possible to use custom keywords which will be simply ignored):
+
+### Repository (optional)
+
+### Prefix (mandatory)
+
+### Url (mandatory)
+
+### Tags (optional)
+
+### Suites (optional)
+
+### Scan (optional)
+
+### ExtractSuiteFromReleaseUrl (optional)
+
+### Architectures (optional)
+
+### TrustedGPG (optional)
+
+
