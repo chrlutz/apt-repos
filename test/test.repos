@@ -1,9 +1,8 @@
 [
     "--------------------------------------------------------",
     {
-      "Repository" : "Unresolvable Repository",
       "Prefix" : "nothing",
-      "Url" : "http://wirzelprimpft.de/apt/repos/",
+      "Url" : "http://wirzelprimpft.de/unresolvable_repository/",
       "Scan" : true,
       "Architectures" : [ "i386", "amd64" ]
     },

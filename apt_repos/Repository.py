@@ -169,4 +169,7 @@ class Repository:
 
 
     def __str__(self):
-        return "Repository '{}' ({})".format(self.desc, self.url)
+        if self.desc:
+            return "Repository '{}' ({})".format(self.desc, self.url)
+        else:
+            return "Repository {}".format(self.url)
