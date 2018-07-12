@@ -5,7 +5,7 @@ run_clitests:
 	make -C test clitests
 
 %.html: %.md
-	sed "s/\.md)/\.html)/g" $< | pandoc -f markdown -t html >$@
+	sed "s/\.md)/\.html)/g" $< | pandoc -s --css styles.css -f markdown -t html -o $@ 
 
 docs: README.html docs/Configuration.html
 
