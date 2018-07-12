@@ -54,7 +54,7 @@ The following Keys are read bei apt-repos. It is possible to use custom keywords
 
 ### Suite (mandatory)
 
-The unique suite-id. This field is aimed to be a short human readable identifier of a suite. It consist of the following parts "*repository*:*suitename*". For both parts *repository* and *suitename* you are free to choose the name you like - in particular these names don't need to be connected to the physical repository- or suitenames defined in the entry *SourcesList*. However please consider that the *repository* part can be used to select multiple suites with one suite-selector. It is suggested to use the *repository* part to define as a group of suites that are (at least logically) parts of the same repository. The *suitename* part would be in most cases identical to the *suitename* used in the SourcesList-Entry, but could also differ in order to be able to produce uniq suite-id's.
+The unique suite-id. This field is aimed to be a short human readable identifier of a suite. It consist of the following parts "*repository*:*suitename*". For both parts *repository* and *suitename* you are free to choose the name you like - in particular these names don't need to be connected to the physical repository- or suitenames defined in the entry *SourcesList*. However please consider that the *repository* part can be used to select multiple suites with one suite-selector. It is suggested to use the *repository* part to define a group of suites that are (at least logically) parts of the same repository. The *suitename* part would be in most cases identical to the *suitename* used in the SourcesList-Entry, but could also differ in order to be able to produce uniq suite-id's.
 
 ### Tags (optional)
 
@@ -134,7 +134,7 @@ This field aims to be a human readable short description of the repository. Thus
 
 ### Prefix (mandatory)
 
-The prefix is mandatory and describes the **first part of the suite-id** for the generated suite-configurations (see section 'Suite' above). Please note that a suite-id logically consists of the two parts "*repository*:*suitename*". The prefix could represent the *repository* part, but it could also represent a prefix for the *suitename*-part. See the following examples:
+The prefix is mandatory and describes the **first part of the suite-id** for the generated *suite_description*s (see section 'Suite' above). Please note that a suite-id logically consists of the two parts "*repository*:*suitename*". The prefix could represent the *repository* part, but it could also represent a prefix for the *suitename*-part. See the following examples:
 
 * In the above *repo_description*, the Prefix "debian" is equivalent to the *repository* part. If the prefix does not contain a colon ":", apt-repos would automatically add `":<suitename>"`, where `<suitename>` is the name of the suite as physically defined in the suite's Release-File. This means suites with this prefix would automatically get the following suite-ids: *debian:stretch*, *debian:stretch-backports* and so on.
 * A Prefix could also contain a colon ":". Let's take the example of the Prefix "ubuntu:backports-". In this case, the physical `<suitename>` will be added without a colon, so that resulting suite-ids could be for example *ubuntu:backports-xenial*, *ubuntu:backports-bionic* and so on.
@@ -185,11 +185,11 @@ Note: This option can be combined with the second version of the above *Suites*-
 
 As described for the Key *Prefix*, the suite-id of the generated *suite_description* would normally be build as a combination of `<Prefix><physical_suitename>`, where the *physical_suitename* is the name that is specified in the suites "Release"-file. This could be a problem with some repositories that don't use the "ubuntu way of naming suites".
 
-For example debian has this concept of *oldstable*-, *sid*-, *stable*-, *unstable*- and *testing*-suites in which the *physical_suitename* is not one of the Known-Releasenames *jessie*, *stretch* or *wheezy*, but one of the "rolling" names *oldstable*, *stable* and so on. To ensure our generated suite-id's are build of `<Prefix><Known_Releasename>`, the Key *ExtractSuiteFromReleaseUrl* could be set `true`. This would extract the releasename from the URL of the Release-File (e.g. "http://deb.debian.org/debian/dists/jessie/Release") and use *jessie* instead of it's (current) *physical_suitname* *oldstable* from the Release file.
+For example debian has this concept of *oldstable*-, *sid*-, *stable*-, *unstable*- and *testing*-suites in which the *physical_suitename* is not one of the Known-Releasenames *jessie*, *stretch* or *wheezy*, but one of the "rolling" names *oldstable*, *stable* and so on. To ensure our generated suite-id's are build of `<Prefix><Known_Releasename>`, the Key *ExtractSuiteFromReleaseUrl* could be set `true`. This would extract the releasename from the URL of the Release-File (e.g. "http://deb.debian.org/debian/dists/jessie/Release") and use *jessie* instead of it's (current) *physical_suitname* *oldstable* defined in the Release file.
 
 ### Architectures (optional)
 
-For suites generated via *repo_descriptions*, the supported architectures of a suite are automatically extracted from the suites *Release* file. Thats the reason why this field is optional for *repo_descriptons* while this field is mandatory for the (more low level) *suite_descriptions*. But still in some cases it could be useful to specify the architectures explicitly, e.g to suppress some curious architectures that you are not interested in.
+For suites generated via *repo_descriptions*, the supported architectures of a suite are automatically extracted from the suites *Release* file. Thats the reason why this field is optional for *repo_descriptions* while this field is mandatory for the (more low level) *suite_descriptions*. But still in some cases it could be useful to specify the architectures explicitly, e.g to suppress some curious architectures that you are not interested in.
 
 As above, the Architectures key expects a list of strings (of architectures) to consider during suite queries, e.g.
 
