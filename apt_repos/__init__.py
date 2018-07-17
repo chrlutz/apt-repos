@@ -202,7 +202,13 @@ def getSuites(selectors=None):
             for repoDesc in repoDescs:                
                 if not type(repoDesc) is dict:
                     continue
-                for suiteDesc in Repository(repoDesc).querySuiteDescs(srepo, ssuiteName):
+                repo = None
+                try:
+                    repo = Repository(repoDesc)
+                except KeyError as e:
+                    logger.warning("Missing key {} --> Skipping repository: {}".format(e, repoDesc))
+                    continue
+                for suiteDesc in repo.querySuiteDescs(srepo, ssuiteName):
                     count+=1
                     selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
                 
