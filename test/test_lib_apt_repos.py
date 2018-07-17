@@ -169,7 +169,7 @@ def testGetSourcesFiles():
 def testRepository():
     basisRepoDesc = {
       "Repository" : "Main Ubuntu Repository",
-      "Prefix" : "ubuntu",
+      "Suite" : "ubuntu:{Suite}",
       "Url" : "http://archive.ubuntu.com/ubuntu/",
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/ubuntu.gpg"
@@ -191,7 +191,7 @@ def testRepository():
 
     repo = Repository(mergedict(basisRepoDesc,{
       "Repository" : "Testing different Prefix",
-      "Prefix" : "ubuntu:de-",
+      "Suite" : "ubuntu:de-{Suite}",
       "Url" : "http://de.archive.ubuntu.com/ubuntu/",
       "Suites" : [ "xenial", "bionic" ]
     }))
@@ -221,6 +221,7 @@ def testRepository():
     # should give precidence to <dist> in this case.
     repo = Repository(mergedict(basisRepoDesc, {
       "Repository" : "Testing Option ExtractSuiteFromReleaseUrl==True",
+      "Suite" : "ubuntu:{FromReleaseUrl}",
       "Suites" : [ "bionic" ],
       "ExtractSuiteFromReleaseUrl": True,
     }))

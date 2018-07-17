@@ -206,7 +206,10 @@ def getSuites(selectors=None):
                 try:
                     repo = Repository(repoDesc)
                 except KeyError as e:
-                    logger.warning("Missing key {} --> Skipping repository: {}".format(e, repoDesc))
+                    logger.warning("Missing key {} --> Skipping .repos-entry {}".format(e, repoDesc))
+                    continue
+                except ValueError as e:
+                    logger.warning("{} --> Skipping .repos-entry {}".format(e, repoDesc))
                     continue
                 for suiteDesc in repo.querySuiteDescs(srepo, ssuiteName):
                     count+=1

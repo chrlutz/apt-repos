@@ -50,12 +50,12 @@ class Repository:
             which is one entry of a .repos file.
         '''
         self.desc = repoDesc.get('Repository')
-        self.prefix = repoDesc['Prefix']
-        self.prefix = self.prefix + ('' if ':' in self.prefix else ':')
+        self.dynSuiteId = repoDesc['Suite']
+        if not ':' in self.dynSuiteId:
+            raise ValueError("Suite has to contain a colon ':'!")
         self.commonTags = repoDesc.get('Tags', list())
         self.url = repoDesc['Url']
         self.scan = repoDesc.get('Scan')
-        self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
         self.suites = repoDesc.get("Suites", dict())
         if type(self.suites) == list: # convert to dict
             suites = dict()
@@ -70,7 +70,8 @@ class Repository:
 
     def querySuiteDescs(self, selRepo, selSuite):
         res = list()
-        (unused_ownRepo, ownSuitePrefix) = self.prefix.split(":", 1)
+        prefix = self.__getSuiteId()
+        (unused_ownRepo, ownSuitePrefix) = prefix.split(":", 1)
 
         selSuite = ownSuitePrefix if selSuite=='' else selSuite
         if not selSuite.startswith(ownSuitePrefix):
@@ -86,16 +87,16 @@ class Repository:
                     logger.info("Scanning {}".format(self))
                     first = False
                 found = scanRepository(self.url, [ownSuite])
-                res.extend(self.getSuiteDescs(self.prefix, found))
+                res.extend(self.getSuiteDescs(found))
         
         if self.scan and self._isRepositorySelected(selRepo, suite):
             logger.info("Scanning {}".format(self))
             if len(suite) > 0:
                 found = scanRepository(self.url, [suite])
-                res.extend(self.getSuiteDescs(self.prefix, found))
+                res.extend(self.getSuiteDescs(found))
             else:
                 found = scanRepository(self.url)
-                res.extend(self.getSuiteDescs(self.prefix, found))
+                res.extend(self.getSuiteDescs(found))
                 
         return res
 
@@ -107,13 +108,17 @@ class Repository:
             This method also respects Tags defined in the two levels "repository-
             common tags" and "suite specific tags" (see self.getTags(suite)).
         '''
-        (ownRepo, _) = self.prefix.split(":", 1)
+        (ownRepo, _) = self.__getSuiteId().split(":", 1)
         validRepos = ['', ownRepo]
         validRepos.extend(sorted(self.getTags(suite)))
         return selRepo in validRepos
 
 
-    def getSuiteDescs(self, prefix, suites):
+    def __getSuiteId(self, releaseSuite='', releaseCodename='', releaseLabel='', fromReleaseUrl='', fromSuites=''):
+        return self.dynSuiteId.format(Suite=releaseSuite, Codename=releaseCodename, Label=releaseLabel, FromReleaseUrl=fromReleaseUrl, FromSuites=fromSuites)
+
+
+    def getSuiteDescs(self, suites):
         res = list()
         for suite in suites:
             archs = list()
@@ -121,16 +126,14 @@ class Repository:
                 for arch in self.architectures:
                     if arch in suite['architectures']:
                         archs.append(arch)
-            suitename = suite['suite']
-            if self.extractSuiteFromReleaseUrl:
-                suitename = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
+            fromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
             option = '' if not self.trusted else '[trusted=yes] '
             debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
-            tags = sorted(self.getTags(suitename))
+            tags = sorted(self.getTags(suite['suite']))
             res.append({
-                "Suite" : prefix + suitename,
+                "Suite" : self.__getSuiteId(suite['suite'], suite['codename'], suite['label'], fromReleaseUrl, suite),
                 "Tags" : tags,
-                "SourcesList" : "deb {}{} {} {}".format(option, self.url, suitename, " ".join(suite['components'])),
+                "SourcesList" : "deb {}{} {} {}".format(option, self.url, suite['suite'], " ".join(suite['components'])),
                 "DebSrc" : debSrc,
                 "Architectures" : archs if self.architectures else suite['architectures'],
                 "TrustedGPG" : self.trustedGPGFile

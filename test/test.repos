@@ -1,7 +1,7 @@
 [
     "--------------------------------------------------------",
     {
-      "Prefix" : "nothing",
+      "Suite" : "nothing:{Suite}",
       "Url" : "http://wirzelprimpft.de/unresolvable_repository/",
       "Scan" : true,
       "Architectures" : [ "i386", "amd64" ]
@@ -9,7 +9,7 @@
     "--------------------------------------------------------",
     {
       "Repository" : "Main Debian Repository",
-      "Prefix" : "debian",
+      "Suite" : "debian:{Codename}",
       "Tags" : [ "stable" ],
       "Url" : "http://deb.debian.org/debian/",
       "Suites" : {
@@ -17,14 +17,13 @@
           "stretch-backports": {},
           "stretch-updates": { "Tags" : [ "test2" ] }
       },
-      "ExtractSuiteFromReleaseUrl": true,
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/debian.gpg"
     },
     "--------------------------------------------------------",
     {
       "Repository" : "Test Dummy File Url",
-      "Prefix" : "dummy",
+      "Suite" : "dummy:{Suite}",
       "Tags" : [ "testscan" ],
       "Url" : "file:///tmp/onDisk/",
       "Scan" : true,
@@ -34,7 +33,7 @@
     "--------------------------------------------------------",
     {
       "Repository" : "German Main Ubuntu Repository",
-      "Prefix" : "ubuntu:de-",
+      "Suite" : "ubuntu:de-{Suite}",
       "Url" : "http://de.archive.ubuntu.com/ubuntu/",
       "Suites" : [ "bionic" ],
       "Architectures" : [ "i386", "amd64" ],

@@ -44,10 +44,12 @@ def scanRepository(url, suites=None):
     res = list()
     if suites:
         for s in suites:
+            urlExpanded = url.format(suite=s)
+            urlExpanded = urlExpanded + ("/" if not urlExpanded.endswith("/") else "")
             try:
-                res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release'))))
+                res.append(scanReleaseFile(urljoin(urlExpanded, os.path.join('dists', s, 'Release'))))
             except Exception:
-                logger.warn("Could not resolve suite {} of repository {}".format(s, url))
+                logger.warn("Could not resolve suite {} of repository {}".format(s, urlExpanded))
     else:
         try:
             res.extend(scanReleases(urljoin(url, "dists/")))
@@ -100,9 +102,13 @@ def scanReleaseFile(url):
                     hasSources=suiteHasSources(files)
 
                     suite = section.get('Suite')
+                    codename = section.get('Codename')
+                    label = section.get('Label')
                     if suite:
                         return { 
                             'suite':suite,
+                            'codename':codename,
+                            'label':label,
                             'components':components,
                             'architectures':architectures,
                             'hasSources':hasSources,

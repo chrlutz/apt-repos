@@ -112,7 +112,7 @@ A *repo_description* is a json object (something between "{ }") or in other word
 
     {
         "Repository" : "Main Debian Repository",
-        "Prefix" : "debian",
+        "Suite" : "debian:{Suite}",
         "Tags" : [ "stable" ],
         "Url" : "http://deb.debian.org/debian/",
         "Suites" : {
@@ -132,14 +132,21 @@ This is the detailed description of the supported Keys (Again it is possible to 
 
 This field aims to be a human readable short description of the repository. Thus the field is optional, it is still suggested to set a Repository-field. This would make the output of (the user visible) "Scanning Repository ..." lines easy readable. It would also make reading *.repos* files easier and helps to distinguish *.suites* and *.repos* files by just looking at the content.
 
-### Prefix (mandatory)
+### Suite (mandatory)
 
-The prefix is mandatory and describes the **first part of the suite-id** for the generated *suite_description*s (see section 'Suite' above). Please note that a suite-id logically consists of the two parts "*repository*:*suitename*". The prefix could represent the *repository* part, but it could also represent a prefix for the *suitename*-part. See the following examples:
+The unique suite-id used as a human readable identifier for the generated *suite_description*s (see section 'Suite' above).
 
-* In the above *repo_description*, the Prefix "debian" is equivalent to the *repository* part. If the prefix does not contain a colon ":", apt-repos would automatically add `":<suitename>"`, where `<suitename>` is the name of the suite as physically defined in the suite's Release-File. This means suites with this prefix would automatically get the following suite-ids: *debian:stretch*, *debian:stretch-backports* and so on.
-* A Prefix could also contain a colon ":". Let's take the example of the Prefix "ubuntu:backports-". In this case, the physical `<suitename>` will be added without a colon, so that resulting suite-ids could be for example *ubuntu:backports-xenial*, *ubuntu:backports-bionic* and so on.
+In order to derive unique suite-id's for all suites of a repository, **the Suite definition in a *.repos-file* needs to contain a variable that expresses the dynamic part of the suite-id**. This means a Suite definition inside a *.repos-file* typically looks like "*constant*{*variable*}", where the *constant* is a string that has to contain a colon ":" and *variable* needs to be one of the following values:
 
-This allows you to find your own way of naming your suite-ids. The most important thing is to be aware that physical suitenames in real existing repositories could be identical for different repositories (e.g. The ubuntu suite "bionic" has the same suitename in the main repository and in the backports repository). apt-repos needs uniq suite-id's. That's why you would have to find a good prefix.
+* **Suite**: This variable represents the suitename as defined by the keyword *Suite* in the corresponding Release-File of the suite in the apt-repository
+* **Codename**: This variable represents the codename as defined by the keyword *Codename* in the corresponding Release-File of the suite in the apt-repository
+* **Label**: This variable represents the label as defined by the keyword *Label* in the corresponding Release-File of the suite in the apt-repository
+* **FromReleaseUrl**: This variable represents a suitename that is extracted from the URL of the Release-File. This means that if the corresponding Release-file is reachable under the URL "http://deb.debian.org/debian/dists/jessie/Release", the suitename is extracted as the string between "dists/" and "/Release", which is "jessie" in this case.
+* **FromSuites**: This variable represents the suitenames (in the below example "suitename1" and "suitename2") as defined in the list of suites under the key *Suites* in this *repo_description*. This variable could only be used together with the key *Suites* and is undefinded if the key is missing. 
+
+"*constant*{*variable*}" together form a suite-id for the generated *suite_description*s that as in *.suites-files* logically consists of the two parts "*repository*:*suitename*". 
+
+This allows you to define your own way of naming the resulting suite-ids. The most important thing is to be aware that physical codenames in real existing repositories could be identical for different repositories (e.g. The ubuntu suite "bionic" has the same codename in the main repository and in the backports repository).
 
 ### Url (mandatory)
 
@@ -166,7 +173,7 @@ The Keyword Suites expects either a list of strings (=suitenames) or a set of ke
 or
 
     {
-        "suitename1": {},
+        "suitename1": { "Codename":"codename" },
         "suitename2": {},
         ...
     }
@@ -180,12 +187,6 @@ At the moment only the definition of suite specific *Tags*-Keywords is supported
 This optional Keyword expects the boolean values `true` or `false` and controls whether this repository should be automatically scanned for suites. If this option is not specified, it defaults to `false`. If this option is set `true`, apt-repos would automatically scan the repository for contained suites. For all suites found in this repository a *suite_description* would be generated.
 
 Note: This option can be combined with the second version of the above *Suites*-Keyword to add suite specific metadata to particular suites. In other constellations it would not make sense to combine *Scan* and *Suites*, because `Scan: true` would always override a specified selection.
-
-### ExtractSuiteFromReleaseUrl (optional)
-
-As described for the Key *Prefix*, the suite-id of the generated *suite_description* would normally be build as a combination of `<Prefix><physical_suitename>`, where the *physical_suitename* is the name that is specified in the suites "Release"-file. This could be a problem with some repositories that don't use the "ubuntu way of naming suites".
-
-For example debian has this concept of *oldstable*-, *sid*-, *stable*-, *unstable*- and *testing*-suites in which the *physical_suitename* is not one of the Known-Releasenames *jessie*, *stretch* or *wheezy*, but one of the "rolling" names *oldstable*, *stable* and so on. To ensure our generated suite-id's are build of `<Prefix><Known_Releasename>`, the Key *ExtractSuiteFromReleaseUrl* could be set `true`. This would extract the releasename from the URL of the Release-File (e.g. "http://deb.debian.org/debian/dists/jessie/Release") and use *jessie* instead of it's (current) *physical_suitname* *oldstable* defined in the Release file.
 
 ### Architectures (optional)
 
