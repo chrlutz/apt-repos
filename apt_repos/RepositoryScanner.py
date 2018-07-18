@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 
 def scanRepository(url, suites=None):
     logger.debug("scanRepository('{}', {})".format(url, suites))
+    url = url + ("/" if not url.endswith("/") else "")
     res = list()
     if suites:
         for s in suites:
@@ -98,17 +99,15 @@ def scanReleaseFile(url):
                     md5sum = section.get('MD5Sum').split("\n") if section.get('Md5Sum') else list()
                     files=[re.sub(" +", " ", s.strip()).split(" ")[2] for s in md5sum]
                     hasSources=suiteHasSources(files)
-
-                    suite = section.get('Suite')
-                    if suite:
-                        return { 
-                            'suite':suite,
-                            'components':components,
-                            'architectures':architectures,
-                            'hasSources':hasSources,
+                    return { 
+                        'suite': section.get('Suite'),
+                        'codename': section.get('Codename'),
+                        'components': components,
+                        'architectures': architectures,
+                        'hasSources': hasSources,
                             'url':url
                             #'files':files
-                        }
+                    }
             except SystemError:
                 raise Exception("invalid release file or no suite found at {}".format(url))
 

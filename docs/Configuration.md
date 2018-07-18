@@ -146,7 +146,9 @@ This allows you to find your own way of naming your suite-ids. The most importan
 
 ### Url (mandatory)
 
-This is the Repository-Url that describes the location of the repository. A Repository-Url is typically the URL under which the folders *dists* and *pool* are found.
+This is the global Repository-Url that describes the location of the repository. A Repository-Url is typically the URL under which the folders *dists* and *pool* are found.
+
+This setting is used for all Suites of the repository if there is no suite specific Url-Key provided (see below).
 
 ### Tags (optional)
 
@@ -156,13 +158,13 @@ If you would like to set tags on particular suites only, please have a deeper lo
 
 ### Suites (optional)
 
-It is not necessary to define the suites inside a repository. apt-repos could automatically scan the repository for contained suites. But using this Key, it is possible to explicitely define suites. This could have the following advantages:
+It is not necessary to define the suites inside a repository. Using the key *Scan*, apt-repos could automatically scan the repository for contained suites. But with this Key, it is possible to explicitely define suites to be resolved from this repository. This could have the following advantages:
 
 * It's possible to just select particular suites you are interested in (ignoring other suites also defined in the repository).
 * Scanning a repository could be accelerated by defining suites (because we don't have to build a repository index).
-* It makes it possible to add suite specific tags (and maybe more metadata in future).
+* It makes it possible to add suite specific tags.
 
-The Keyword Suites expects a list of suites, either identified by strings in which case the string is just the suitename or by sets of key/value pairs in which the key "Suite" holds the suitename:
+The Keyword Suites expects a list of suites, either identified by strings in which case the string is just the *suitename* or by sets of key/value pairs in which the key "Suite" represents the *suitename*:
 
     [ 
         "suitename1", 
@@ -172,9 +174,10 @@ The Keyword Suites expects a list of suites, either identified by strings in whi
         ...
     ]
 
-The first version allows us to just select particular suites, while the second version allows us to select particular suites plus additional metadata inside the curly brackets after the suitename. 
+The first two list entries allow us to just select particular suites, while the last two list entries allow us to select particular suites and set suite specific metadata (inside the curly brackets after the suitename). The *suitename* is expected to be the name of a suite that is available in the repository. As additional, suite specific metadata, the following Keys are supported:
 
-At the moment only the definition of suite specific *Tags*-Keywords is supported. Please have a look at the above *Tags*-definition and syntax for more details.
+* **Tags**: Besides the global *Tags* for the repository (see above) this Key could be used to define suite specific tags that will be use additionally. Please have a look at the above *Tags*-definition and syntax for more details.
+* **Url**: If this Key is set, a suite specific Url will be created by combining the global Repository-Url (as base-Url) with this value. The resulting Url must point to a Repository in which typically the folders *dists* and *pool* can be found. Using this key it is possible to define a *repo_description* that logically acts as one repository but essentially consists of multiple independent apt repositories sharing the same base-Url.
 
 ### Scan (optional)
 

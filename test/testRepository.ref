@@ -186,31 +186,31 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel main restricted universe multiverse
     Suite: ubuntu:cosmic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-backports main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-backports main restricted universe multiverse
     Suite: ubuntu:cosmic-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-proposed main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-proposed main restricted universe multiverse
     Suite: ubuntu:cosmic-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-security main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-security main restricted universe multiverse
     Suite: ubuntu:cosmic-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-updates main restricted universe multiverse
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-updates main restricted universe multiverse
     Suite: ubuntu:cosmic-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg

@@ -32,7 +32,7 @@ import apt.progress
 import functools
 
 from apt_repos.RepositoryScanner import scanRepository
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 
 logger = logging.getLogger(__name__)
 
@@ -80,18 +80,19 @@ class Repository:
         suite = selSuite[len(ownSuitePrefix):]
 
         first = True
-        for s in self.suites:
-            ownSuite = s["Suite"]
-            if not self._isRepositorySelected(selRepo, ownSuite):
+        for suiteDict in self.suites:
+            ownSuite = suiteDict["Suite"]
+            url = urljoin(self.url, suiteDict.get("Url", ''))
+            if not self._isRepositorySelected(selRepo, suiteDict):
                 continue
             if suite == ownSuite or suite=='':
                 if first:
                     logger.info("Scanning {}".format(self))
                     first = False
-                found = scanRepository(self.url, [ownSuite])
-                res.extend(self.getSuiteDescs(self.prefix, found))
+                found = scanRepository(url, [ownSuite])
+                res.extend(self.getSuiteDescs(self.prefix, found, suiteDict))
         
-        if self.scan and self._isRepositorySelected(selRepo, suite):
+        if self.scan and self._isRepositorySelected(selRepo):
             logger.info("Scanning {}".format(self))
             if len(suite) > 0:
                 found = scanRepository(self.url, [suite])
@@ -103,7 +104,7 @@ class Repository:
         return res
 
 
-    def _isRepositorySelected(self, selRepo, suite=''):
+    def _isRepositorySelected(self, selRepo, suiteDict=dict()):
         '''
             Returns true if the repository is selected by the repository selector
             selRepo (which ist the part of the selector before ":", without ":").
@@ -112,11 +113,11 @@ class Repository:
         '''
         (ownRepo, _) = self.prefix.split(":", 1)
         validRepos = ['', ownRepo]
-        validRepos.extend(sorted(self.getTags(suite)))
+        validRepos.extend(sorted(self.__getTags(suiteDict)))
         return selRepo in validRepos
 
 
-    def getSuiteDescs(self, prefix, suites):
+    def getSuiteDescs(self, prefix, suites, suiteDict=dict()):
         res = list()
         for suite in suites:
             archs = list()
@@ -125,15 +126,17 @@ class Repository:
                     if arch in suite['architectures']:
                         archs.append(arch)
             suitename = suite['suite']
+            suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
             if self.extractSuiteFromReleaseUrl:
-                suitename = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
+                suitename = suitenameFromReleaseUrl
             option = '' if not self.trusted else '[trusted=yes] '
             debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
-            tags = sorted(self.getTags(suitename))
+            tags = sorted(self.__getTags(suiteDict))
+            url = urljoin(self.url, suiteDict.get("Url", ''))
             res.append({
                 "Suite" : prefix + suitename,
                 "Tags" : tags,
-                "SourcesList" : "deb {}{} {} {}".format(option, self.url, suitename, " ".join(suite['components'])),
+                "SourcesList" : "deb {}{} {} {}".format(option, url, suitenameFromReleaseUrl, " ".join(suite['components'])),
                 "DebSrc" : debSrc,
                 "Architectures" : archs if self.architectures else suite['architectures'],
                 "TrustedGPG" : self.trustedGPGFile
@@ -156,21 +159,16 @@ class Repository:
         return self.desc
 
 
-    def getTags(self, suite=''):
+    def __getTags(self, suiteDict=dict()):
         '''
-            Returns a set of tags assigned to the suite `suite`.
-            This is a union of commonTags (from the "Tags" keyword in
-            the repos description) and suite specific Tags (from the
-            "Tags" keyword assigned to a single suite). If suite is
-            not given or there is no definition for the given suite,
-            this method just returns the commonTags.
+            Returns a set of tags assigned to the suite described by 
+            `suiteDict`. This is a union of commonTags (from the "Tags"
+            keyword in the repos description) and suite specific Tags
+            (from the "Tags" keyword in suiteDict). If suiteDict is not
+            given this method just returns the commonTags.
         '''
         tags = set(self.commonTags)
-        suiteAttrib = dict()
-        for s in self.suites:
-            if s.get("Suite", '') == suite:
-                suiteAttrib = s
-        tags = tags.union(set(suiteAttrib.get('Tags', list())))
+        tags = tags.union(set(suiteDict.get('Tags', list())))
         return tags
 
 
