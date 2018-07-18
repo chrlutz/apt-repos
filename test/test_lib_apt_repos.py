@@ -244,20 +244,20 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
     repo = Repository(mergedict(basisRepoDesc, {
-      "Suites" : { 
-          "trusty" : { "Tags" : [ "old", "older", "oldest" ] },
-          "bionic" : { "Tags" : [ "ene", "mene", "muh" ] } 
-      },
+      "Suites" : [ 
+          { "Suite" : "trusty", "Tags" : [ "old", "older", "oldest" ] },
+          { "Suite" : "bionic", "Tags" : [ "ene", "mene", "muh" ] } 
+      ],
     }))
     print("\n" + str(repo))
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu", "trusty")
 
     repo = Repository(mergedict(basisRepoDesc, {
-      "Suites" : {
-          "trusty" : {},
-          "bionic" : { "Tags" : [ "ene", "mene", "muh" ] }
-      },
+      "Suites" : [
+          "trusty",
+          { "Suite" : "bionic", "Tags" : [ "ene", "mene", "muh" ] }
+      ],
       "Tags" : [ "common1", "z_last" ]
     }))
     print("\n" + str(repo))

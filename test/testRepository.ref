@@ -23,14 +23,14 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Basics' (http://arch
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
-    Suite: ubuntu:bionic
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+    Suite: ubuntu:xenial
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
-    Suite: ubuntu:xenial
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:bionic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu:test-', 'bionic':
@@ -59,14 +59,14 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing different Prefix' (h
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
-    Suite: ubuntu:de-bionic
+    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+    Suite: ubuntu:de-xenial
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
-    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
-    Suite: ubuntu:de-xenial
+    SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+    Suite: ubuntu:de-bionic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
   Results for 'ubuntu:de-', 'bionic':

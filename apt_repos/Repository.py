@@ -56,12 +56,14 @@ class Repository:
         self.url = repoDesc['Url']
         self.scan = repoDesc.get('Scan')
         self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
-        self.suites = repoDesc.get("Suites", dict())
-        if type(self.suites) == list: # convert to dict
-            suites = dict()
-            for s in self.suites:
-                suites[s] = dict()
-            self.suites = suites
+        self.suites = repoDesc.get("Suites", list())
+        # convert self.suite string entries into dicts
+        for x in range(len(self.suites)):
+            s = self.suites[x]
+            if isinstance(s, str):
+                d = dict()
+                d["Suite"] = s
+                self.suites[x] = d
         self.architectures = repoDesc.get('Architectures')
         self.trustedGPGFile = repoDesc.get('TrustedGPG')
         self.debSrc = repoDesc.get('DebSrc')
@@ -78,7 +80,8 @@ class Repository:
         suite = selSuite[len(ownSuitePrefix):]
 
         first = True
-        for ownSuite in sorted(self.suites.keys()):
+        for s in self.suites:
+            ownSuite = s["Suite"]
             if not self._isRepositorySelected(selRepo, ownSuite):
                 continue
             if suite == ownSuite or suite=='':
@@ -163,7 +166,10 @@ class Repository:
             this method just returns the commonTags.
         '''
         tags = set(self.commonTags)
-        suiteAttrib = self.suites.get(suite, dict())
+        suiteAttrib = dict()
+        for s in self.suites:
+            if s.get("Suite", '') == suite:
+                suiteAttrib = s
         tags = tags.union(set(suiteAttrib.get('Tags', list())))
         return tags
 

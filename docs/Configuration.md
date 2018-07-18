@@ -106,7 +106,10 @@ Each *repo_description* describes the properties of a repository which might con
 As in *.suites*-files, the **order** in which *repo_descriptions* are defined is important as well (see above). For suites derived from *repo_description*s, the following rules are applied:
 
 * *repo_descriptions* are scanned in the order as defined in the *.repos* file, but after *.suite*-files (so suites defined in *.repos*-files always have a higher order than suites from *.suites*-files).
-* Suites derived from a *repo_description* are ordered in alphabetical order by their suitename.
+* Suites derived from a *repo_description* are ordered in the following way:
+    * if the key *Suites* is given, the order as defined in the list under the key *Suites* is used
+    * if *Scan* is used, suites are added in alphabetical order by their suitename
+    * in case of a combination of *Suites* and *Scan*, suites derived from *Suites* are first added, then scanned suites.
 
 A *repo_description* is a json object (something between "{ }") or in other words a set of key-value pairs. The following example shows all available keys, but typically one would only specify the really required keys (the most keys are optional):
 
@@ -115,11 +118,11 @@ A *repo_description* is a json object (something between "{ }") or in other word
         "Prefix" : "debian",
         "Tags" : [ "stable" ],
         "Url" : "http://deb.debian.org/debian/",
-        "Suites" : {
-            "stretch": { "Tags" : [ "test" ] },
-            "stretch-backports": {},
-            "stretch-updates": { "Tags" : [ "test2" ] }
-        },
+        "Suites" : [
+            { "Suite" : "stretch", "Tags" : [ "test" ] },
+            "stretch-backports",
+            { "Suite" : "stretch-updates", "Tags" : [ "test2" ] }
+        ],
         "Scan" : false,
         "ExtractSuiteFromReleaseUrl": true,
         "Architectures" : [ "i386", "amd64" ],
@@ -159,17 +162,15 @@ It is not necessary to define the suites inside a repository. apt-repos could au
 * Scanning a repository could be accelerated by defining suites (because we don't have to build a repository index).
 * It makes it possible to add suite specific tags (and maybe more metadata in future).
 
-The Keyword Suites expects either a list of strings (=suitenames) or a set of key/value pairs in which the suitenames are the keys. This Suites could have the following values:
+The Keyword Suites expects a list of suites, either identified by strings in which case the string is just the suitename or by sets of key/value pairs in which the key "Suite" holds the suitename:
 
-    [ "suitename1", "suitename2", ... ]
-
-or
-
-    {
-        "suitename1": {},
-        "suitename2": {},
+    [ 
+        "suitename1", 
+        "suitename2",
+        { "Suite" : "suitename3", ... },
+        { "Suite" : "suitenameN", ... },
         ...
-    }
+    ]
 
 The first version allows us to just select particular suites, while the second version allows us to select particular suites plus additional metadata inside the curly brackets after the suitename. 
 
@@ -179,7 +180,7 @@ At the moment only the definition of suite specific *Tags*-Keywords is supported
 
 This optional Keyword expects the boolean values `true` or `false` and controls whether this repository should be automatically scanned for suites. If this option is not specified, it defaults to `false`. If this option is set `true`, apt-repos would automatically scan the repository for contained suites. For all suites found in this repository a *suite_description* would be generated.
 
-Note: This option can be combined with the second version of the above *Suites*-Keyword to add suite specific metadata to particular suites. In other constellations it would not make sense to combine *Scan* and *Suites*, because `Scan: true` would always override a specified selection.
+Note: This option can be combined with the second version of the above *Suites*-Keyword to add suite specific metadata to particular suites. In other constellations it would not make sense to combine *Scan* and *Suites*, because `Scan: true` would override any selections.
 
 ### ExtractSuiteFromReleaseUrl (optional)
 

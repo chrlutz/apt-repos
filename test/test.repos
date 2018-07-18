@@ -12,11 +12,11 @@
       "Prefix" : "debian",
       "Tags" : [ "stable" ],
       "Url" : "http://deb.debian.org/debian/",
-      "Suites" : {
-          "stretch": { "Tags" : [ "test" ] },
-          "stretch-backports": {},
-          "stretch-updates": { "Tags" : [ "test2" ] }
-      },
+      "Suites" : [
+          {"Suite": "stretch", "Tags" : [ "test" ] },
+          {"Suite": "stretch-backports" },
+          {"Suite": "stretch-updates", "Tags" : [ "test2" ] }
+      ],
       "ExtractSuiteFromReleaseUrl": true,
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./gpg/debian.gpg"
