@@ -87,7 +87,7 @@ The Architectures key expects a list of strings (of architectures) to consider d
 
 ### TrustedGPG (optional)
 
-With this key it is possible to specify the path to a file containing the public key for which the Release-File of the suite needs to be signed. This is used to validate the suite and to ensure the suite is not manipulated by a third party. The value needs to be the path to a file on the local machine - either as an absolute path or as a path relative to the folder that contains the *.suites-file. If this key is not specified, the validation is skipped.
+With this key it is possible to specify the path to a file containing the public key with which the Release-File of the suite is signed. This is used to validate the suite and to ensure the suite is not manipulated by a third party. The value needs to be the path to a file on the local machine - either as an absolute path or as a path relative to the folder that contains the *.suites-file. Even if the Key is marked as "optional" here, it is strongly recommened to provide this value. If this key is not specified, the default settings from the local system will be used and there is no guarantee that these will work for others and different systems (e.g. ubuntu vs. debian) as well. It would be very probably to get validation errors during the scan.
 
 ## Syntax and supported Tags of *.repos-files
 
@@ -204,3 +204,13 @@ If such a list is defined, only architectures from this list will be considered.
 ### TrustedGPG (optional)
 
 If specified, the value of TrustedGPG is directly passed through to the generated *suite_description*s - for more details, please have a look at the corresponding Key-definition for *.suites-files.
+
+### Trusted (optional)
+
+The key *Trusted* expects a boolean value *true* or *false*. If the key is not specified, the default value is *false*. If *Trusted* is set *true*, in the generated sources.list line for the derived suites the option `[trusted=yes]` will be set. This has the effect that suites could be used even if their TrustedGPG validation fails for whatever reason.
+
+### DebSrc (optional)
+
+Similar to the equally named Key in *suites_descriptions*, this key expects a boolean value - *true* or *false* and describes if the generated suites contain source packages. The difference is, that in a *repo_description* this information can be automatically extracted from the Release-files of the generated suites. If this key is not specified, the automatically extracted information is used.
+
+
