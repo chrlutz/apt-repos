@@ -327,8 +327,8 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Trusted==True
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
 
-Repository 'Testing Option DebSrc==True' (http://archive.ubuntu.com/ubuntu/)
-INFO     apt_repos.Repository: Scanning Repository 'Testing Option DebSrc==True' (http://archive.ubuntu.com/ubuntu/)
+Repository 'Testing Option DebSrc==False' (http://archive.ubuntu.com/ubuntu/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option DebSrc==False' (http://archive.ubuntu.com/ubuntu/)
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: False

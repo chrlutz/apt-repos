@@ -236,7 +236,7 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
 
     repo = Repository(mergedict(basisRepoDesc, {
-      "Repository" : "Testing Option DebSrc==True",
+      "Repository" : "Testing Option DebSrc==False",
       "Suites" : [ "bionic" ],
       "DebSrc" : False,
     }))
