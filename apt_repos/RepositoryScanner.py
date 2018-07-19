@@ -46,18 +46,18 @@ def scanRepository(url, suites=None):
     if suites:
         for s in suites:
             try:
-                res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release'))))
+                res.append(scanReleaseFile(urljoin(url, os.path.join('dists', s, 'Release')), url))
             except Exception:
                 logger.warn("Could not resolve suite {} of repository {}".format(s, url))
     else:
         try:
-            res.extend(scanReleases(urljoin(url, "dists/")))
+            res.extend(scanReleases(urljoin(url, "dists/"), url))
         except Exception as e:
             logger.warn("Could not resolve repository {}".format(url))
     return res
 
 
-def scanReleases(url, recursive=True):
+def scanReleases(url, repoUrl, recursive=True):
     '''
        return suites found at url and all it's relevant subfolders if recursive==True
     '''
@@ -72,7 +72,7 @@ def scanReleases(url, recursive=True):
         index = HtmlIndexParser(url)
 
     if index.release:
-        suite = scanReleaseFile(index.release)
+        suite = scanReleaseFile(index.release, repoUrl)
         if suite:
           suites.append(suite)
           ignoreFolders.extend(suite['components'])
@@ -80,12 +80,12 @@ def scanReleases(url, recursive=True):
     if recursive:
         for subfolder, suburl in sorted(index.getSubfolders().items()):
             if not subfolder in ignoreFolders:
-                suites.extend(scanReleases(suburl))
+                suites.extend(scanReleases(suburl, repoUrl))
 
     return suites
 
 
-def scanReleaseFile(url):
+def scanReleaseFile(url, repoUrl):
     logger.debug("scanReleaseFile('{}')".format(url))
     data = getFromURL(url)
     with tempfile.TemporaryFile() as fp:
@@ -100,12 +100,13 @@ def scanReleaseFile(url):
                     files=[re.sub(" +", " ", s.strip()).split(" ")[2] for s in md5sum]
                     hasSources=suiteHasSources(files)
                     return { 
+                        'repoUrl': repoUrl,
+                        'releaseUrl': url,
                         'suite': section.get('Suite'),
                         'codename': section.get('Codename'),
                         'components': components,
                         'architectures': architectures,
-                        'hasSources': hasSources,
-                        'url':url
+                        'hasSources': hasSources
                         #'files':files
                     }
             except SystemError:

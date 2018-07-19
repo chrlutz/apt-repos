@@ -126,17 +126,16 @@ class Repository:
                     if arch in suite['architectures']:
                         archs.append(arch)
             suitename = suite['suite']
-            suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['url']).path))
+            suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['releaseUrl']).path))
             if self.extractSuiteFromReleaseUrl:
                 suitename = suitenameFromReleaseUrl
             option = '' if not self.trusted else '[trusted=yes] '
             debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
             tags = sorted(self.__getTags(suiteDict))
-            url = urljoin(self.url, suiteDict.get("Url", ''))
             res.append({
                 "Suite" : prefix + suitename,
                 "Tags" : tags,
-                "SourcesList" : "deb {}{} {} {}".format(option, url, suitenameFromReleaseUrl, " ".join(suite['components'])),
+                "SourcesList" : "deb {}{} {} {}".format(option, suite['repoUrl'], suitenameFromReleaseUrl, " ".join(suite['components'])),
                 "DebSrc" : debSrc,
                 "Architectures" : archs if self.architectures else suite['architectures'],
                 "TrustedGPG" : self.trustedGPGFile
