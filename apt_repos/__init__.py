@@ -134,6 +134,38 @@ def setAptReposBaseDir(dir):
         raise Exception("base-directory doesn't exist: " + dir)
 
 
+def __filenameWithoutPrefix(item):
+    (filename, value) = item
+    return re.sub(r"\.\w+$", "", filename)
+
+
+def __prepareConfig(collectedConfigs):
+    '''
+        Handles overrides and returns a list of config items in the defined order.
+        `collectedConfigs` is expexted to be a map filename -> (jsonData, basedir)
+    '''
+    res = list()
+    mapOidToConf = dict()
+    for filename, (descs, basedir) in sorted(collectedConfigs.items(), key=__filenameWithoutPrefix):
+        logger.debug("preparing config for file {}/{}".format(basedir, filename))
+        for conf in descs:
+            if not type(conf) is dict:
+                continue
+            oid = conf.get("Oid", None)
+            if oid:
+                toOverride = mapOidToConf.get(oid)
+                if not toOverride:
+                    mapOidToConf[oid] = conf
+                    logger.debug("new override '{}'".format(oid))
+                else:
+                    for k, v in conf.items():
+                        toOverride[k] = v
+                        logger.debug("added to override '{}': {} --> {}".format(oid, k, v))
+                    continue
+            res.append((conf, basedir, filename))
+    return res
+
+
 def getSuites(selectors=None):
     '''
        This method returns a set of suites matched by selectors, where
@@ -183,33 +215,29 @@ def getSuites(selectors=None):
             srepo, ssuiteName = parts
         
         count = 0
-        for unused_key, (suiteDescs, basedir) in sorted(suitesData.items()):
-            for suiteDesc in suiteDescs:
+        for suiteDesc, basedir, unused_filename in __prepareConfig(suitesData):
+            count+=1
+            tags = suiteDesc.get("Tags", [])
+
+            parts = suiteDesc["Suite"].split(":", 1)
+            if len(parts) == 1:
+                repo, suiteName = ("", parts[0])
+            else:
+                repo, suiteName = parts
+            
+            if (repo == srepo or srepo == "" or srepo in tags) and \
+                (suiteName == ssuiteName or ssuiteName == ""):
+                selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
+
+        for repoDesc, basedir, unused_filename in __prepareConfig(reposData):
+            repo = None
+            try:
+                repo = Repository(repoDesc)
+            except KeyError as e:
+                logger.warning("Missing key {} --> Skipping repository: {}".format(e, repoDesc))
+                continue
+            for suiteDesc in repo.querySuiteDescs(srepo, ssuiteName):
                 count+=1
-                tags = suiteDesc.get("Tags", [])
-
-                parts = suiteDesc["Suite"].split(":", 1)
-                if len(parts) == 1:
-                    repo, suiteName = ("", parts[0])
-                else:
-                    repo, suiteName = parts
-                
-                if (repo == srepo or srepo == "" or srepo in tags) and \
-                   (suiteName == ssuiteName or ssuiteName == ""):
-                    selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
-
-        for unused_key, (repoDescs, basedir) in sorted(reposData.items()):
-            for repoDesc in repoDescs:                
-                if not type(repoDesc) is dict:
-                    continue
-                repo = None
-                try:
-                    repo = Repository(repoDesc)
-                except KeyError as e:
-                    logger.warning("Missing key {} --> Skipping repository: {}".format(e, repoDesc))
-                    continue
-                for suiteDesc in repo.querySuiteDescs(srepo, ssuiteName):
-                    count+=1
-                    selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
+                selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
                 
     return selected

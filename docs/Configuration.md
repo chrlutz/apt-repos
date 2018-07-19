@@ -14,7 +14,7 @@ Apt-repos searches for configuration files in a fixed order in either a user-spe
 * **$HOME/.apt-repos**: The 'old' folder for user specific config files - support for this folder is deprecated.
 * **/etc/apt-repos**: The folder for the host global (shared) configuration.
 
-Apt-repos interprets all files combined from these folders and ending with ".suites" or ".repos" in alphabetical order. You are free to name the first part (before .suites or .repos) however you want. Once a file with a particular filename is read in a folder, it is ignored in a latter read folder. This way it is possible to override global settings. It is also possible to use the (unchanged) global configuration and to just add custom suites to files specified with disjunct filenames.
+Apt-repos interprets all files combined from these folders ending with the suffixes ".suites" or ".repos". You are free to name the first part (before the suffix) however you want. The files are sorted by their filename without suffix in alphabetical order. Once a file with a particular filename is read in a folder, it is ignored in a latter read folder. This way it is possible to override global settings. It is also possible to use the (unchanged) global configuration and to just add custom suites to files specified with disjunct filenames. If necesssary, it is also possible to override just single sections of a file using the key *Oid* (see description below).
 
 As an alternative, apt-repos could be called with the command line switch **--basedir** that allows us to define a basedir to look for config files. If this basedir is defined, other folders will not be read. This feature is also available within the apt_repos library and called by `apt_repos.setAptReposBaseDir(basedir)`.
 
@@ -88,6 +88,37 @@ The Architectures key expects a list of strings (of architectures) to consider d
 ### TrustedGPG (optional)
 
 With this key it is possible to specify the path to a file containing the public key with which the Release-File of the suite is signed. This is used to validate the suite and to ensure the suite is not manipulated by a third party. The value needs to be the path to a file on the local machine - either as an absolute path or as a path relative to the folder that contains the *.suites-file. Even if the Key is marked as "optional" here, it is strongly recommened to provide this value. If this key is not specified, the default settings from the local system will be used and there is no guarantee that these will work for others and different systems (e.g. ubuntu vs. debian) as well. It would be very probably to get validation errors during the scan.
+
+### Oid (optional)
+
+This key *Oid* (standing for "Object / Override ID") is optional and allows you to define a uniq name for the *suite_description*. Once this name is defined, it is possible to override single key/value pairs of this *suite_description* by later read config-files, referring the same *Oid* in their *suite_description*. Example:
+
+Lets assume there's a config file "some.suites" with the following content:
+
+    [
+        {
+            "Oid" : "my_suite_definition",
+            "Suite" : "ubuntu:xenial",
+            "Tags": [ "production", "somethingElse" ],
+            "SourcesList" : "deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse"
+            "DebSrc" : true,
+            "Architectures" : [ "i386", "amd64" ]
+        }
+    ]
+
+It is now possible to add a file called "some_overrides.suites" that changes single settings of the above configuration:
+
+    [
+        {
+            "Oid" : "my_suite_definition",
+            "Tags": [ "myowntag" ]
+        }
+    ]
+
+This configures the suite "ubuntu:xenial" as usual, but their *Tags* will be only `[ "myowntag" ]` instead of the previous *Tags* setting.
+
+**Note:** this works as the file "some_overrides.suites" is read after the file "some.suites" (because files are ordered by their filename without suffix). Using the string *_overrides* inside the name of the second file is recommended as a kind of convention, but any other filename sorted after the first file would also have the same effect.
+
 
 ## Syntax and supported Tags of *.repos-files
 
@@ -211,6 +242,8 @@ The key *Trusted* expects a boolean value *true* or *false*. If the key is not s
 
 ### DebSrc (optional)
 
-Similar to the equally named Key in *suites_descriptions*, this key expects a boolean value - *true* or *false* and describes if the generated suites contain source packages. The difference is, that in a *repo_description* this information can be automatically extracted from the Release-files of the generated suites. If this key is not specified, the automatically extracted information is used.
+Similar to the equally named Key in *suite_descriptions*, this key expects a boolean value - *true* or *false* and describes if the generated suites contain source packages. The difference is, that in a *repo_description* this information can be automatically extracted from the Release-files of the generated suites. If this key is not specified, the automatically extracted information is used.
 
+### Oid (optional)
 
+For *repo_descriptions* the override-feature is also available analogue to the way it works for *suite_description*s (see above)
