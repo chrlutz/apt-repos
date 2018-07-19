@@ -105,8 +105,8 @@ def scanReleaseFile(url):
                         'components': components,
                         'architectures': architectures,
                         'hasSources': hasSources,
-                            'url':url
-                            #'files':files
+                        'url':url
+                        #'files':files
                     }
             except SystemError:
                 raise Exception("invalid release file or no suite found at {}".format(url))
