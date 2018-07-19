@@ -54,6 +54,8 @@ class Repository:
         self.prefix = self.prefix + ('' if ':' in self.prefix else ':')
         self.commonTags = repoDesc.get('Tags', list())
         self.url = repoDesc['Url']
+        if isinstance(self.url, str):
+            self.url = [ self.url ]
         self.scan = repoDesc.get('Scan')
         self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
         self.suites = repoDesc.get("Suites", list())
@@ -82,24 +84,26 @@ class Repository:
         first = True
         for suiteDict in self.suites:
             ownSuite = suiteDict["Suite"]
-            url = urljoin(self.url, suiteDict.get("Url", ''))
-            if not self._isRepositorySelected(selRepo, suiteDict):
-                continue
-            if suite == ownSuite or suite=='':
-                if first:
-                    logger.info("Scanning {}".format(self))
-                    first = False
-                found = scanRepository(url, [ownSuite])
-                res.extend(self.getSuiteDescs(self.prefix, found, suiteDict))
+            for commonUrl in self.url:
+                url = urljoin(commonUrl, suiteDict.get("Url", ''))
+                if not self._isRepositorySelected(selRepo, suiteDict):
+                    continue
+                if suite == ownSuite or suite=='':
+                    if first:
+                        logger.info("Scanning {}".format(self))
+                        first = False
+                    found = scanRepository(url, [ownSuite])
+                    res.extend(self.getSuiteDescs(self.prefix, found, suiteDict))
         
         if self.scan and self._isRepositorySelected(selRepo):
-            logger.info("Scanning {}".format(self))
-            if len(suite) > 0:
-                found = scanRepository(self.url, [suite])
-                res.extend(self.getSuiteDescs(self.prefix, found))
-            else:
-                found = scanRepository(self.url)
-                res.extend(self.getSuiteDescs(self.prefix, found))
+            for commonUrl in self.url:
+                logger.info("Scanning {}".format(self))
+                if len(suite) > 0:
+                    found = scanRepository(commonUrl, [suite])
+                    res.extend(self.getSuiteDescs(self.prefix, found))
+                else:
+                    found = scanRepository(commonUrl)
+                    res.extend(self.getSuiteDescs(self.prefix, found))
                 
         return res
 
