@@ -82,6 +82,8 @@ class Repository:
         first = True
         for suiteDict in self.suites:
             ownSuite = suiteDict["Suite"]
+            if ownSuite.startswith("---"):
+                continue
             url = urljoin(self.url, suiteDict.get("Url", ''))
             if not self._isRepositorySelected(selRepo, suiteDict):
                 continue

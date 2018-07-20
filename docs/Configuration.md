@@ -200,6 +200,7 @@ The Keyword Suites expects a list of suites, either identified by strings in whi
     [ 
         "suitename1", 
         "suitename2",
+        "--- A string starting with three dashes is interpreted as a separator and is ignored ---",
         { "Suite" : "suitename3", ... },
         { "Suite" : "suitenameN", ... },
         ...
