@@ -147,7 +147,7 @@ def __prepareConfig(collectedConfigs):
     res = list()
     mapOidToConf = dict()
     for filename, (descs, basedir) in sorted(collectedConfigs.items(), key=__filenameWithoutPrefix):
-        logger.debug("preparing config for file {}/{}".format(basedir, filename))
+        logger.debug("preparing config from file {}/{}".format(basedir, filename))
         for conf in descs:
             if not type(conf) is dict:
                 continue
