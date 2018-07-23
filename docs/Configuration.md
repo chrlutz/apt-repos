@@ -210,6 +210,13 @@ The first two list entries allow us to just select particular suites, while the 
 
 * **Tags**: Besides the global *Tags* for the repository (see above) this Key could be used to define suite specific tags that will be use additionally. Please have a look at the above *Tags*-definition and syntax for more details.
 * **Url**: If this Key is set, a suite specific Url will be created by combining the global Repository-Url (as base-Url) with this value. The resulting Url must point to a Repository in which typically the folders *dists* and *pool* can be found. Using this key it is possible to define a *repo_description* that logically acts as one repository but essentially consists of multiple independent apt repositories sharing the same base-Url.
+* **Codename**: This optional keyword defines a suite specific folder (of the apt repository) under `dists` in which we look for the particular suite's Release-File. If this value is set, it has precedence before the common *Codename* key that could be also used on *repo_description*-level.
+
+### Codename (optional)
+
+This optional key (on *repo_description*-level) allows to set a common codename for all suites defined in the above key *Suites*. It is only used if there is no suite specific *Codename* set. If there is no suite specific *Codename* and no common codename defined, the codename is automatically the (suite specific) *suitename*. This option makes only sense in combination with *Suites*.
+
+The *Codename* describes the folder (of the apt repository) under `dists` in which we look for a particular suite's Release-File.
 
 ### Scan (optional)
 

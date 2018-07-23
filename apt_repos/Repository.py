@@ -53,7 +53,8 @@ class Repository:
         self.prefix = repoDesc['Prefix']
         self.prefix = self.prefix + ('' if ':' in self.prefix else ':')
         self.commonTags = repoDesc.get('Tags', list())
-        self.url = repoDesc['Url']
+        self.commonUrl = repoDesc['Url'] + ("/" if not repoDesc['Url'].endswith("/") else "")
+        self.commonCodename = repoDesc.get('Codename')
         self.scan = repoDesc.get('Scan')
         self.extractSuiteFromReleaseUrl = repoDesc.get('ExtractSuiteFromReleaseUrl')
         self.suites = repoDesc.get("Suites", list())
@@ -84,23 +85,23 @@ class Repository:
             ownSuite = suiteDict["Suite"]
             if ownSuite.startswith("---"):
                 continue
-            url = urljoin(self.url, suiteDict.get("Url", ''))
+            url = self.__getUrl(suiteDict)
             if not self._isRepositorySelected(selRepo, suiteDict):
                 continue
             if suite == ownSuite or suite=='':
                 if first:
                     logger.info("Scanning {}".format(self))
                     first = False
-                found = scanRepository(url, [ownSuite])
+                found = scanRepository(url, [self.__getCodename(suiteDict)])
                 res.extend(self.getSuiteDescs(self.prefix, found, suiteDict))
         
         if self.scan and self._isRepositorySelected(selRepo):
             logger.info("Scanning {}".format(self))
             if len(suite) > 0:
-                found = scanRepository(self.url, [suite])
+                found = scanRepository(self.__getUrl(), [suite])
                 res.extend(self.getSuiteDescs(self.prefix, found))
             else:
-                found = scanRepository(self.url)
+                found = scanRepository(self.__getUrl())
                 res.extend(self.getSuiteDescs(self.prefix, found))
                 
         return res
@@ -162,19 +163,40 @@ class Repository:
 
     def __getTags(self, suiteDict=dict()):
         '''
-            Returns a set of tags assigned to the suite described by 
-            `suiteDict`. This is a union of commonTags (from the "Tags"
-            keyword in the repos description) and suite specific Tags
-            (from the "Tags" keyword in suiteDict). If suiteDict is not
-            given this method just returns the commonTags.
+            Returns a union of the common `Tags` value and suite the specific Tags
+            (in suiteDict). If suiteDict is not given this method just returns the common Tags.
         '''
         tags = set(self.commonTags)
         tags = tags.union(set(suiteDict.get('Tags', list())))
         return tags
+    
+
+    def __getCodename(self, suiteDict=dict()):
+        '''
+            Returns the codename that represents the directory under the `dists` folder in which
+            we should scan for a particular suite described by `suiteDict`. The codename is:
+            the value to the key `Codename` in suiteDict if available, otherwise
+            the value to the key `Codename` in the repo_description if available, otherwise
+            the value to the key `Suite` in the suiteDict.
+        '''
+        if "Codename" in suiteDict:
+            return suiteDict['Codename']
+        elif self.commonCodename:
+            return self.commonCodename
+        else:
+            return suiteDict['Suite']
+
+
+    def __getUrl(self, suiteDict=dict()):
+        '''
+            Returns joined version of the common `Url` value and suite the specific Url
+            (in suiteDict). If suiteDict is not given this method just returns the common Url.
+        '''
+        return urljoin(self.commonUrl, suiteDict.get("Url", ''))
 
 
     def __str__(self):
         if self.desc:
-            return "Repository '{}' ({})".format(self.desc, self.url)
+            return "Repository '{}' ({})".format(self.desc, self.__getUrl())
         else:
-            return "Repository {}".format(self.url)
+            return "Repository {}".format(self.__getUrl())
