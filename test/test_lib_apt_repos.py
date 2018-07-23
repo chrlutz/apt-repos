@@ -264,6 +264,23 @@ def testRepository():
     dumpQuerySuiteDescsResult(repo, "ubuntu", "bionic")
     dumpQuerySuiteDescsResult(repo, "ubuntu", "trusty")
 
+    repo = Repository(mergedict(basisRepoDesc, {
+      "Repository" : "Testing Option Codename and url without trailing /",
+      "Prefix" : "debian",
+      "Url" : "http://deb.debian.org/debian",
+      "Codename" : "sid",
+      "Suites" : [ 
+          { "Suite" : "stable", "Codename" : "stretch" },
+          { "Suite" : "unstable" }
+      ]
+    }))
+    print("\n" + str(repo))
+    dumpQuerySuiteDescsResult(repo, "debian", "stable")
+    dumpQuerySuiteDescsResult(repo, "debian", "stretch")
+    dumpQuerySuiteDescsResult(repo, "debian", "unstable")
+    dumpQuerySuiteDescsResult(repo, "debian", "sid")
+
+
 
 def mergedict(a, b):
     res = dict(a)

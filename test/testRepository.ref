@@ -372,3 +372,23 @@ INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (htt
     Suite: ubuntu:trusty
     Tags: ['common1', 'z_last']
     TrustedGPG: ./gpg/ubuntu.gpg
+
+Repository 'Testing Option Codename and url without trailing /' (http://deb.debian.org/debian/)
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option Codename and url without trailing /' (http://deb.debian.org/debian/)
+  Results for 'debian', 'stable':
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://deb.debian.org/debian/ stretch main contrib non-free
+    Suite: debian:stable
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'debian', 'stretch':
+INFO     apt_repos.Repository: Scanning Repository 'Testing Option Codename and url without trailing /' (http://deb.debian.org/debian/)
+  Results for 'debian', 'unstable':
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://deb.debian.org/debian/ sid main contrib non-free
+    Suite: debian:unstable
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+  Results for 'debian', 'sid':
