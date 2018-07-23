@@ -1,3 +1,48 @@
+apt-repos (1.47.0) bionic; urgency=medium
+
+  * NON BACKWARD COMPATIBLE:
+    * Changed syntax of 'Suites'-key in .repos files. This is done as
+      preparation for more enhanced .repos features below.
+
+  * NEW FEATURES:
+    * Updated Documentation Readme.md and new docs/Configuration.md
+    * Added new PackageField.SIZE to provide size information about binary and
+      source packages.
+    * Added new override-configuration feature with the config key 'Oid' to
+      override single key/value pairs of a config
+    * Added support for common and suite specific Tags in *.repos config files
+    * RepositoryScanner: added Support for local file:// urls
+    * Repository: implemented Url-Key within Suites-lists in .repos files
+    * Introduced separators in Suites-lists in .repos-files
+    * Introduced the new key 'Codename' for .repos configs
+
+  * Bugfixes:
+    * setting PYTHONPATH in bin/apt-repos itself - allows bin/apt-repos to be
+      called standalone
+    * better error messages in case of config file errors
+    * reduce amount of info messages for repository scan - only one line per
+      repo
+    * fixed scanning of repos by empty suite selector
+    * handling of the most typical Exception during cache update and less
+      verbose output in debug-mode
+    * better workaround for unwanted lib-apt output to stdout using a fork/pipe
+      construct
+    * apt-repos: don't override repos-config when reading latter config dirs
+      and ensure defined suite ordering
+    * Repository: ensured that the config-Key 'Repository' is really optional
+    * getSuites: warning in case of KeyError's in repos descriptions
+
+  * Code- and development improvements:
+    * improved apt_repos.suppress_unwanted_apt_pkg_messages() to be used just
+      within single subtasks of the main process
+    * added comments for apt_repos.setAptReposBaseDir and apt_repos.getSuites
+    * added RepoSuite.getTrustedGPGFile() and some comments
+    * first run all tests if we are in a git tree and check later for
+      differences
+    * handled a lot of pylint errors/warnings
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Mon, 23 Jul 2018 16:34:07 +0200
+
 apt-repos (1.46.1) bionic; urgency=medium
 
   * fix missing manpage for apt-repos src
