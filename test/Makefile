@@ -1,4 +1,4 @@
-IS_GIT_TREE := git ls-files --error-unmatch >/dev/null 2>&1
+IS_GIT_TREE := (which git && git ls-files --error-unmatch) >/dev/null 2>&1
 
 EXP_OK := || true
 EXP_FAIL := || true
@@ -42,12 +42,17 @@ unittests: clean
 	done
 	$(FINISHED_TEST)
 
-returncodes:
-	$(IS_GIT_TREE) || exit 0
+ifeq (yes,$(shell $(IS_GIT_TREE) && echo yes))
+  returncodes:
 	make clitests IS_GIT_TREE=false
+else
+  returncodes:
+	@echo "Skipping returncodes as this is not a git tree"
+endif
 
-git_diff_results:
-	$(IS_GIT_TREE) || exit 0
+
+ifeq (yes,$(shell $(IS_GIT_TREE) && echo yes))
+  git_diff_results:
 	$(STARTING_TEST)
 	# copy results to references
 	bash -c 'for i in *.res; do \
@@ -55,6 +60,11 @@ git_diff_results:
 	done'
 	git diff --quiet --exit-code *.ref
 	$(FINISHED_TEST)
+else
+  git_diff_results:
+	@echo "Skipping git_diff_results as this is not a git tree"
+endif
+
 
 clean:
 	rm -Rf *.res .apt-repos_cache
