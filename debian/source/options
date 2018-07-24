@@ -1,2 +1,4 @@
 tar-ignore=.apt-repos_cache
 tar-ignore=__pycache__
+tar-ignore=.git
+tar-ignore=.gitignore
