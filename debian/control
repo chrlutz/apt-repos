@@ -13,7 +13,7 @@ Build-Depends:
  python3-urllib3,
  python3-apt
 Standards-Version: 3.9.8
-XS-Python-Version: current
+X-Python3-Version: >= 3.3
 Maintainer: Christph Lutz <christoph.lutz@interface-ag.de>
 
 Package: apt-repos
