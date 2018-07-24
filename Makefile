@@ -1,8 +1,7 @@
-run_test:
-	make -C test test
+all: clean docs manpages tests
 
-run_clitests:
-	make -C test clitests
+tests:
+	make -C test
 
 %.html: %.md
 	sed "s/\.md)/\.html)/g" $< | pandoc -s --css styles.css -f markdown -t html -o $@ 

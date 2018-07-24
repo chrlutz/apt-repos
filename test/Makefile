@@ -22,7 +22,7 @@ UNIT_TESTCASES = testPrintHelloWorld \
             testRepository
 #UNIT_TESTCASES = testRepository
 
-test: unittests clitests git_diff_results
+tests: unittests clitests git_diff_results returncodes
 
 clitests: _cliTestHelpSystem _cliTestSuites _cliTestLs _cliTestShow _cliTestDsc _cliTestSource
 
@@ -42,6 +42,10 @@ unittests: clean
 	done
 	$(FINISHED_TEST)
 
+returncodes:
+	$(IS_GIT_TREE) || exit 0
+	make clitests IS_GIT_TREE=false
+
 git_diff_results:
 	$(IS_GIT_TREE) || exit 0
 	$(STARTING_TEST)
@@ -58,7 +62,7 @@ clean:
 
 _cliTestHelpSystem:
 	$(STARTING_TEST)
-	$(CLI) >cliHelpTest1.res 2>&1 $(EXP_OK)
+	$(CLI) >cliHelpTest1.res 2>&1 $(EXP_FAIL)
 	diff -u cliHelpTest1.ref cliHelpTest1.res $(EXP_OK)
 	
 	$(CLI) -h >cliHelpTest2.res 2>&1 $(EXP_OK)
@@ -139,10 +143,10 @@ _cliTestDsc:
 	$(CLI) dsc -s ubuntu: reprepro >cliTestDsc2.res 2>&1 $(EXP_OK)
 	diff -u cliTestDsc2.ref cliTestDsc2.res $(EXP_OK)
 	
-	$(CLI) dsc -s ubuntu: notexistent >cliTestDsc3.res 2>&1 $(EXP_FAIL)
+	$(CLI) dsc -s ubuntu: notexistent >cliTestDsc3.res 2>&1 $(EXP_OK)
 	diff -u cliTestDsc3.ref cliTestDsc3.res $(EXP_OK)
 	
-	$(CLI) dsc -c main -s ubuntu: reprepro >cliTestDsc4.res 2>&1 $(EXP_FAIL)
+	$(CLI) dsc -c main -s ubuntu: reprepro >cliTestDsc4.res 2>&1 $(EXP_OK)
 	diff -u cliTestDsc4.ref cliTestDsc4.res $(EXP_OK)
 	
 	$(CLI) dsc -c universe -s ubuntu: reprepro >cliTestDsc5.res 2>&1 $(EXP_OK)
