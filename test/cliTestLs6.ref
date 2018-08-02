@@ -1,4 +1,5 @@
 INFO[apt_repos]: Using basedir '.'
+WARNING[apt_repos]: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO[apt_repos.Repository]: Scanning Repository 'German Main Ubuntu Repository' (http://de.archive.ubuntu.com/ubuntu/)
 updating (use --no-update to skip) and querying packages lists for 1 suites.1
 Package | Version           | Suite            | Arch  | Section      | Source

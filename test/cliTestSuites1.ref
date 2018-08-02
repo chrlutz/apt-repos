@@ -1,4 +1,5 @@
 INFO[apt_repos]: Using basedir '.'
+WARNING[apt_repos]: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO[apt_repos.Repository]: Scanning Repository http://wirzelprimpft.de/unresolvable_repository/
 WARNING[apt_repos.RepositoryScanner]: Could not resolve repository http://wirzelprimpft.de/unresolvable_repository/
 INFO[apt_repos.Repository]: Scanning Repository 'Main Debian Repository' (http://deb.debian.org/debian/)

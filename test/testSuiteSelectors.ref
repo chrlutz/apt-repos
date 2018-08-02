@@ -1,8 +1,10 @@
 INFO     apt_repos: Using basedir '.'
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: None
 ubuntu:xenial
 ubuntu:xenial-security
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository http://wirzelprimpft.de/unresolvable_repository/
 WARNING  apt_repos.RepositoryScanner: Could not resolve repository http://wirzelprimpft.de/unresolvable_repository/
 INFO     apt_repos.Repository: Scanning Repository 'Main Debian Repository' (http://deb.debian.org/debian/)
@@ -19,13 +21,16 @@ debian:stretch-backports
 debian:stretch-updates
 ubuntu:de-bionic
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: default:
 ubuntu:xenial
 ubuntu:xenial-security
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: ubuntu:xenial
 ubuntu:xenial
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository http://wirzelprimpft.de/unresolvable_repository/
 WARNING  apt_repos.RepositoryScanner: Could not resolve suite xenial of repository http://wirzelprimpft.de/unresolvable_repository/
 INFO     apt_repos.Repository: Scanning Repository 'Test Dummy File Url' (file:///tmp/onDisk/)
@@ -33,9 +38,11 @@ WARNING  apt_repos.RepositoryScanner: Could not resolve suite xenial of reposito
 Selected suites for selectors: xenial
 ubuntu:xenial
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: ub:trusty
 --NO-SUITES--
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository 'German Main Ubuntu Repository' (http://de.archive.ubuntu.com/ubuntu/)
 Selected suites for selectors: ubuntu:
 ubuntu:trusty
@@ -44,22 +51,28 @@ ubuntu:xenial
 ubuntu:xenial-security
 ubuntu:de-bionic
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: u:
 --NO-SUITES--
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: u:trusty
 --NO-SUITES--
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: ubuntu:trusty-security, ubuntu:xenial-security
 ubuntu:trusty-security
 ubuntu:xenial-security
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository 'Main Debian Repository' (http://deb.debian.org/debian/)
 Selected suites for selectors: debian:
 debian:stretch
 debian:stretch-backports
 debian:stretch-updates
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository 'German Main Ubuntu Repository' (http://de.archive.ubuntu.com/ubuntu/)
 Selected suites for selectors: ubuntu:
 ubuntu:trusty
@@ -68,19 +81,23 @@ ubuntu:xenial
 ubuntu:xenial-security
 ubuntu:de-bionic
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository 'German Main Ubuntu Repository' (http://de.archive.ubuntu.com/ubuntu/)
 Selected suites for selectors: ubuntu:de-bionic
 ubuntu:de-bionic
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: ubuntu:nonexistent
 --NO-SUITES--
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository 'Main Debian Repository' (http://deb.debian.org/debian/)
 Selected suites for selectors: stable:
 debian:stretch
 debian:stretch-backports
 debian:stretch-updates
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository http://wirzelprimpft.de/unresolvable_repository/
 WARNING  apt_repos.RepositoryScanner: Could not resolve suite test of repository http://wirzelprimpft.de/unresolvable_repository/
 INFO     apt_repos.Repository: Scanning Repository 'Test Dummy File Url' (file:///tmp/onDisk/)
@@ -88,13 +105,16 @@ WARNING  apt_repos.RepositoryScanner: Could not resolve suite test of repository
 Selected suites for selectors: test
 --NO-SUITES--
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository 'Main Debian Repository' (http://deb.debian.org/debian/)
 Selected suites for selectors: stable:stretch
 debian:stretch
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 Selected suites for selectors: stable:nonexistent
 --NO-SUITES--
 
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 INFO     apt_repos.Repository: Scanning Repository 'Test Dummy File Url' (file:///tmp/onDisk/)
 WARNING  apt_repos.RepositoryScanner: Could not resolve repository file:///tmp/onDisk/
 Selected suites for selectors: testscan:

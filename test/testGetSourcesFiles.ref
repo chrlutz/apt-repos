@@ -1,4 +1,5 @@
 INFO     apt_repos: Using basedir '.'
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 <testfolder>/.apt-repos_cache/ubuntu:trusty/var/lib/apt/lists/de.archive.ubuntu.com_ubuntu_dists_trusty_main_source_Sources
 <testfolder>/.apt-repos_cache/ubuntu:trusty/var/lib/apt/lists/de.archive.ubuntu.com_ubuntu_dists_trusty_multiverse_source_Sources
 <testfolder>/.apt-repos_cache/ubuntu:trusty/var/lib/apt/lists/de.archive.ubuntu.com_ubuntu_dists_trusty_restricted_source_Sources

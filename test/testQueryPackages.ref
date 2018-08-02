@@ -1,3 +1,4 @@
 INFO     apt_repos: Using basedir '.'
+WARNING  apt_repos: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 QueryResult(BINARY_PACKAGE_NAME:'git', VERSION:'1:1.9.1-1', SUITE:'ubuntu:trusty', ARCHITECTURE:'amd64', SECTION:'vcs', SOURCE_PACKAGE_NAME:'git', FILENAME:'http://de.archive.ubuntu.com/ubuntu/pool/main/g/git/git_1.9.1-1_amd64.deb', BASE_URL:'http://de.archive.ubuntu.com/ubuntu/')
 QueryResult(BINARY_PACKAGE_NAME:'git', VERSION:'1:1.9.1-1', SUITE:'ubuntu:trusty', ARCHITECTURE:'i386', SECTION:'vcs', SOURCE_PACKAGE_NAME:'git', FILENAME:'http://de.archive.ubuntu.com/ubuntu/pool/main/g/git/git_1.9.1-1_i386.deb', BASE_URL:'http://de.archive.ubuntu.com/ubuntu/')

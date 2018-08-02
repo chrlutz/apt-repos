@@ -29,5 +29,8 @@
       "DebSrc" : true,
       "Architectures" : [ "i386", "amd64" ],
       "TrustedGPG" : "./trusted.gpg"
+   },
+   {
+      "InvalidSuiteEntry" : "with missing keys"
    }
 ]

@@ -219,15 +219,19 @@ def getSuites(selectors=None):
             count+=1
             tags = suiteDesc.get("Tags", [])
 
-            parts = suiteDesc["Suite"].split(":", 1)
-            if len(parts) == 1:
-                repo, suiteName = ("", parts[0])
-            else:
-                repo, suiteName = parts
+            try:
+                parts = suiteDesc["Suite"].split(":", 1)
+                if len(parts) == 1:
+                    repo, suiteName = ("", parts[0])
+                else:
+                    repo, suiteName = parts
             
-            if (repo == srepo or srepo == "" or srepo in tags) and \
-                (suiteName == ssuiteName or ssuiteName == ""):
-                selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
+                if (repo == srepo or srepo == "" or srepo in tags) and \
+                    (suiteName == ssuiteName or ssuiteName == ""):
+                    selected.add(RepoSuite(basedir, __cacheDir, suiteDesc, count))
+            except KeyError as e:
+                logger.warning("Missing key {} --> Skipping suite-entry: {}".format(e, suiteDesc))
+                continue
 
         for repoDesc, basedir, unused_filename in __prepareConfig(reposData):
             repo = None

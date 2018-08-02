@@ -1,4 +1,5 @@
 INFO[apt_repos]: Using basedir '.'
+WARNING[apt_repos]: Missing key 'Suite' --> Skipping suite-entry: {'InvalidSuiteEntry': 'with missing keys'}
 updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
 Source | Version            | Suite                  | Arch    | Section | File-Url                                                                  
 ====== | ================== | ====================== | ======= | ======= | ==========================================================================
