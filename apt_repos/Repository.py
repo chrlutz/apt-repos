@@ -87,7 +87,7 @@ class Repository:
                 continue
             url = self.__getUrl(suiteDict)
             if url.startswith("file:"):
-                expandedUrl = url.format(PWD=os.getcwd())
+                expandedUrl = url.format(PWD=os.getcwd().replace(" ", "%20"))
                 if expandedUrl != url:
                     logger.debug("Expanding URL to '{}'".format(expandedUrl))
                     url = expandedUrl

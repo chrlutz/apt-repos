@@ -181,7 +181,7 @@ def getFromURL(url):
     p = urlparse(url)
     if p.scheme == "file":
         data = None
-        with open(p.path, "rb") as input:
+        with open(p.path.replace("%20", " "), "rb") as input:
             data = input.read()
         return data
     if p.scheme == "http":
