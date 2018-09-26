@@ -86,28 +86,28 @@ class Repository:
             if ownSuite.startswith("---"):
                 continue
             url = self.__getUrl(suiteDict)
-            if not self._isRepositorySelected(selRepo, suiteDict):
+            if not self.__isRepositorySelected(selRepo, suiteDict):
                 continue
             if suite == ownSuite or suite=='':
                 if first:
                     logger.info("Scanning {}".format(self))
                     first = False
                 found = scanRepository(url, [self.__getCodename(suiteDict)])
-                res.extend(self.getSuiteDescs(self.prefix, found, suiteDict))
+                res.extend(self.__getSuiteDescs(self.prefix, found, suiteDict))
         
-        if self.scan and self._isRepositorySelected(selRepo):
+        if self.scan and self.__isRepositorySelected(selRepo):
             logger.info("Scanning {}".format(self))
             if len(suite) > 0:
                 found = scanRepository(self.__getUrl(), [suite])
-                res.extend(self.getSuiteDescs(self.prefix, found))
+                res.extend(self.__getSuiteDescs(self.prefix, found))
             else:
                 found = scanRepository(self.__getUrl())
-                res.extend(self.getSuiteDescs(self.prefix, found))
+                res.extend(self.__getSuiteDescs(self.prefix, found))
                 
         return res
 
 
-    def _isRepositorySelected(self, selRepo, suiteDict=dict()):
+    def __isRepositorySelected(self, selRepo, suiteDict=dict()):
         '''
             Returns true if the repository is selected by the repository selector
             selRepo (which ist the part of the selector before ":", without ":").
@@ -120,7 +120,7 @@ class Repository:
         return selRepo in validRepos
 
 
-    def getSuiteDescs(self, prefix, suites, suiteDict=dict()):
+    def __getSuiteDescs(self, prefix, suites, suiteDict=dict()):
         res = list()
         for suite in suites:
             archs = list()
