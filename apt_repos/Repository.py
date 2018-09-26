@@ -86,6 +86,11 @@ class Repository:
             if ownSuite.startswith("---"):
                 continue
             url = self.__getUrl(suiteDict)
+            if url.startswith("file:"):
+                expandedUrl = url.format(PWD=os.getcwd())
+                if expandedUrl != url:
+                    logger.debug("Expanding URL to '{}'".format(expandedUrl))
+                    url = expandedUrl
             if not self.__isRepositorySelected(selRepo, suiteDict):
                 continue
             if suite == ownSuite or suite=='':
