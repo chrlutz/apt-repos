@@ -181,6 +181,10 @@ This is the global Repository-Url that describes the location of the repository.
 
 This setting is used for all Suites of the repository if there is no suite specific Url-Key provided (see below).
 
+For Urls defined in *.repos-files, there is also a simple kind of variable replacement implemented. The following variables are currently supported:
+
+* *{PWD}*: is replaced by the current working directory of the parent process that calls apt-repos. This replacement is only done for file-Urls (Urls starting with "file://"). Example: Use `"Url" : "file://{PWD}/repo"` to define a repository in the folder "repo" relative to the current working directory.
+
 ### Tags (optional)
 
 Tags are another way of grouping suites into logical groups and to select particular suites with one single suite-selector `"<tag>:"`. The value for Tags is expected to be a list of one or more strings - each string is one tag. Tags defined in this field are **global for all** suites derived from the *repo_description*.
