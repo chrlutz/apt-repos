@@ -66,6 +66,7 @@ class Repository:
                 d["Suite"] = s
                 self.suites[x] = d
         self.architectures = repoDesc.get('Architectures')
+        self.components = repoDesc.get('Components')
         self.trustedGPGFile = repoDesc.get('TrustedGPG')
         self.debSrc = repoDesc.get('DebSrc')
         self.trusted = repoDesc.get('Trusted')
@@ -85,19 +86,23 @@ class Repository:
             ownSuite = suiteDict["Suite"]
             if ownSuite.startswith("---"):
                 continue
+            if not self.__isRepositorySelected(selRepo, suiteDict):
+                continue
             url = self.__getUrl(suiteDict)
             if url.startswith("file:"):
                 expandedUrl = url.format(PWD=os.getcwd().replace(" ", "%20"))
                 if expandedUrl != url:
                     logger.debug("Expanding URL to '{}'".format(expandedUrl))
                     url = expandedUrl
-            if not self.__isRepositorySelected(selRepo, suiteDict):
-                continue
             if suite == ownSuite or suite=='':
                 if first:
                     logger.info("Scanning {}".format(self))
                     first = False
-                found = scanRepository(url, [self.__getCodename(suiteDict)])
+                found = self.__getSelfContainedSuiteDefinition(url, ownSuite)
+                if len(found) > 0:
+                    logger.debug("Using self contained suite definition '{}' from the .repos file (no scan required)".format(ownSuite))
+                else:
+                    found = scanRepository(url, [self.__getCodename(suiteDict)])
                 res.extend(self.__getSuiteDescs(self.prefix, found, suiteDict))
         
         if self.scan and self.__isRepositorySelected(selRepo):
@@ -123,6 +128,26 @@ class Repository:
         validRepos = ['', ownRepo]
         validRepos.extend(sorted(self.__getTags(suiteDict)))
         return selRepo in validRepos
+
+
+    def __getSelfContainedSuiteDefinition(self, url, suite):
+        '''
+            If all parameters needed to specify a suite are provided within the
+            .repos-definition, a failing suiteScan can be mitigated by taking the
+            provided parameters as suite specification.
+        '''
+        res = list()
+        if suite and self.components and self.architectures and self.debSrc != None:
+            res.append({
+                        'repoUrl': url,
+                        'releaseUrl': urljoin(url, os.path.join("dists", suite, "Release")),
+                        'suite': suite,
+                        'codename': suite,
+                        'components': self.components,
+                        'architectures': self.architectures,
+                        'hasSources': self.debSrc
+            })
+        return res
 
 
     def __getSuiteDescs(self, prefix, suites, suiteDict=dict()):
