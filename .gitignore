@@ -11,6 +11,7 @@
 /debian/python3-apt-repos.substvars
 /debian/python3-apt-repos/
 /debian/tmp/
+/debian/.debhelper/
 
 # automatically built by debian-packaging:
 /conf/debian.suites
