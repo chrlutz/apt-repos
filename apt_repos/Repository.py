@@ -153,11 +153,18 @@ class Repository:
     def __getSuiteDescs(self, prefix, suites, suiteDict=dict()):
         res = list()
         for suite in suites:
-            archs = list()
+            archs = suite['architectures']
             if self.architectures:
+                archs = list()
                 for arch in self.architectures:
                     if arch in suite['architectures']:
                         archs.append(arch)
+            components = suite['components']
+            if self.components:
+                components = list()
+                for component in self.components:
+                    if component in suite['components']:
+                        components.append(component)
             suitename = suite['suite']
             suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['releaseUrl']).path))
             if self.extractSuiteFromReleaseUrl:
@@ -168,9 +175,9 @@ class Repository:
             res.append({
                 "Suite" : prefix + suitename,
                 "Tags" : tags,
-                "SourcesList" : "deb {}{} {} {}".format(option, suite['repoUrl'], suitenameFromReleaseUrl, " ".join(suite['components'])),
+                "SourcesList" : "deb {}{} {} {}".format(option, suite['repoUrl'], suitenameFromReleaseUrl, " ".join(components)),
                 "DebSrc" : debSrc,
-                "Architectures" : archs if self.architectures else suite['architectures'],
+                "Architectures" : archs,
                 "TrustedGPG" : self.trustedGPGFile
             })
         return res
