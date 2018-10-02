@@ -274,11 +274,11 @@ For *repo_descriptions* the override-feature is also available analogue to the w
 
 A Self-Contained *repo_description* is a repository description (inside a *.repos-file) that contains all the information required to create *suite_description*s out of the box - without reading the repositories/suites Release-file and further repository scans. A *repo_description* is self-contained if it defines at least the following Keys:
 
-* `Url`
-* `Suites` (defining the list of suites for which we want to create *suite_description*s)
-* `Architectures`
-* `Components`
-* `DebSrc` (both values 'true' and 'false' are possible here)
+* **Url**
+* **Suites** (defining the list of suites for which we want to create *suite_description*s)
+* **Architectures**
+* **Components**
+* **DebSrc** (both values 'true' and 'false' are possible here)
 
 If apt-repos detects a self-contained *repo_description*, no repository scan will be performed for all suites defined in `Suites`. The usage of the "self-contained" mode is logged in debuglevel, so `apt-repos -d ...` would report about the usage.
 
@@ -292,6 +292,6 @@ Using the self-contained mode has the following advantages:
 
 All the other key's (not mentioned in the above list) should behave as described, besides the following exceptions:
 
-* `ExtractSuiteFromReleaseUrl`: It doesn't make sense to use this key in self-contained mode, since no Release file is read. Using this option would return the unchanged suite-name as specified in the `Suites` list.
-* `Scan`: Together with the "self-contained"-mode, `"Scan" = true` would cause Suites in the `Suites` list to be not scanned while the repository is still scanned for other suites. This doesn't make much sense, too.
-* `Codename` is ignored for all Suites defined in the `Suites`-list.
+* **ExtractSuiteFromReleaseUrl**: It doesn't make sense to use this key in self-contained mode, since no Release file is read. Using this option would return the unchanged suite-name as specified in the `Suites` list.
+* **Scan**: Together with the "self-contained"-mode, `"Scan" = true` would cause Suites in the `Suites` list to be not scanned while the repository is still scanned for other suites. This doesn't make much sense, too.
+* **Codename** is ignored for all Suites defined in the `Suites`-list.
