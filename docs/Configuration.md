@@ -218,7 +218,7 @@ The first two list entries allow us to just select particular suites, while the 
 
 ### Codename (optional)
 
-This optional key (on *repo_description*-level) allows to set a common codename for all suites defined in the above key *Suites*. It is only used if there is no suite specific *Codename* set. If there is no suite specific *Codename* and no common codename defined, the codename is automatically the (suite specific) *suitename*. This option makes only sense in combination with *Suites*.
+This optional key (on *repo_description*-level) allows to set a common codename for all suites defined in the above key *Suites*. It is only used if there is no suite specific *Codename* set. If there is no suite specific *Codename* and no common codename defined, the codename is automatically the (suite specific) *suitename*. This option makes only sense in combination with *Suites*:
 
 The *Codename* describes the folder (of the apt repository) under `dists` in which we look for a particular suite's Release-File.
 
@@ -238,11 +238,21 @@ For example debian has this concept of *oldstable*-, *sid*-, *stable*-, *unstabl
 
 For suites generated via *repo_descriptions*, the supported architectures of a suite are automatically extracted from the suites *Release* file. Thats the reason why this field is optional for *repo_descriptions* while this field is mandatory for the (more low level) *suite_descriptions*. But still in some cases it could be useful to specify the architectures explicitly, e.g to suppress some curious architectures that you are not interested in.
 
-As above, the Architectures key expects a list of strings (of architectures) to consider during suite queries, e.g.
+As in the example above, the Architectures key expects a list of strings (of architectures) to consider during suite queries, e.g.
 
     [ "arch1", "arch2", ... ]
 
-If such a list is defined, only architectures from this list will be considered. If an achitecture is specified in this list, but not listed in the *Release*-file, this architecture would not be considered.
+If such a list is defined, only architectures from this list will be considered. If an achitecture is specified in this list, but not listed in the *Release*-file, this architecture would not be considered, too.
+
+### Components (optional)
+
+Similar to the key `Architectures`, for suites generated via *repo_descriptions*, the supported components of a suite are automatically extracted from the suites *Release* file. Adding a Components list typically just makes sense in order to specify a self-contained *repo_description* (see below).
+
+The Components key expects a list of strings (of components) that are supported by the generated suite(s), e.g.
+
+    [ "main", "restricted", ... ]
+
+If such a list is defined, only components from this list will be considered. If a components is specified in this list, but not listed in the *Release*-file, this component would not be considered, too.
 
 ### TrustedGPG (optional)
 
@@ -259,3 +269,29 @@ Similar to the equally named Key in *suite_descriptions*, this key expects a boo
 ### Oid (optional)
 
 For *repo_descriptions* the override-feature is also available analogue to the way it works for *suite_description*s (see above)
+
+## Self-Contained *repo_description*s
+
+A Self-Contained *repo_description* is a repository description (inside a *.repos-file) that contains all the information required to create *suite_description*s out of the box - without reading the repositories/suites Release-file and further repository scans. A *repo_description* is self-contained if it defines at least the following Keys:
+
+* `Url`
+* `Suites` (defining the list of suites for which we want to create *suite_description*s)
+* `Architectures`
+* `Components`
+* `DebSrc` (both values 'true' and 'false' are possible here)
+
+If apt-repos detects a self-contained *repo_description*, no repository scan will be performed for all suites defined in `Suites`. The usage of the "self-contained" mode is logged in debuglevel, so `apt-repos -d ...` would report about the usage.
+
+Using the self-contained mode has the following advantages:
+
+* a self-contained *repo_description* is processed faster
+* It's possible to define suites that don't exist physically. There are some use cases in which we want to define suites event if they do not yet exist - e.g. if we want to just create those suites with parameters provided by apt-repos. Note, that this is also possible with *suite_description*s, but with self-contained *repo_description*s,
+* the features of *.repos-files can be used, too. For example:
+    * using the variable substitution available for file-URLs in *repo_description*s (this is not supported for the more low level *suite_description*s!)
+    * defining multiple suite within one configuration block (sharing same attributes) - which is a shorter and more redundance-free form.
+
+All the other key's (not mentioned in the above list) should behave as described, besides the following exceptions:
+
+* `ExtractSuiteFromReleaseUrl`: It doesn't make sense to use this key in self-contained mode, since no Release file is read. Using this option would return the unchanged suite-name as specified in the `Suites` list.
+* `Scan`: Together with the "self-contained"-mode, `"Scan" = true` would cause Suites in the `Suites` list to be not scanned while the repository is still scanned for other suites. This doesn't make much sense, too.
+* `Codename` is ignored for all Suites defined in the `Suites`-list.
