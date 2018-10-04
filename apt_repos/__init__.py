@@ -233,12 +233,12 @@ def getSuites(selectors=None):
                 logger.warning("Missing key {} --> Skipping suite-entry: {}".format(e, suiteDesc))
                 continue
 
-        for repoDesc, basedir, unused_filename in __prepareConfig(reposData):
+        for repoDesc, basedir, filename in __prepareConfig(reposData):
             repo = None
             try:
                 repo = Repository(repoDesc)
             except KeyError as e:
-                logger.warning("Missing key {} --> Skipping repository: {}".format(e, repoDesc))
+                logger.warning("Missing key {} --> Skipping repository: {} from file {}".format(e, repoDesc, filename))
                 continue
             for suiteDesc in repo.querySuiteDescs(srepo, ssuiteName):
                 count+=1
