@@ -73,8 +73,8 @@ http://deb.debian.org/debian/dists/stretch-updates
 ['main', 'contrib', 'non-free']
 True
 ['i386', 'amd64']
-deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
-deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb [trusted=yes] http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb-src [trusted=yes] http://deb.debian.org/debian/ stretch-updates main contrib non-free
 
 ubuntu:de-bionic
 bionic

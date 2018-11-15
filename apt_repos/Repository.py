@@ -171,7 +171,7 @@ class Repository:
             suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['releaseUrl']).path))
             if self.extractSuiteFromReleaseUrl:
                 suitename = suitenameFromReleaseUrl
-            option = '' if not self.trusted else '[trusted=yes] '
+            option = '[trusted=yes] ' if self.__getTrustedFlag(suiteDict) else ''
             debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
             tags = sorted(self.__getTags(suiteDict))
             res.append({
@@ -224,6 +224,22 @@ class Repository:
             return self.commonCodename
         else:
             return suiteDict['Suite']
+
+
+    def __getTrustedFlag(self, suiteDict=dict()):
+        '''
+            Returns the 'Trusted'-flag that controls if "[trusted=yes]" appendix should
+            be generated in the generated SuiteDesc(s).
+            The 'Trusted'-flag is:
+            the value to the key `Trusted` in suiteDict if available, otherwise
+            the value to the key `Trusted` in the repo_description if available, otherwise `False`.
+        '''
+        if "Trusted" in suiteDict:
+            return suiteDict['Trusted']
+        elif self.trusted:
+            return self.trusted
+        else:
+            return False
 
 
     def __getUrl(self, suiteDict=dict()):

@@ -15,7 +15,7 @@
       "Suites" : [
           {"Suite": "stretch", "Tags" : [ "test" ] },
           {"Suite": "stretch-backports" },
-          {"Suite": "stretch-updates", "Tags" : [ "test2" ] }
+          {"Suite": "stretch-updates", "Tags" : [ "test2" ], "Trusted": "true" }
       ],
       "ExtractSuiteFromReleaseUrl": true,
       "Architectures" : [ "i386", "amd64" ],

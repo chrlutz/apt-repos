@@ -31,8 +31,8 @@ deb http://deb.debian.org/debian/ stretch-backports main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch-backports main contrib non-free
 
 # debian:stretch-updates [stable:, test2:]
-deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
-deb-src http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb [trusted=yes] http://deb.debian.org/debian/ stretch-updates main contrib non-free
+deb-src [trusted=yes] http://deb.debian.org/debian/ stretch-updates main contrib non-free
 
 # ubuntu:de-bionic
 deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
