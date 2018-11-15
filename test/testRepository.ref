@@ -187,31 +187,61 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel main restricted universe multiverse
-    Suite: ubuntu:cosmic
+    Suite: ubuntu:disco
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-backports main restricted universe multiverse
-    Suite: ubuntu:cosmic-backports
+    Suite: ubuntu:disco-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-proposed main restricted universe multiverse
-    Suite: ubuntu:cosmic-proposed
+    Suite: ubuntu:disco-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-security main restricted universe multiverse
-    Suite: ubuntu:cosmic-security
+    Suite: ubuntu:disco-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-updates main restricted universe multiverse
-    Suite: ubuntu:cosmic-updates
+    Suite: ubuntu:disco-updates
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco main restricted universe multiverse
+    Suite: ubuntu:disco
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-backports main restricted universe multiverse
+    Suite: ubuntu:disco-backports
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-proposed main restricted universe multiverse
+    Suite: ubuntu:disco-proposed
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-security main restricted universe multiverse
+    Suite: ubuntu:disco-security
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-updates main restricted universe multiverse
+    Suite: ubuntu:disco-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
