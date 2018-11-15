@@ -166,6 +166,8 @@ class Repository:
                     if component in suite['components']:
                         components.append(component)
             suitename = suite['suite']
+            if "Suite" in suiteDict:
+                suitename = suiteDict['Suite']
             suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['releaseUrl']).path))
             if self.extractSuiteFromReleaseUrl:
                 suitename = suitenameFromReleaseUrl
