@@ -4,4 +4,4 @@ updating (use --no-update to skip) and querying packages lists for 2 suites.1.2
 Source | Version            | Suite                  | Arch    | Section
 ====== | ================== | ====================== | ======= | =======
 git    | 1:2.7.4-0ubuntu1   | ubuntu:xenial          | all,any | vcs    
-git    | 1:2.7.4-0ubuntu1.5 | ubuntu:xenial-security | all,any | vcs    
+git    | 1:2.7.4-0ubuntu1.6 | ubuntu:xenial-security | all,any | vcs    
