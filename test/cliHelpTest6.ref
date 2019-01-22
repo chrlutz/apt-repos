@@ -64,5 +64,6 @@ optional arguments:
                         Specify the columns that should be printed. Default is
                         'sR'. Possible characters are: (p)=Package,
                         (v)=Version, (s)=Suite, (a)=Arch, (S)=Section,
-                        (P)=Priority, (z)=Size, (C)=Source, (L)=Long-Desc,
-                        (R)=Full-Record, (B)=Base-Url, (F)=File-Url
+                        (y)=PhysCompo, (P)=Priority, (z)=Size, (C)=Source,
+                        (L)=Long-Desc, (R)=Full-Record, (B)=Base-Url,
+                        (F)=File-Url

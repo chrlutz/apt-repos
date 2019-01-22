@@ -96,6 +96,12 @@ class QueryResult:
                 data.append(source)
             elif field == PackageField.SUITE:
                 data.append(suite)        
+            elif field == PackageField.PHYSICAL_COMPONENT:
+                parts = str(curRecord.filename).split("/")
+                if len(parts) > 2 and parts[0] == "pool":
+                    data.append(parts[1])
+                else:
+                    data.append("unknown")
             elif field == PackageField.LONG_DESC:
                 data.append(curRecord.long_desc)        
             elif field == PackageField.RECORD:
@@ -140,6 +146,12 @@ class QueryResult:
                 data.append(",".join(sorted(source['Architecture'].split(" "))))
             elif field == PackageField.SUITE:
                 data.append(suite)
+            elif field == PackageField.PHYSICAL_COMPONENT:
+                parts = str(source.get('Directory')).split("/")
+                if len(parts) > 2 and parts[0] == "pool":
+                    data.append(parts[1])
+                else:
+                    data.append("unknown")
             elif field == PackageField.RECORD:
                 data.append(source)
             elif field == PackageField.BASE_URL:

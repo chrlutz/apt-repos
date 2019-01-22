@@ -38,6 +38,7 @@ class PackageField(Enum):
     SUITE = ('s', 'Suite')
     ARCHITECTURE = ('a', 'Arch')
     SECTION = ('S', 'Section')
+    PHYSICAL_COMPONENT = ('y', 'PhysCompo')
     PRIORITY = ('P', 'Priority')
     SIZE = ('z', 'Size')
     SOURCE_PACKAGE_NAME = ('C', 'Source')
