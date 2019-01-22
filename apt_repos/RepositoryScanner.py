@@ -94,6 +94,8 @@ def scanReleaseFile(url, repoUrl):
         with apt_pkg.TagFile(fp) as tagfile:
             try:
                 for section in tagfile:
+                    if not section.get('Suite'):
+                        continue
                     components = section.get('Components').split(" ") if section.get('Components') else list()
                     architectures = section.get('Architectures').split(" ") if section.get('Architectures') else list()
                     md5sum = section.get('MD5Sum').split("\n") if section.get('Md5Sum') else list()
