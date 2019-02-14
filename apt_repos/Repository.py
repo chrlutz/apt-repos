@@ -153,35 +153,38 @@ class Repository:
     def __getSuiteDescs(self, prefix, suites, suiteDict=dict()):
         res = list()
         for suite in suites:
-            archs = suite['architectures']
-            if self.architectures:
-                archs = list()
-                for arch in self.architectures:
-                    if arch in suite['architectures']:
-                        archs.append(arch)
-            components = suite['components']
-            if self.components:
-                components = list()
-                for component in self.components:
-                    if component in suite['components']:
-                        components.append(component)
-            suitename = suite['suite']
-            if "Suite" in suiteDict:
-                suitename = suiteDict['Suite']
-            suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['releaseUrl']).path))
-            if self.extractSuiteFromReleaseUrl:
-                suitename = suitenameFromReleaseUrl
-            option = '[trusted=yes] ' if self.__getTrustedFlag(suiteDict) else ''
-            debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
-            tags = sorted(self.__getTags(suiteDict))
-            res.append({
-                "Suite" : prefix + suitename,
-                "Tags" : tags,
-                "SourcesList" : "deb {}{} {} {}".format(option, suite['repoUrl'], suitenameFromReleaseUrl, " ".join(components)),
-                "DebSrc" : debSrc,
-                "Architectures" : archs,
-                "TrustedGPG" : self.trustedGPGFile
-            })
+            try:
+                archs = suite['architectures']
+                if self.architectures:
+                    archs = list()
+                    for arch in self.architectures:
+                        if arch in suite['architectures']:
+                            archs.append(arch)
+                components = suite['components']
+                if self.components:
+                    components = list()
+                    for component in self.components:
+                        if component in suite['components']:
+                            components.append(component)
+                suitename = suite['suite']
+                if "Suite" in suiteDict:
+                    suitename = suiteDict['Suite']
+                suitenameFromReleaseUrl = re.sub(r".*/dists/", "", os.path.dirname(urlparse(suite['releaseUrl']).path))
+                if self.extractSuiteFromReleaseUrl:
+                    suitename = suitenameFromReleaseUrl
+                option = '[trusted=yes] ' if self.__getTrustedFlag(suiteDict) else ''
+                debSrc = suite['hasSources'] if self.debSrc == None else self.debSrc
+                tags = sorted(self.__getTags(suiteDict))
+                res.append({
+                    "Suite" : prefix + suitename,
+                    "Tags" : tags,
+                    "SourcesList" : "deb {}{} {} {}".format(option, suite['repoUrl'], suitenameFromReleaseUrl, " ".join(components)),
+                    "DebSrc" : debSrc,
+                    "Architectures" : archs,
+                    "TrustedGPG" : self.trustedGPGFile
+                })
+            except Exception as e:
+                logger.warn("Could not get Suite-Description for suite {}: {}".format(suite, e))
         return res
 
 
