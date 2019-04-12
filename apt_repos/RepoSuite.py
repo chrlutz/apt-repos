@@ -70,7 +70,10 @@ class RepoSuite:
             fullDir = self.rootdir + dir
             if not os.path.isdir(fullDir):
                 logger.debug("Creating directory " + fullDir)
-                os.makedirs(fullDir)
+                try:
+                    os.makedirs(fullDir)
+                except FileExistsError:
+                    pass
 
         # ensure our config files are properly configured
         self._ensureFileContent(self.rootdir + "/etc/apt/sources.list", self.getSourcesList())
