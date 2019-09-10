@@ -188,12 +188,12 @@ def getSuites(selectors=None):
                     if str(filename).endswith(".suites"):
                         logger.debug("reading suites file " + filename)
                         with open(filename, 'r') as file:
-                            jsonData = json.load(file)
+                            jsonData = json.load(file, encoding="utf-8")
                             suitesData[f] = (jsonData, basedir)
                             configSectionsCount += len(jsonData)
                     elif str(filename).endswith(".repos"):
                         with open(filename, 'r') as file:
-                            jsonData = json.load(file)
+                            jsonData = json.load(file, encoding="utf-8")
                             reposData[f] = (jsonData, basedir)
                             configSectionsCount += len(jsonData)
                 except json.decoder.JSONDecodeError as ex:
