@@ -1,3 +1,37 @@
+apt-repos (1.48.0) bionic; urgency=medium
+
+  * added lost test 'returncodes' and fixed return codes in clitests
+    return codes in clitests partly changed (and got quite better) after switching
+    to new apt_repos.suppress_unwanted_apt_pkg_messages mechanism.
+  * fixed non working IS_GIT_REPO gates
+  * exclude .git-files from debian source package
+  * fixed lintian errors and some warnings
+  * better errorhandling in case of KeyErrors in .suites-files
+  * unified privat method names
+  * added PWD expansion for file://-Urls
+  * fixed new URL expansion for file urls with spaces
+  * added debian/.debhelper/ to gitignore
+  * documented new {PWD} variable for file urls in .repos files
+  * supporting self contained .repos-suite definitions which need no physical scan
+  * fixed: only use codenames really available in the Release-file
+  * added documentation for Codename-key and new self-contained repos-definitions
+  * more uniform formattings
+  * better error message
+  * repos-config: preferring suitename from 'Suite'-keyword if specified
+  * new valid ubuntu packages/repository versions
+  * repos-config: support suite specific Trusted-Keyword in repos_configs
+  * RepositoryScanner ensures that Release-File defines a Suite.
+    Today I learned, that there can also be Release-Files for Archives
+    which don't define the key 'Suites'.
+  * test: approved regular update of ubuntu's git
+  * added PackageField.PHYSICAL_COMPONENT that extracts the component out of the file- or directory name
+  * apt_repos/Repository: be more robust against tofu in config files
+  * catch FileExistsError when creating the apt caching structure
+  * using utf-8 encoding when loading json files
+  * typical ubuntu updates effecting tests
+
+ -- Christoph Lutz <christoph.lutz@interface-ag.de>  Thu, 26 Sep 2019 14:22:18 +0200
+
 apt-repos (1.47.0) bionic; urgency=medium
 
   * NON BACKWARD COMPATIBLE:
