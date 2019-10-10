@@ -16,6 +16,7 @@ True
 deb http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
 
+
 ubuntu:trusty-security
 trusty-security
 http://security.ubuntu.com/ubuntu
@@ -25,6 +26,7 @@ True
 ['i386', 'amd64']
 deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
 deb-src http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+
 
 ubuntu:xenial
 xenial
@@ -36,6 +38,7 @@ True
 deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 
+
 ubuntu:xenial-security
 xenial-security
 http://security.ubuntu.com/ubuntu
@@ -46,6 +49,7 @@ True
 deb http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
 deb-src http://security.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
 
+
 debian:stretch
 stretch
 http://deb.debian.org/debian/
@@ -55,6 +59,7 @@ True
 ['i386', 'amd64']
 deb http://deb.debian.org/debian/ stretch main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch main contrib non-free
+Main Debian Repository
 
 debian:stretch-backports
 stretch-backports
@@ -65,6 +70,7 @@ True
 ['i386', 'amd64']
 deb http://deb.debian.org/debian/ stretch-backports main contrib non-free
 deb-src http://deb.debian.org/debian/ stretch-backports main contrib non-free
+Main Debian Repository
 
 debian:stretch-updates
 stretch-updates
@@ -75,6 +81,7 @@ True
 ['i386', 'amd64']
 deb [trusted=yes] http://deb.debian.org/debian/ stretch-updates main contrib non-free
 deb-src [trusted=yes] http://deb.debian.org/debian/ stretch-updates main contrib non-free
+Main Debian Repository
 
 ubuntu:de-bionic
 bionic
@@ -85,4 +92,5 @@ True
 ['i386', 'amd64']
 deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
 deb-src http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+German Main Ubuntu Repository
 
