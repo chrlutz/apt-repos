@@ -119,6 +119,10 @@ This configures the suite "ubuntu:xenial" as usual, but their *Tags* will be onl
 
 **Note:** this works as the file "some_overrides.suites" is read after the file "some.suites" (because files are ordered by their filename without suffix). Using the string *_overrides* inside the name of the second file is recommended as a kind of convention, but any other filename sorted after the first file would also have the same effect.
 
+### Description (optional)
+
+This field aims to be a human readable short description of the suite or underlying apt-repository.
+
 
 ## Syntax and supported Tags of *.repos-files
 

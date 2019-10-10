@@ -177,6 +177,7 @@ class Repository:
                 tags = sorted(self.__getTags(suiteDict))
                 res.append({
                     "Suite" : prefix + suitename,
+                    "Description" : self.desc,
                     "Tags" : tags,
                     "SourcesList" : "deb {}{} {} {}".format(option, suite['repoUrl'], suitenameFromReleaseUrl, " ".join(components)),
                     "DebSrc" : debSrc,

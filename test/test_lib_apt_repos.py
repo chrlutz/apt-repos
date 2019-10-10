@@ -60,6 +60,7 @@ def testSuiteProperties():
         print(s.hasSources())
         print(s.getArchitectures())
         print(s.getSourcesList())
+        print(s.getDescription())
         print()
 
 

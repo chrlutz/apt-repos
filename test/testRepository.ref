@@ -4,6 +4,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Basics' (http://arch
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Basics
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -15,6 +16,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Basics' (http://arch
   Results for '', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Basics
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -23,12 +25,14 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Basics' (http://arch
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Basics
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
     Suite: ubuntu:xenial
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Basics
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -41,6 +45,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing different Prefix' (h
   Results for 'ubuntu', 'de-bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing different Prefix
     SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:de-bionic
     Tags: []
@@ -51,6 +56,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing different Prefix' (h
   Results for '', 'de-bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing different Prefix
     SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:de-bionic
     Tags: []
@@ -59,12 +65,14 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing different Prefix' (h
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing different Prefix
     SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
     Suite: ubuntu:de-xenial
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing different Prefix
     SourcesList: deb http://de.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:de-bionic
     Tags: []
@@ -77,6 +85,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -85,6 +94,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
   Results for '', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -96,240 +106,280 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
   Results for 'ubuntu', '':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
     Suite: ubuntu:bionic-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
     Suite: ubuntu:bionic-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
     Suite: ubuntu:bionic-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
     Suite: ubuntu:bionic-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic main restricted universe multiverse
     Suite: ubuntu:cosmic
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-backports main restricted universe multiverse
     Suite: ubuntu:cosmic-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-proposed main restricted universe multiverse
     Suite: ubuntu:cosmic-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-security main restricted universe multiverse
     Suite: ubuntu:cosmic-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-updates main restricted universe multiverse
     Suite: ubuntu:cosmic-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel main restricted universe multiverse
     Suite: ubuntu:eoan
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-backports main restricted universe multiverse
     Suite: ubuntu:eoan-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-proposed main restricted universe multiverse
     Suite: ubuntu:eoan-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-security main restricted universe multiverse
     Suite: ubuntu:eoan-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-updates main restricted universe multiverse
     Suite: ubuntu:eoan-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco main restricted universe multiverse
     Suite: ubuntu:disco
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-backports main restricted universe multiverse
     Suite: ubuntu:disco-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-proposed main restricted universe multiverse
     Suite: ubuntu:disco-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-security main restricted universe multiverse
     Suite: ubuntu:disco-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-updates main restricted universe multiverse
     Suite: ubuntu:disco-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan main restricted universe multiverse
     Suite: ubuntu:eoan
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-backports main restricted universe multiverse
     Suite: ubuntu:eoan-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-proposed main restricted universe multiverse
     Suite: ubuntu:eoan-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-security main restricted universe multiverse
     Suite: ubuntu:eoan-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-updates main restricted universe multiverse
     Suite: ubuntu:eoan-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise main restricted universe multiverse
     Suite: ubuntu:precise
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-backports main restricted universe multiverse
     Suite: ubuntu:precise-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-proposed main restricted universe multiverse
     Suite: ubuntu:precise-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-security main restricted universe multiverse
     Suite: ubuntu:precise-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ precise-updates main restricted universe multiverse
     Suite: ubuntu:precise-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
     Suite: ubuntu:trusty
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
     Suite: ubuntu:trusty-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-proposed main restricted universe multiverse
     Suite: ubuntu:trusty-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-security main restricted universe multiverse
     Suite: ubuntu:trusty-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse
     Suite: ubuntu:trusty-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
     Suite: ubuntu:xenial
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
     Suite: ubuntu:xenial-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-proposed main restricted universe multiverse
     Suite: ubuntu:xenial-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
     Suite: ubuntu:xenial-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
     Suite: ubuntu:xenial-updates
     Tags: []
@@ -342,6 +392,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option ExtractSuiteF
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option ExtractSuiteFromReleaseUrl==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -352,6 +403,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Trusted==True
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Trusted==True
     SourcesList: deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -362,6 +414,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option DebSrc==False
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: False
+    Description: Testing Option DebSrc==False
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: []
@@ -372,6 +425,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (htt
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Main Ubuntu Repository
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: ['ene', 'mene', 'muh']
@@ -380,6 +434,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (htt
   Results for 'ubuntu', 'trusty':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Main Ubuntu Repository
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
     Suite: ubuntu:trusty
     Tags: ['old', 'older', 'oldest']
@@ -390,6 +445,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (htt
   Results for 'ubuntu', 'bionic':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Main Ubuntu Repository
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
     Suite: ubuntu:bionic
     Tags: ['common1', 'ene', 'mene', 'muh', 'z_last']
@@ -398,6 +454,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Main Ubuntu Repository' (htt
   Results for 'ubuntu', 'trusty':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Main Ubuntu Repository
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
     Suite: ubuntu:trusty
     Tags: ['common1', 'z_last']
@@ -408,6 +465,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Codename and 
   Results for 'debian', 'stable':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Codename and url without trailing /
     SourcesList: deb http://deb.debian.org/debian/ stretch main contrib non-free
     Suite: debian:stable
     Tags: []
@@ -417,6 +475,7 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Codename and 
   Results for 'debian', 'unstable':
     Architectures: ['i386', 'amd64']
     DebSrc: True
+    Description: Testing Option Codename and url without trailing /
     SourcesList: deb http://deb.debian.org/debian/ sid main contrib non-free
     Suite: debian:unstable
     Tags: []

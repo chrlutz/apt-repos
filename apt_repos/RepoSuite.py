@@ -62,6 +62,7 @@ class RepoSuite:
         self.architectures = suiteDesc['Architectures'] 
         self.trustedGPGFile = suiteDesc.get('TrustedGPG')
         self.tags = suiteDesc["Tags"] if suiteDesc.get("Tags") else []
+        self.description = suiteDesc.get('Description', '')
 
 
         # create caching structure
@@ -249,6 +250,14 @@ class RepoSuite:
             Returns the tags that are assigned to the suite.
         '''
         return self.tags
+
+
+    def getDescription(self):
+        '''
+            Returns the human readable short description for the underlying apt-repository
+            as provided in the "Repository"-keyword of *.repos files.
+        '''
+        return self.description
 
 
     def __len__(self):
