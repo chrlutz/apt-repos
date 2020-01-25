@@ -178,35 +178,35 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel main restricted universe multiverse
-    Suite: ubuntu:eoan
+    Suite: ubuntu:focal
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-backports main restricted universe multiverse
-    Suite: ubuntu:eoan-backports
+    Suite: ubuntu:focal-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-proposed main restricted universe multiverse
-    Suite: ubuntu:eoan-proposed
+    Suite: ubuntu:focal-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-security main restricted universe multiverse
-    Suite: ubuntu:eoan-security
+    Suite: ubuntu:focal-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-updates main restricted universe multiverse
-    Suite: ubuntu:eoan-updates
+    Suite: ubuntu:focal-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
@@ -277,6 +277,41 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-updates main restricted universe multiverse
     Suite: ubuntu:eoan-updates
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+    Suite: ubuntu:focal
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+    Suite: ubuntu:focal-backports
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ focal-proposed main restricted universe multiverse
+    Suite: ubuntu:focal-proposed
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+    Suite: ubuntu:focal-security
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+    Suite: ubuntu:focal-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
