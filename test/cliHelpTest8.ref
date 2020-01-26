@@ -1,6 +1,6 @@
 INFO[apt_repos]: Using basedir '.'
-usage: apt-repos sources [-h] [-d] [-s SUITE] [-c COMPONENT] [-r] [-nu] [-nh]
-                         [-f {table,list,grouped_list}] [-di DIFF]
+usage: apt-repos sources [-h] [-d] [-s SUITE] [-c COMPONENT] [-r] [-O] [-nu]
+                         [-nh] [-f {table,list,grouped_list}] [-di DIFF]
                          [-dt DIFF_TOOL] [-col COLUMNS]
                          source [source ...]
 
@@ -33,6 +33,8 @@ optional arguments:
                         starting with 'pkg'. Use regex '^src:source' to show
                         packages that were built from a source starting with
                         'source'.
+  -O, --no-old-versions
+                        Ignore old package versions found in a suite.
   -nu, --no-update      Skip downloading of packages list.
   -nh, --no-header      Don't print the column header.
   -f {table,list,grouped_list}, --format {table,list,grouped_list}

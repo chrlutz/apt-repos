@@ -288,7 +288,7 @@ class RepoSuite:
         return self.suite < other.suite
 
 
-    def queryPackages(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields):
+    def queryPackages(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields, latestOnly=False):
         '''
             This method queries packages in this repository/suite by several criteria and returns a result set
             with elements of type QueryResult:
@@ -314,6 +314,7 @@ class RepoSuite:
                           by these fields.
         '''
         res = set()
+        latests = dict()
         for pkg in self.cache.packages:
             for v in pkg.version_list:
                 for req in requestPackages:
@@ -351,12 +352,22 @@ class RepoSuite:
                         component, unused_section = parts
                     if (requestComponents) and (not component in requestComponents):
                         continue
-    
-                    res.add(QueryResult.createByAptPkgStructures(requestedFields, pkg, v, self.records, self, source))
+   
+                    package = QueryResult.createByAptPkgStructures(requestedFields, pkg, v, self.records, self, source)
+                    if latestOnly:
+                        key = "{}:{}".format(pkg.name, v.arch)
+                        latest = latests.get(key) or package
+                        if package > latest:
+                            lagest = package
+                        latests[key] = latest
+                    else:
+                        res.add(package)
+        for latest in latests.values():
+            res.add(latest)
         return res
 
 
-    def querySources(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields):
+    def querySources(self, requestPackages, isRE, requestArchs, requestComponents, requestedFields, latestOnly=False):
         '''
             This method queries source packages in this repository/suite by several criteria and returns a
             result set with elements of type QueryResult:
@@ -387,6 +398,7 @@ class RepoSuite:
             logger.debug("no sources files for suite {}".format(self.getSuiteName()))
             return res
 
+        latests = dict()
         for sourcesFile in sourcesFiles: # there's one sourcesFile per component
             # skip unrequested components:
             # TODO: this is too much implementation specific to the apt_pkg lib... improve if possible
@@ -427,7 +439,16 @@ class RepoSuite:
                             if (requestComponents) and (not component in requestComponents):
                                 continue
 
-                            res.add(QueryResult.createBySourcesTagFileSection(requestedFields, source, self))
+                            package = QueryResult.createBySourcesTagFileSection(requestedFields, source, self)
+                            if latestOnly:
+                                latest = latests.get(name) or package
+                                if package > latest:
+                                    lagest = package
+                                latests[name] = latest
+                            else:
+                                res.add(package)
+        for latest in latests.values():
+            res.add(latest)
         return res
 
 

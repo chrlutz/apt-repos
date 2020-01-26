@@ -120,11 +120,11 @@ def createArgparsers():
     ___x = ____x = _____x = _______x = 0 # undefined for this subcommand
     __SS = __SSSS = 1                    # argument exists in a special variant
     commonArguments = {
-        parse_ls:     [ '-d', '-s', '-a', '-c', '-r', '-nu', '-nh', '-col', '-f', '-di', '-dt', 'package', ___x, ___x ],
-        parse_src:    [ '-d', '-s', ___x, '-c', '-r', '-nu', '-nh', __SSSS, '-f', '-di', '-dt', 'source' , ___x, ___x ],
-        parse_suites: [ '-d', __SS, ___x, ___x, ___x, ____x, ____x, _____x, ___x, ____x, ____x,  _______x, '-v', ___x ],
-        parse_show:   [ '-d', '-s', '-a', '-c', '-r', '-nu', ____x, __SSSS, ___x, '-di', '-dt', 'package', ___x, ___x ],
-        parse_dsc:    [ '-d', __SS, ___x, '-c', ___x, '-nu', ____x, _____x, ___x, ____x, ____x, 'source' , ___x, '-1' ],
+        parse_ls:     [ '-d', '-s', '-a', '-c', '-r', '-O', '-nu', '-nh', '-col', '-f', '-di', '-dt', 'package', ___x, ___x ],
+        parse_src:    [ '-d', '-s', ___x, '-c', '-r', '-O', '-nu', '-nh', __SSSS, '-f', '-di', '-dt', 'source' , ___x, ___x ],
+        parse_suites: [ '-d', __SS, ___x, ___x, ___x, ___x, ____x, ____x, _____x, ___x, ____x, ____x,  _______x, '-v', ___x ],
+        parse_show:   [ '-d', '-s', '-a', '-c', '-r', ___x, '-nu', ____x, __SSSS, ___x, '-di', '-dt', 'package', ___x, ___x ],
+        parse_dsc:    [ '-d', __SS, ___x, '-c', ___x, ___x, '-nu', ____x, _____x, ___x, ____x, ____x, 'source' , ___x, '-1' ],
     }
 
     # add common arguments (if argument is defined in the above map)
@@ -149,6 +149,8 @@ def createArgparsers():
                         Use regex '.' to show all packages.
                         Use regex '^pkg' to show all packages starting with 'pkg'.
                         Use regex '^src:source' to show packages that were built from a source starting with 'source'.""")
+        addArg(pars, o, "-O", "--no-old-versions", action="store_true", help="""
+                        Ignore old package versions found in a suite.""")
         addArg(pars, o, "-nu", "--no-update", action="store_true", default=False, help="Skip downloading of packages list.")
         addArg(pars, o, "-nh", "--no-header", action="store_true", default=False, help="Don't print the column header.")
         addArg(pars, o, "-col", "--columns", type=str, required=False, default='pvsaSC', help="""
@@ -262,7 +264,7 @@ def ls(args, querySources = False):
     '''
        subcommand list: search and print a list of binary packages
     '''
-    (result, requestFields) = queryPackages(args.suite, args.package, args.regex, args.architecture, args.component, args.columns, args.no_update)
+    (result, requestFields) = queryPackages(args.suite, args.package, args.regex, args.architecture, args.component, args.columns, noUpdate=args.no_update, latestOnly=args.no_old_versions)
     formatListResult(args, result, requestFields)
 
 
@@ -270,7 +272,7 @@ def src(args):
     '''
        subcommand source: search and print a list of source packages
     '''
-    (result, requestFields) = queryPackages(args.suite, args.source, args.regex, None, args.component, args.columns, args.no_update, True)
+    (result, requestFields) = queryPackages(args.suite, args.source, args.regex, None, args.component, args.columns, noUpdate=args.no_update, querySources=True, latestOnly=args.no_old_versions)
     formatListResult(args, result, requestFields)
 
 
@@ -490,7 +492,7 @@ def diff_formatter(result, requestFields, diffField, diffTool, no_header, subFor
         os.remove(tmp)
 
 
-def queryPackages(suiteStr, requestPackages, regexStr, archStr, componentStr, fieldStr, noUpdate=False, querySources=False):
+def queryPackages(suiteStr, requestPackages, regexStr, archStr, componentStr, fieldStr, noUpdate=False, querySources=False, latestOnly=False):
     '''
        queries Packages by the args provided on the command line and returns a
        tuple of (queryResults, requestFields)
@@ -510,9 +512,9 @@ def queryPackages(suiteStr, requestPackages, regexStr, archStr, componentStr, fi
             suite.scan(not noUpdate)
             pp(showProgress, x+1)
             if not querySources:
-                result = result.union(suite.queryPackages(requestPackages, regexStr, requestArchs, requestComponents, requestFields))
+                result = result.union(suite.queryPackages(requestPackages, regexStr, requestArchs, requestComponents, requestFields, latestOnly=latestOnly))
             else:
-                result = result.union(suite.querySources(requestPackages, regexStr, requestArchs, requestComponents, requestFields))
+                result = result.union(suite.querySources(requestPackages, regexStr, requestArchs, requestComponents, requestFields, latestOnly=latestOnly))
         except SystemError as e:
             logger.warn("Could not retrieve {} for suite {}:\n{}".format("sources" if querySources else "packages", suite.getSuiteName(), e))
     pp(showProgress, '\n')
