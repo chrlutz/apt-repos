@@ -142,106 +142,36 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic main restricted universe multiverse
-    Suite: ubuntu:cosmic
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-backports main restricted universe multiverse
-    Suite: ubuntu:cosmic-backports
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-proposed main restricted universe multiverse
-    Suite: ubuntu:cosmic-proposed
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-security main restricted universe multiverse
-    Suite: ubuntu:cosmic-security
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ cosmic-updates main restricted universe multiverse
-    Suite: ubuntu:cosmic-updates
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel main restricted universe multiverse
-    Suite: ubuntu:focal
+    Suite: ubuntu:groovy
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-backports main restricted universe multiverse
-    Suite: ubuntu:focal-backports
+    Suite: ubuntu:groovy-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-proposed main restricted universe multiverse
-    Suite: ubuntu:focal-proposed
+    Suite: ubuntu:groovy-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-security main restricted universe multiverse
-    Suite: ubuntu:focal-security
+    Suite: ubuntu:groovy-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-updates main restricted universe multiverse
-    Suite: ubuntu:focal-updates
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco main restricted universe multiverse
-    Suite: ubuntu:disco
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-backports main restricted universe multiverse
-    Suite: ubuntu:disco-backports
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-proposed main restricted universe multiverse
-    Suite: ubuntu:disco-proposed
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-security main restricted universe multiverse
-    Suite: ubuntu:disco-security
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ disco-updates main restricted universe multiverse
-    Suite: ubuntu:disco-updates
+    Suite: ubuntu:groovy-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
@@ -312,6 +242,41 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
     Suite: ubuntu:focal-updates
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ groovy main restricted universe multiverse
+    Suite: ubuntu:groovy
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ groovy-backports main restricted universe multiverse
+    Suite: ubuntu:groovy-backports
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ groovy-proposed main restricted universe multiverse
+    Suite: ubuntu:groovy-proposed
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ groovy-security main restricted universe multiverse
+    Suite: ubuntu:groovy-security
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ groovy-updates main restricted universe multiverse
+    Suite: ubuntu:groovy-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
