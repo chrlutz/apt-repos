@@ -37,23 +37,31 @@ import argparse
 import logging
 import re
 import json
+from os.path import expanduser
+
+logger = logging.getLogger(__name__)
+
+__defaultBaseDirs = [ expanduser('~') + '/.config/apt-repos', expanduser('~') + '/.apt-repos', '/etc/apt-repos' ]
+__defaultCacheDir = expanduser('~') + '/.cache/apt-repos'
+__aptConf = __defaultCacheDir + "/apt.conf"
+if not os.path.isdir(__defaultCacheDir):
+    os.makedirs(__defaultCacheDir, exist_ok=True)
+    with open(__aptConf, "w") as fh:
+        print('Dir "{}";'.format(__defaultCacheDir), file=fh)
+os.environ["APT_CONFIG"] = __aptConf
+__baseDirs = __defaultBaseDirs
+__cacheDir = __defaultCacheDir
 
 import apt_pkg
 import apt.progress
 import functools
 
-from os.path import expanduser
 from enum import Enum
 
 from apt_repos.RepoSuite import RepoSuite
 from apt_repos.PackageField import PackageField
 from apt_repos.QueryResult import QueryResult
 from apt_repos.Repository import Repository
-
-logger = logging.getLogger(__name__)
-
-__baseDirs = [ expanduser('~') + '/.config/apt-repos', expanduser('~') + '/.apt-repos', '/etc/apt-repos' ]
-__cacheDir = __baseDirs[0] + '/.apt-repos_cache'
 
 
 import contextlib
@@ -124,14 +132,22 @@ def setAptReposBaseDir(dir):
        files and for the apt-repos cache that will be created in this directory
        named <dir>/.apt-repos_cache.
     '''
+    global __defaultBaseDirs
+    global __defaultCacheDir
     global __baseDirs
     global __cacheDir
     if(os.path.isdir(dir)):
-        logger.info("Using basedir '{}'".format(os.path.relpath(dir)))
-        __baseDirs = [ os.path.realpath(dir) ]
-        __cacheDir = __baseDirs[0] + '/.apt-repos_cache'
+        realDir = os.path.relpath(dir)
+        logger.info("Using basedir '{}'".format(realDir))
+        __baseDirs = [ realDir ]
+        if realDir in __defaultBaseDirs:
+          __cacheDir = __defaultCacheDir
+        else:
+          __cacheDir = realDir + '/.apt-repos_cache'
     else:
         raise Exception("base-directory doesn't exist: " + dir)
+    if not os.path.isdir(__cacheDir):
+        os.makedirs(__cacheDir, exist_ok=True)
 
 
 def __filenameWithoutPrefix(item):
