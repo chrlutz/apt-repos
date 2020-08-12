@@ -5,22 +5,22 @@
       "Prefix" : "debian",
       "Url" : "http://deb.debian.org/debian/",
       "Suites" : [ 
-          "jessie",
-          "jessie-backports",
-          "jessie-updates",
-          "jessie-proposed-updates",
           "stretch",
           "stretch-backports",
           "stretch-updates",
           "stretch-proposed-updates",
-          "wheezy",
-          "wheezy-backports",
-          "wheezy-updates",
-          "wheezy-proposed-updates"
+          "buster",
+          "buster-backports",
+          "buster-updates",
+          "buster-proposed-updates",
+          "bullseye",
+          "bullseye-backports",
+          "bullseye-updates",
+          "bullseye-proposed-updates"
       ],
       "ExtractSuiteFromReleaseUrl": true,
       "Architectures" : [ "i386", "amd64" ],
-      "TrustedGPG" : "./gpg/debian.gpg"
+      "Trusted" : true
     },
     "--------------------------------------------------------",
     {
@@ -33,24 +33,19 @@
           "trusty-proposed",
           "trusty-security",
           "trusty-updates",
-          "xenial",
-          "xenial-backports",
-          "xenial-proposed",
-          "xenial-security",
-          "xenial-updates",
-          "artful",
-          "artful-backports",
-          "artful-proposed",
-          "artful-security",
-          "artful-updates",
           "bionic",
           "bionic-backports",
           "bionic-proposed",
           "bionic-security",
-          "bionic-updates"
+          "bionic-updates",
+          "focal",
+          "focal-backports",
+          "focal-proposed",
+          "focal-security",
+          "focal-updates"
       ],
       "Architectures" : [ "i386", "amd64" ],
-      "TrustedGPG" : "./gpg/ubuntu.gpg"
+      "Trusted" : true
     },
     "--------------------------------------------------------"
 ]
