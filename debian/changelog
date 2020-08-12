@@ -1,3 +1,22 @@
+apt-repos (1.49.0) bionic; urgency=medium
+
+  * Let apt_repos.RepoSuite expose the suite description via getDescription
+  * added new switch -O/--no-old-versions to apt-repos ls/src
+  * fixed tests after typical ubuntu updates
+  * issue 3: set APT_CONFIG and (a new) cache dir explicitely for better decoupling
+    from the local systems apt-configuration.
+    This changes the default cache directory to ~/.cache/apt-repos which should be more conform to XDG
+  * modernized example config main.repos and disabled gpg-signature verification
+    to make things easier. If you want gpg-signature verification, you need
+    to ensure that the required gpg keyring can be found somewhere on your
+    system (I can't resolve this dependency for you in a distribution
+    independent way).
+    Please also note that newer versions of libapt somtimes deny to accept old
+    signatures even if the keyring is correctly provided (depends on the
+    length of the Hash used for the signature).
+
+ -- Christoph Lutz <chrlutz@gmail.com>  Wed, 12 Aug 2020 19:35:25 +0200
+
 apt-repos (1.48.0) bionic; urgency=medium
 
   * added lost test 'returncodes' and fixed return codes in clitests
