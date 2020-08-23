@@ -6,14 +6,18 @@ Build-Depends:
  perl,
  cdbs,
  config-package-dev,
- debhelper (>= 9),
+ debhelper (>= 12),
+ debhelper-compat (= 13),
  dh-python,
  python3,
  python3-debian,
  python3-urllib3,
  python3-apt
-Standards-Version: 3.9.8
+Rules-Requires-Root: no
+Standards-Version: 4.5.0
 X-Python3-Version: >= 3.3
+Vcs-Browser: https://github.com/chrlutz/apt-repos
+Vcs-Git: https://github.com/chrlutz/apt-repos.git
 Maintainer: Christph Lutz <christoph.lutz@interface-ag.de>
 
 Package: apt-repos
