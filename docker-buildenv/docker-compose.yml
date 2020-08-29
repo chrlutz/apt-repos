@@ -1,0 +1,13 @@
+version: '2.0'
+
+services:
+
+  buildenv:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: apt-repos-build-debian
+    volumes:
+      - ..:/debian-build/build/
+    user: ${CURRENT_USER}
+    restart: "no"
