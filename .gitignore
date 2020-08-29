@@ -1,3 +1,4 @@
+/.cache/
 /.vscode/
 /.pybuild/
 /debian/apt-repos.debhelper.log
@@ -12,6 +13,9 @@
 /debian/python3-apt-repos/
 /debian/tmp/
 /debian/.debhelper/
+/deb/
+/docker-buildenv/.buildenv.built
+/docker-buildenv/debian_control
 
 # automatically built by debian-packaging:
 /conf/debian.suites
