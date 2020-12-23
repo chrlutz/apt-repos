@@ -1,2 +1,3 @@
 bin/*		/usr/bin/
 conf/*		/etc/apt-repos/
+bash_completion/* /usr/share/bash-completion/completions/

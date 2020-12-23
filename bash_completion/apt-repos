@@ -1,0 +1,621 @@
+#!/bin/bash
+#
+# apt-repos bash-completion
+#
+# Some completions offer an expanded option-range, which can be unlocked by typing tab a few times
+# (by default 4 times). Usually these option-ranges are generated slowly, which can cause an anoying
+# user experience if the expanded optionset is unlocked accidentally in a regular manner.
+# By setting APT_REPOS__BASHCOMPL__MENU_UNLOCK_COUNT to a value >=0 (i.e. in your ~/.bashrc) it is
+# possible to override the default value.
+#
+# To suppress help-messages, simply define the variable APT_REPOS__BASHCOMPL__SUPPRESS_HELP.
+
+__arbc__full_menu_preconditions_met()
+{
+    local basedir="${defined_basedir##-b }"
+    [ -z "$basedir" ] && return
+    [ -d "$basedir" ]
+}
+
+__arbc__help_get_all_suites()
+{
+    local raw_output
+    raw_output=$($executable $defined_basedir suites 2>/dev/null)
+    (
+        # first filter out all tagnames within '[]'
+        echo "$raw_output" |
+            sed -E 's/.*\[(.*)\]$/\1/' |
+            # the tags are reparated by commas thus drop them
+            tr -d ',' |
+            # replase spaces with newlines; remove emptry lines and sort the result uniquely
+            tr ' ' '\n' | sed '/^\s*$/d' | sed '/^#$/d'
+
+        # now filter the part in front of '[]'
+        echo "$raw_output" |
+            sed -En 's/^# ([^ ]+).*/\1/p' |
+            # the result looks like this: `x:y` this is splittable into `x:` and `:y` which are also
+            # valid suitenames
+            sed -En 's/([^:]*):([^:]*)/\1:\2\n\1:\n:\2\n/p'
+    ) | sort -u | grep -v '^\s*$'
+}
+
+__arbc__smart_suite_select()
+{
+    local input=$(cat -)
+    if [ -z "$input" ]; then
+        echo : #default option if no suites are available
+        return
+    fi
+
+    if [ -z "$cur" ]; then
+        echo :
+        echo :...
+        echo "$input" | sed -e '/^:/d' -e 's/:.*/:.../g' | sort -u
+        return
+    fi
+
+    echo "$input" | tee ~/tmp/checkme
+}
+
+__arbc__help_get_all_debian_pkg_arch()
+{
+    local result
+    [ -x "$(which dpkg-architecture)" ] || return
+    result=$(dpkg-architecture -L)
+    if [ -z "$cur" ]; then
+        echo "$result" | sed -E 's/-([^-]+)$/-.../'
+    else
+        echo "$result"
+    fi
+}
+
+__arbc__help_list_select_wrapper()
+{
+    local function_to_invoke=$1 return_var=$2
+    local cur_copy=$cur cut_away result
+    shift; shift
+
+    cur=$(sed 's/.*,//' <<< "$cur")
+    cut_away=$(sed -nE 's/(.*),.*/\1/p' <<< "$cur_copy")
+
+    if [ -z "$return_var" ]; then
+        result=$($function_to_invoke $*)
+    else
+        $function_to_invoke $*
+        result=${!return_var}
+    fi
+
+    cur=$cur_copy # restore cur
+
+    result=$(
+        #strip potential empty lines
+        sed '/^\s*$/d' <<< "$result"
+    )
+    [ -n "$cut_away" -a -n "$result" ] && result=$(
+        local line
+        while read line; do
+            echo "$cut_away,$line"
+        done <<< "$result"
+    )
+
+    local potential_hits="$(compgen -W '$result' -- "$cur")"
+    if [ -n "$potential_hits" -a  $(wc -l <<< "$potential_hits") -eq 1 ]; then
+        #only one match left; thus add the same match with a comma as an additinoal option
+        result=$(
+            echo $potential_hits
+            echo $potential_hits,
+        )
+    fi
+
+    if [ -n "$return_var" ]; then
+        eval "$return_var"='$result'
+    else
+        echo "$result"
+    fi
+}
+
+__arbc__is_full_menu_unlocked(){ [ "$APT_REPOS__BASHCOMPL_SUITES_LISTING_UNLOCK_COUNTER" = 0 ]; }
+
+# output: __arbc__help_manage_all_suite_options_result
+__arbc__help_manage_all_suite_options()
+{
+    local list=$( [ "$1" = list ] && echo true || echo false )
+    shift
+    local cur_copy=$cur cut_away
+
+    if $list; then
+        cur=$(sed 's/.*,//' <<< "$cur")
+        cut_away=$(sed -nE 's/(.*),.*/\1/p' <<< "$cur_copy")
+    fi
+
+    __arbc____help_manage_all_suite_options $*
+    cur=$cur_copy
+
+    if $list; then
+        __arbc__help_manage_all_suite_options_result=$(
+            #strip potential empty lines
+            sed '/^\s*$/d' <<< "$__arbc__help_manage_all_suite_options_result"
+        )
+        [ -n "$cut_away" -a -n "$__arbc__help_manage_all_suite_options_result" ] && __arbc__help_manage_all_suite_options_result=$(
+            local line
+            while read line; do
+                echo "$cut_away,$line"
+            done <<< "$__arbc__help_manage_all_suite_options_result"
+        )
+
+        local potential_hits="$(compgen -W '$__arbc__help_manage_all_suite_options_result' -- "$cur")"
+        if [ -n "$potential_hits" -a  $(wc -l <<< "$potential_hits") -eq 1 ]; then
+            #only one match left; thus add the same match with a comma as an additinoal option
+            __arbc__help_manage_all_suite_options_result=$(
+                echo $potential_hits
+                echo $potential_hits,
+            )
+        fi
+    fi
+}
+
+# output: __arbc__help_manage_all_suite_options_result
+__arbc____help_manage_all_suite_options()
+{
+    local base_options="bundle user" unlock_val=${APT_REPOS__BASHCOMPL__MENU_UNLOCK_COUNT:-4}
+    if [ "$1" = suite_only ]; then
+        base_options=""
+        unlock_val=0
+    fi
+    __help_manage_all_suite_options_reached=true
+
+    if ! __arbc__is_full_menu_unlocked || ! __arbc__full_menu_preconditions_met; then
+        if [ -z "$cur" ]; then
+            # try to decrement var (to unlock full menu)
+            if ! ((APT_REPOS__BASHCOMPL_SUITES_LISTING_UNLOCK_COUNTER--)) 2>/dev/null; then
+                # failed to decrement (probably because the var was undefined or not an integer)
+                APT_REPOS__BASHCOMPL_SUITES_LISTING_UNLOCK_COUNTER=$unlock_val
+            fi
+        else
+            APT_REPOS__BASHCOMPL_SUITES_LISTING_UNLOCK_COUNTER=$unlock_val #reset
+        fi
+    fi
+
+    if __arbc__full_menu_preconditions_met && __arbc__is_full_menu_unlocked; then
+        [ -n "$APT_REPOS__BASHCOMPL_SUITES_LISTING" ] || APT_REPOS__BASHCOMPL_SUITES_LISTING=$(__arbc__help_get_all_suites)
+        __arbc__help_manage_all_suite_options_result=$(
+            __arbc__smart_suite_select <<< "$APT_REPOS__BASHCOMPL_SUITES_LISTING"
+        )
+    else
+        [ -z "$cur" ] && __arbc__full_menu_preconditions_met && ! __arbc__is_full_menu_unlocked && __arbc__help_manage_all_suite_options_result=$(
+            echo "# Press tab $APT_REPOS__BASHCOMPL_SUITES_LISTING_UNLOCK_COUNTER more times to determine all options"
+            echo ":"
+        )
+    fi
+}
+
+__arbc__gen_reply()
+{
+    local first_option=$1 content line
+    content=$(cat - | sed '/^\s*$/d')
+    [ -n "$content" ] || return
+    [ "$first_option" = single_word ] && content=$(tr ' ' '\n' <<< "$content")
+    while read line; do
+        [[ "$line" == "$cur"* ]] && COMPREPLY+=("$line")
+    done <<< "$content"
+
+    if [ "${#COMPREPLY[@]}" -eq 1 ]; then
+        COMPREPLY=$(sed 's/ .*//g' <<< $COMPREPLY)
+    fi
+
+    if [[ "$COMP_WORDBREAKS" == *:* ]]; then
+        # collons do separate words and only the last word will be adopted
+        # we need to remove all leading colon-separated words as they will be
+        # doubled into the last word otherwise
+
+        local _cur_copy=$cur _cur_snippet
+        _cur_snippet=$(sed -nE 's/^([^:]*:).*/\1/p' <<< "$_cur_copy")
+        while [ -n "$_cur_snippet" ]; do
+            __ltrim_colon_completions $_cur_snippet
+            _cur_copy=$(sed -nE 's/^[^:]*://p' <<< "$_cur_copy")
+            _cur_snippet=$(sed -nE 's/^([^:]*:).*/\1/p' <<< "$_cur_copy")
+        done
+    fi
+}
+
+__arbc__is_prev_a_valid_option()
+{
+    local valid_option is_valid=false
+    for valid_option in $all_options; do
+        if [ "$prev" = "$valid_option" ]; then
+            is_valid=true
+            break
+        fi
+    done
+    $is_valid
+}
+
+__arbc__generic_handling()
+{
+    local -A param_consuming_options
+    param_consuming_options[s]=-s
+    param_consuming_options[suite]=--suite
+    param_consuming_options[a]=-a
+    param_consuming_options[architecture]=--architecture
+    param_consuming_options[component]=--component
+    param_consuming_options[c]=-c
+    param_consuming_options[columns]=--columns
+    param_consuming_options[col]=-col
+    param_consuming_options[f]=-f
+    param_consuming_options[diff]=--diff
+    param_consuming_options[di]=-di
+    param_consuming_options[diff_tool]=--diff-tool
+    param_consuming_options[dt]=-dt
+    local abording_options="-h --help"
+    local param_found=false regexp_flag_set=false
+
+    local -A valid_columns
+    valid_columns[p]=Package
+    valid_columns[v]=Version
+    valid_columns[s]=Suite
+    valid_columns[a]=Arch
+    valid_columns[S]=Section
+    valid_columns[y]=PhysCompo
+    valid_columns[P]=Priority
+    valid_columns[z]=Size
+    valid_columns[C]=Source
+    valid_columns[L]=Long-Desc
+    valid_columns[R]=Full-Record
+    valid_columns[B]=Base-Url
+    valid_columns[F]=File-Url
+
+
+    __arbc__is_prev_a_valid_option && case $prev in
+    ${param_consuming_options[a]}|\
+    ${param_consuming_options[architecture]})
+        __arbc__gen_reply <<< "$(__arbc__help_list_select_wrapper __arbc__help_get_all_debian_pkg_arch)"
+        return
+        ;;
+    ${param_consuming_options[s]}|\
+    ${param_consuming_options[suite]})
+        __arbc__help_manage_all_suite_options
+        __arbc__gen_reply <<< "$__arbc__help_manage_all_suite_options_result"
+        return #make no suggestions on this
+        ;;
+    ${param_consuming_options[c]}|\
+    ${param_consuming_options[component]})
+        [ -z "$cur" ] && __arbc__gen_reply <<< $(echo -e "# The list of COMPONENTs is specified comma-separated\n...")
+        return
+        ;;
+    ${param_consuming_options[col]}|\
+    ${param_consuming_options[columns]})
+        grep -q "[^$(tr -d ' ' <<< ${!valid_columns[@]})]" <<< "$cur" && return #found invalid chars in current word
+        __arbc__gen_reply <<< $(
+            local i
+            for i in ${!valid_columns[@]}; do
+                echo "$cur$i : ${valid_columns[$i]}"
+            done
+            )
+        return
+        ;;
+    ${param_consuming_options[di]}|\
+    ${param_consuming_options[diff]})
+        if [ -z "$cur" ]; then
+            __arbc__gen_reply <<< $(
+                local i
+                for i in ${!valid_columns[@]}; do
+                    echo "$i : ${valid_columns[$i]}"
+                done
+                )
+        else
+            [ $(wc -c <<< "$cur") -gt 2 ] && return # This arg expects only one char
+            __arbc__gen_reply <<< "$cur"
+        fi
+
+        return
+        ;;
+    ${param_consuming_options[f]})
+        __arbc__gen_reply <<< $(echo -e "table #default\nlist\ngrouped_list")
+        return
+        ;;
+    ${param_consuming_options[dt]}|\
+    ${param_consuming_options[diff_tool]})
+        if [ -z "$cur" ]; then
+            __arbc__gen_reply <<< $(
+                echo "# default: 'diff,--side-by-side,--suppress-common-lines,--width=<ttyWidth>'"
+                echo "# Use , (instead of spaces) to provide arguments for the difftool."
+                echo ...
+                )
+        fi
+        return
+        ;;
+    -r|--regex)
+        regexp_flag_set=true
+        #do not return here
+        ;;
+    esac
+
+
+    if [[ "$cur" == -* ]]; then
+        # current word is an option; serve all options
+        __arbc__gen_reply_with_help ${all_options[@]}
+    fi
+
+
+    local c=$(($cmd_index+1))
+    local current_word consuming_option abording_option
+    while [ $c -lt $cword ]; do
+        current_word="${words[c]}"
+        if ! [[ "$current_word" == -* ]]; then
+            #not an option; found an outstanding param
+            $param_list || param_found=true
+            break
+        fi
+        for consuming_option in "${param_consuming_options[@]}"; do
+            if [ "$current_word" = "$consuming_option" ]; then
+                ((c++)) #skip the next (consumed) word
+                break
+            fi
+        done
+        for abording_option in $abording_options; do
+            if [ "$current_word" = "$abording_option" ]; then
+                return
+            fi
+        done
+
+        ((c++))
+    done
+
+    $param_found && return
+    case "$param_type" in
+    __param_is_package)
+        if [ -z "$cur" ]; then
+            if $regexp_flag_set; then
+                __arbc__gen_reply <<< $(echo -e "<package_regexp>\nsrc:<package_regexp>")
+            else
+                __arbc__gen_reply <<< $(echo -e "<package>\nsrc:<package>")
+            fi
+        fi
+        ;;
+    __param_is_sourcepkg)
+        if [ -z "$cur" ]; then
+            if $regexp_flag_set; then
+                __arbc__gen_reply <<< $(echo -e "<source_package_regexp>\n...")
+            else
+                __arbc__gen_reply <<< $(echo -e "<source_package>\n...")
+            fi
+        fi
+        ;;
+    esac
+}
+
+__arbc__gen_reply_with_help()
+{
+    local -a suggest=($(compgen -W '$*' -- "$cur"))
+    local -a res res_help
+
+    [ ${#suggest[@]} -eq 0 ] && return
+
+    local -A helptext
+    helptext[list]="query and list binary packages and their properties"
+    helptext[ls]=${helptext[list]}
+    helptext[sources]="query and list source packages and their properties list configured suites"
+    helptext[source]=${helptext[sources]}
+    helptext[src]=${helptext[sources]}
+    helptext[suites]="list configured suites"
+    helptext[show]="show details about packages similar to apt-cache show"
+    helptext[dsc]="list urls of dsc-files for particular source-packages"
+
+    helptext[--help]="show help message and exit"
+    helptext[-h]=${helptext[--help]}
+    helptext[--basedir]="Set a new/custom basedir for config-data and caching"
+    helptext[-b]=${helptext[--basedir]}
+
+    helptext[--debug]="Switch on debugging message printed to stderr"
+    helptext[-d]=${helptext[--debug]}
+    helptext[--suite]="Only show info for these SUITE(s)"
+    helptext[-s]=${helptext[--suite]}
+    helptext[--architecture]="Only show info for ARCH(s)"
+    helptext[-a]=${helptext[--architecture]}
+    helptext[--component]="Only show info for COMPONENT(s)"
+    helptext[-c]=${helptext[--component]}
+    helptext[--regex]="Treat PACKAGE as a regex"
+    helptext[-r]=${helptext[--regex]}
+    helptext[--no-update]="Skip downloading of packages list"
+    helptext[-nu]=${helptext[--no-update]}
+    helptext[--no-header]="Don't print the column header"
+    helptext[-nh]=${helptext[--no-header]}
+    helptext[--columns]="Specify the columns that should be printed"
+    helptext[-col]=${helptext[--columns]}
+    helptext[--format]="Specifies the output-format of the package list"
+    helptext[-f]=${helptext[--format]}
+    helptext[--diff]="Specify the character of a colunm over which we should compare two different results"
+    helptext[-di]=${helptext[--diff]}
+    helptext[--diff-tool]="Diff-Tool used to compare the separated results from --diff"
+    helptext[-dt]=${helptext[--diff-tool]}
+
+    helptext[--verbose]="also print corresponding sources.list-entries for each suite"
+    helptext[-v]=${helptext[--verbose]}
+
+    helptext[--first]="Query only for the first matching dsc file for a source package"
+    helptext[-1]=${helptext[--first]}
+
+    local -i i=0 last_res different_choises=1
+    local this_help this_suggest
+    local last_help
+    local append
+    while [ "$i" -lt "${#suggest[@]}" ]; do
+        append=false
+        this_suggest=${suggest[i]}
+        this_help=${helptext[$this_suggest]}
+
+        if [ $i -gt 0 ]; then
+            [ "$this_help" = "$last_help" ] && append=true || ((different_choises++))
+        fi
+
+        if [ -z "$cur" ] && $append; then
+            last_res=$(( ${#res[@]} - 1 ))
+            res[$last_res]="${res[$last_res]}|$this_suggest"
+        else
+            res+=($this_suggest)
+            res_help+=("$this_help")
+        fi
+
+        last_help=$this_help
+        ((i++))
+    done
+
+    # if all matching choises have the same description, take the first one
+    if [ "$different_choises" -eq 1 ]; then
+        __arbc__gen_reply <<< "${res[0]}"
+        return
+    fi
+
+
+    local suppress_help=false
+    [ -v APT_REPOS__BASHCOMPL__SUPPRESS_HELP ] && suppress_help=true
+    local longest_suggest_chars=$(tr ' ' '\n' <<< "${res[@]} " | wc -L)
+    local max_cols
+    [ -x "$(which tput)" ] && max_cols=$(tput cols)
+    if [ "$max_cols" -gt 0 ] 2>/dev/null; then
+        local -i min_required_width=$(( $longest_suggest_chars + 20 ))
+        if [ $max_cols -lt $min_required_width ]; then
+            # there terminal is too small to print help-messages
+            suppress_help=true
+        fi
+    else #could not determine terminal width
+        suppress_help=true
+    fi
+
+    if $suppress_help; then
+        __arbc__gen_reply <<< $(tr ' ' '\n' <<< ${res[@]})
+    else
+        local whitespace_padding
+        local max_line_chars_minus_1=$(( "$max_cols" - 1 )) # placeholder for '.'
+        local max_line_chars_minus_3=$(( "$max_cols" - 3 )) # placeholder for '...'
+        whitespace_padding=$(printf "%${max_cols}s" '')
+        __arbc__gen_reply <<< $(
+            i=0
+            while [ "$i" -lt "${#res[@]}" ]; do
+                printf "%-${longest_suggest_chars}s # %s\n" "${res[$i]}" "${res_help[$i]}" |
+                    # cut off help-msgs which are too long
+                    sed -E "s/^(.{$max_line_chars_minus_3}).*/\1.../" |
+                    # add whitespace padding to each line
+                    sed -E "s/$/$whitespace_padding/" |
+                    # short the padded line and put a dot at the end
+                    # to ensure that each suggestion is being printed on a separate line
+                    sed -E "s/^(.{$max_line_chars_minus_1}).*/\1./"
+                ((i++))
+            done
+        )
+    fi
+}
+
+
+__arbc__main()
+{
+    local executable
+    local param_type all_options
+    local i cmd_index=1 command
+    local valid_options valid_commands
+    valid_options=(--help -h --basedir -b)
+    valid_commands=(list ls sources source src suites show dsc)
+    local help_request_detected=false
+    local defined_basedir=""
+
+    # Verify that bash-completion is installed on this system, thus the following two helper-functions are defined
+    # which may be found in /usr/share/bash-completion/bash_completion
+    declare -F _get_comp_words_by_ref >/dev/null 2>&1 || return
+    declare -F __ltrim_colon_completions >/dev/null 2>&1 || return
+
+    local words cword cur priv
+    _get_comp_words_by_ref -n : cur prev words cword
+
+    executable=$(which ${words[0]})
+    [ -x "$executable" ] || return
+
+    while [ $cmd_index -lt $cword ]; do
+        i="${words[cmd_index]}"
+        case $i in
+        -h|--help)
+            help_request_detected=true
+            ;;
+        -b|--basedir)
+            ((cmd_index++))
+            defined_basedir="-b ${words[cmd_index]}"
+            ;;
+        -*)
+            : catch unknown option
+            return
+            ;;
+        *)
+            command=$i
+            break
+            ;;
+        esac
+        ((cmd_index++))
+    done
+
+    local param_list=false
+    if [ -n "$command" ]; then
+        case "$command" in
+        list|ls|sources|source|src)
+            all_options="--help -h --debug -d --suite -s --architecture -a --component -c --regex -r "
+            all_options+="--no-update -nu --no-header -nh --columns -col --format -f --diff -di --diff-tool -dt"
+            ;;& #fallthrough
+        list|ls)
+            param_list=true
+            param_type=__param_is_package
+            ;;
+        sources|source|src)
+            param_type=__param_is_sourcepkg
+            ;;
+        suites)
+            param_type=__param_is_none
+            all_options="--help -h --debug -d --suite -s --verbose -v"
+            ;;
+        dsc)
+            param_list=true
+            param_type=__param_is_sourcepkg
+            all_options="--help -h --debug -d --component -c --no-update -nu --first -1 --suite -s"
+            ;;
+        show)
+            param_list=true
+            param_type=__param_is_package
+            all_options="--help -h --debug -d --suite -s --architecture -a --component -c --regex -r "
+            all_options+="--no-update -nu --diff -di --diff-tool -dt --columns -col"
+            ;;
+        esac
+
+        $help_request_detected || __arbc__generic_handling
+        return
+    fi
+
+    # command is unknown or missing
+
+    # make no suggestions if the unknown command was defined prior to the current word
+    [ -n "$command" -a $cmd_index -lt $cword ] && return
+
+    case $cur in
+    -*)
+        __arbc__gen_reply_with_help ${valid_options[@]}
+        ;;
+    *)
+        if [ "$prev" = '-b' -o "$prev" = '--basedir' ]; then
+            compopt -o dirnames
+            return
+        fi
+        __arbc__gen_reply_with_help ${valid_commands[@]}
+        ;;
+    esac
+}
+
+__arbc__main_wrapper()
+{
+    local __help_manage_all_suite_options_reached=false
+
+    __arbc__main
+
+    if ! $__help_manage_all_suite_options_reached; then
+        unset APT_REPOS__BASHCOMPL_SUITES_LISTING_UNLOCK_COUNTER
+        unset APT_REPOS__BASHCOMPL_SUITES_LISTING
+    fi
+}
+
+
+complete -o nosort -F __arbc__main_wrapper apt-repos
