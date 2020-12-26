@@ -143,70 +143,35 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel main restricted universe multiverse
-    Suite: ubuntu:groovy
+    Suite: ubuntu:hirsute
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-backports main restricted universe multiverse
-    Suite: ubuntu:groovy-backports
+    Suite: ubuntu:hirsute-backports
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-proposed main restricted universe multiverse
-    Suite: ubuntu:groovy-proposed
+    Suite: ubuntu:hirsute-proposed
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-security main restricted universe multiverse
-    Suite: ubuntu:groovy-security
+    Suite: ubuntu:hirsute-security
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
     DebSrc: True
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ devel-updates main restricted universe multiverse
-    Suite: ubuntu:groovy-updates
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan main restricted universe multiverse
-    Suite: ubuntu:eoan
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-backports main restricted universe multiverse
-    Suite: ubuntu:eoan-backports
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-proposed main restricted universe multiverse
-    Suite: ubuntu:eoan-proposed
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-security main restricted universe multiverse
-    Suite: ubuntu:eoan-security
-    Tags: []
-    TrustedGPG: ./gpg/ubuntu.gpg
-    Architectures: ['i386', 'amd64']
-    DebSrc: True
-    Description: Testing Option Scan==True
-    SourcesList: deb http://archive.ubuntu.com/ubuntu/ eoan-updates main restricted universe multiverse
-    Suite: ubuntu:eoan-updates
+    Suite: ubuntu:hirsute-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
@@ -277,6 +242,41 @@ INFO     apt_repos.Repository: Scanning Repository 'Testing Option Scan==True' (
     Description: Testing Option Scan==True
     SourcesList: deb http://archive.ubuntu.com/ubuntu/ groovy-updates main restricted universe multiverse
     Suite: ubuntu:groovy-updates
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ hirsute main restricted universe multiverse
+    Suite: ubuntu:hirsute
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ hirsute-backports main restricted universe multiverse
+    Suite: ubuntu:hirsute-backports
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ hirsute-proposed main restricted universe multiverse
+    Suite: ubuntu:hirsute-proposed
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ hirsute-security main restricted universe multiverse
+    Suite: ubuntu:hirsute-security
+    Tags: []
+    TrustedGPG: ./gpg/ubuntu.gpg
+    Architectures: ['i386', 'amd64']
+    DebSrc: True
+    Description: Testing Option Scan==True
+    SourcesList: deb http://archive.ubuntu.com/ubuntu/ hirsute-updates main restricted universe multiverse
+    Suite: ubuntu:hirsute-updates
     Tags: []
     TrustedGPG: ./gpg/ubuntu.gpg
     Architectures: ['i386', 'amd64']
