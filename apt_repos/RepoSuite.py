@@ -66,7 +66,7 @@ class RepoSuite:
 
 
         # create caching structure
-        dirs = [ "/etc/apt", "/var/lib/dpkg", "/var/cache/apt/archives/partial", "/var/lib/apt/lists/partial" ]
+        dirs = [ "/etc/apt/trusted.gpg.d", "/var/lib/dpkg", "/var/cache/apt/archives/partial", "/var/lib/apt/lists/partial" ]
         for dir in dirs:
             fullDir = self.rootdir + dir
             if not os.path.isdir(fullDir):
@@ -80,7 +80,7 @@ class RepoSuite:
         self._ensureFileContent(self.rootdir + "/etc/apt/sources.list", self.getSourcesList())
         self._ensureFileContent(self.rootdir + "/etc/apt/apt.conf", self.getAptConf())
         if self.trustedGPGFile:
-            self._ensureFileContent(self.rootdir + "/etc/apt/trusted.gpg", self.getTrustedGPG())
+            self._ensureFileContent(self.rootdir + "/etc/apt/trusted.gpg.d/apt-repos.gpg", self.getTrustedGPG())
         self._ensureFileContent(self.rootdir + "/var/lib/dpkg/status", "")
         
 
